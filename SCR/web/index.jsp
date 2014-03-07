@@ -14,12 +14,33 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Bootstrap -->
         <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="css/singnin.css" rel="stylesheet" media="screen">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <title>Sistema de Captura de Receta</title>
     </head>
     <body>
         <div class="container">
-            <h1>SCR</h1>
+            <form class="form-signin" action="Login" method="POST">
+                <div class="text-center">
+                    <h2 style="color: #ffffff; font-style: oblique">GNK Logística</h2>
+                </div>
+                <div class="panel panel-body">
+                    <h3>SCR</h3>
+                    <h4 class="form-signin-heading">Ingrese sus Credenciales</h4>
+                    <div class="input-group">
+                        <span class="input-group-addon"><label class="glyphicon glyphicon-user"></label>
+                        </span>
+                        <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Introduzca Nombre de Usuario">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon"><label class="glyphicon glyphicon-lock"></label>
+                        </span>
+
+                        <input type="password" name="pass" id="pass" class="form-control"  placeholder="Introduzca Contrase&ntilde;a V&aacute;lida">
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="1">Entrar</button>
+                </div>
+            </form>
         </div>
     </body>
 </html>
