@@ -7,6 +7,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesion = request.getSession();
+    String id_usu = "";
+    try {
+        id_usu = (String) session.getAttribute("id_usu");
+    } catch (Exception e) {
+    }
+
+    if (id_usu == null) {
+        response.sendRedirect("index.jsp");
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -27,12 +36,36 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">SCR</a>
+                <a class="navbar-brand" href="main_menu.jsp">SCR</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#rf">Receta Electronica</a></li>
-                    <li><a href="#rc">Receta Colectiva</a></li>
+                    <%
+                        try {
+                            if (((String) sesion.getAttribute("tipo")).equals("FARMACIA")) {
+                    %>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Receta Electronica <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="receta/receta_farmacia.jsp">Captura de Receta</a></li>
+                            <!--li class="divider"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
+                    </li>
+                    <%
+                    } else {
+                    %>
+                    <li>
+                        <a href="#rc">Receta Colectiva</a>
+                    </li>
+                    <%
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    %>
+
+
                     <li><a href="#ap">Alta de Pacientes</a></li>
                 </ul>
             </div><!--/.nav-collapse -->

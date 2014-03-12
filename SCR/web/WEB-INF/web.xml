@@ -4,9 +4,49 @@
         <servlet-name>Login</servlet-name>
         <servlet-class>Servlets.Login</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Receta</servlet-name>
+        <servlet-class>Servlets.Receta</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Pacientes</servlet-name>
+        <servlet-class>Servlets.Pacientes</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListaPacientes</servlet-name>
+        <servlet-class>Servlets.ListaPacientes</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RecetaNombre</servlet-name>
+        <servlet-class>Servlets.RecetaNombre</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductoClave</servlet-name>
+        <servlet-class>Servlets.ProductoClave</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Receta</servlet-name>
+        <url-pattern>/Receta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Pacientes</servlet-name>
+        <url-pattern>/Pacientes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListaPacientes</servlet-name>
+        <url-pattern>/ListaPacientes</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RecetaNombre</servlet-name>
+        <url-pattern>/RecetaNombre</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductoClave</servlet-name>
+        <url-pattern>/ProductoClave</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

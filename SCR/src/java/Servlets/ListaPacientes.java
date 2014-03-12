@@ -5,21 +5,22 @@
  */
 package Servlets;
 
+import Clases.ConectionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Clases.*;
-import java.sql.ResultSet;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Americo
  */
-public class Login extends HttpServlet {
+public class ListaPacientes extends HttpServlet {
 
     ConectionDB con = new ConectionDB();
 
@@ -36,49 +37,23 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        HttpSession sesion = request.getSession(true);
         try {
-            /* TODO output your page here. You may use following sample code. */
-            if (request.getParameter("accion").equals("1")) {
-                try {
-                    con.conectar();
-                    try {
-                        String id_usu = "", nombre = "", rol = "", cla_uni = "", cedula = "", tipo = "ALMACEN";
-                        int ban = 0;
-                        ResultSet rset = con.consulta(" select id_usu, nombre, rol, cla_uni, cedula from usuarios where user = '" + request.getParameter("user") + "' and pass = PASSWORD('" + request.getParameter("pass") + "') and baja!='0' ");
-                        while (rset.next()) {
-                            ban = 1;
-                            id_usu = rset.getString("id_usu");
-                            nombre = rset.getString("nombre");
-                            rol = rset.getString("rol");
-                            cla_uni = rset.getString("cla_uni");
-                            cedula = rset.getString("cedula");
-                        }
-                        if (ban == 1) {//----------------------EL USUARIO ES VÁLIDO
-                            if (!cedula.equals("-")) {
-                                tipo = "FARMACIA";
-                            }
-                            sesion.setAttribute("id_usu", id_usu);
-                            sesion.setAttribute("nombre", nombre);
-                            sesion.setAttribute("rol", rol);
-                            sesion.setAttribute("cla_uni", cla_uni);
-                            sesion.setAttribute("cedula", cedula);
-                            sesion.setAttribute("tipo", tipo);
-                            response.sendRedirect("main_menu.jsp");
-                        } else {//--------------------------EL USUARIO NO ES VÁLIDO
-                    out.println("hola");
-                            sesion.setAttribute("mensaje", "Usuario no válido");
-                            response.sendRedirect("index.jsp");
-                        }
-                    } catch (Exception e) {
-                    }
-                    con.cierraConexion();
-                } catch (Exception e) {
-
+            List<String> listaPacientes = new ArrayList<String>();
+            con.conectar();
+            try {
+                ResultSet rset = con.consulta("select id_pac, nom_com from pacientes");
+                while (rset.next()) {
+                    listaPacientes.add(rset.getString(2));
                 }
+            } catch (Exception e) {
             }
-        } finally {
-            out.close();
+            for (String paciente : listaPacientes) {
+                System.out.println(paciente);
+                out.println(paciente);
+            }
+            con.cierraConexion();
+
+        } catch (Exception e) {
         }
     }
 
