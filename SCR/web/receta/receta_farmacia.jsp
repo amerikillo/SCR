@@ -140,7 +140,8 @@
                             <div class="row">
                                 <label for="sp_pac" class="col-sm-1 control-label">No. SP</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="sp_pac" onkeypress="return isNumberKey(event)" name="sp_pac" placeholder="Folio SP"  value=""/>
+                                    <input type="text" class="form-control" id="sp_pac" onkeypress="return isNumberKey(event);
+                                            return tabular(event, this);" name="sp_pac" placeholder="Folio SP"  value=""/>
                                 </div>
                                 <div class="col-sm-2">
                                     <button class="btn btn-block btn-primary" name="mostrar1" id="mostrar1">Mostrar</button>
@@ -155,7 +156,7 @@
                             <div class="row">
                                 <label for="nombre_jq" class="col-sm-1 control-label">Nombre</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="nombre_jq" name="nombre_jq" placeholder="Nombre"  value="">
+                                    <input type="text" class="form-control" id="nombre_jq" name="nombre_jq" placeholder="Nombre" onkeypress="return tabular(event, this);" autofocus value="">
                                 </div>
                                 <div class="col-sm-2">
                                     <button class="btn btn-block btn-primary" name="mostrar2" id="mostrar2">Mostrar</button>
@@ -184,29 +185,29 @@
                                 </div>
                                 <label for="carnet" class="col-sm-1 control-label">Carnet</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="carnet" name="carnet" placeholder="Carnet"  value=""/>
+                                    <input type="text" class="form-control" id="carnet" name="carnet" onkeypress="return tabular(event, this);" placeholder="Carnet"  value=""/>
                                 </div>
                                 <label for="fol_sp" class="col-sm-2 control-label"></label>
                                 <div class="col-sm-3">
-                                    <button class="btn btn-block btn-info">Nuevo paciente</button>
+                                    <button class="btn btn-block btn-info" onkeypress="return tabular(event, this);" >Nuevo paciente</button>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <label for="cla_pro1" class="col-sm-1 control-label">Clave</label>
+                                <label for="cla_pro" class="col-sm-1 control-label">Clave</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="cla_pro1" name="cla_pro1" placeholder="Clave"  value=""/>
+                                    <input type="text" class="form-control" id="cla_pro" name="cla_pro" placeholder="Clave" onkeypress="return tabular(event, this);"  value=""/>
                                 </div>
                                 <div class="col-sm-1">
                                     <button class="btn btn-block btn-primary" name="btn_clave" id="btn_clave">Clave</button>
                                 </div>
-                                <label for="des_pro1" class="col-sm-1 control-label">Descripción</label>
+                                <label for="des_pro" class="col-sm-1 control-label">Descripción</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="des_pro1" name="des_pro1" placeholder="Descripción"  value="">
+                                    <input type="text" class="form-control" id="des_pro" name="des_pro" placeholder="Descripción"  onkeypress="return tabular(event, this);"  value="">
                                 </div>
                                 <div class="col-sm-2">
-                                    <button class="btn btn-block btn-primary">Descripción</button>
+                                    <button class="btn btn-block btn-primary"name="btn_descripcion" id="btn_descripcion">Descripción</button>
                                 </div>
                             </div>
                             <br>
@@ -215,41 +216,43 @@
 
                                 <label for="ori1" class="col-sm-1 control-label">Origen 1</label>
                                 <div class="col-sm-2">
-                                    <input name="ori1" type="text" class="form-control" id="ori1" placeholder="Origen 1"  value="" readonly>
+                                    <input name="ori1" type="text" class="form-control" id="ori1" placeholder="0"  value="0" readonly>
                                 </div>
                                 <label for="ori2" class="col-sm-1 control-label">Origen 2</label>
                                 <div class="col-sm-2">
-                                    <input name="ori2" type="text" class="form-control" id="ori2" placeholder="Origen 2"  value="" readonly>
+                                    <input name="ori2" type="text" class="form-control" id="ori2" placeholder="0"  value="0" readonly>
                                 </div>
-                                <label for="existencias" class="col-sm-2 control-label">Total</label>
+                                <label for="existencias" class="col-sm-1 control-label">Total</label>
                                 <div class="col-sm-2">
-                                    <input name="existencias" type="text" class="form-control" id="existencias" placeholder="Existencias"  value="" readonly/>
+                                    <input name="existencias" type="text" class="form-control" id="existencias" placeholder="0"  value="0" readonly/>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <label for="indica" class="col-sm-1 control-label">Indicaciones</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="indica" name="indica" placeholder="Indicaciones"  value=""/>
+                                    <input type="text" class="form-control" id="indica" name="indica" placeholder="Indicaciones"  onkeypress="return tabular(event, this);"  value=""/>
                                 </div>
                                 <label for="causes" class="col-sm-1 control-label">Causes</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="causes" name="causes" placeholder="Causes"  value="">
+                                    <input type="text" class="form-control" id="causes" name="causes" placeholder="Causes"  onkeypress="return tabular(event, this);
+                                            return isNumberKey(event);" value="">
                                 </div>
                                 <label for="can_sol" class="col-sm-1 control-label">Cant. Sol</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0"  value="">
+                                    <input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0"  onkeypress="return tabular(event, this);
+                                            return isNumberKey(event);" value="">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-block btn-primary">Capturar</button>
+                                    <button class="btn btn-block btn-primary" id="btn_capturar">Capturar</button>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-bordered" id="tablaMedicamentos">
                                 <tr>
                                     <td>Clave</td>
                                     <td>Descripción</td>
@@ -272,20 +275,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>0105</td>
-                                    <td>Paracetamol 3 supositorios 300 mg</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                    <td><div class="row">
-                                            <div class="col-lg-6">
-                                                <button class="btn btn-warning btn-block" name="accion" value="modificar"><span class="glyphicon glyphicon-pencil" ></span></button>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <button class="btn btn-danger btn-block" name="accion" value="modificar"><span class="glyphicon glyphicon-remove" ></span></button>
-                                            </div>
-                                        </div></td>
                                 </tr>
                             </table>
                             <div class="row">
@@ -319,6 +308,26 @@
     <script src="../js/jquery-ui-1.10.3.custom.js"></script>
     <script src="../js/bootstrap-datepicker.js"></script>
     <script>
+                                        function tabular(e, obj)
+                                        {
+                                            tecla = (document.all) ? e.keyCode : e.which;
+                                            if (tecla != 13)
+                                                return;
+                                            frm = obj.form;
+                                            for (i = 0; i < frm.elements.length; i++)
+                                                if (frm.elements[i] == obj)
+                                                {
+                                                    if (i == frm.elements.length - 1)
+                                                        i = -1;
+                                                    break
+                                                }
+                                            /*ACA ESTA EL CAMBIO*/
+                                            if (frm.elements[i + 1].disabled == true)
+                                                tabular(e, frm.elements[i + 1]);
+                                            else
+                                                frm.elements[i + 1].focus();
+                                            return false;
+                                        }
 
                                         function isNumberKey(evt)
                                         {
@@ -374,35 +383,197 @@
             }
         %>
                                             ];
-                                            $("#des_pro1").autocomplete({
+                                            $("#des_pro").autocomplete({
                                                 source: availableTags
                                             });
                                         });
                                         $(document).ready(function() {
+                                            $('#btn_capturar').click(function() {
+                                                var cla_pro = $('#cla_pro').val();
+                                                var des_pro = $('#des_pro').val();
+                                                var dir = '../CapturaMedicamento';
+                                                var form = $('#formulario_receta');
+                                                if (cla_pro != "" && des_pro != "") {
+                                                    if ($('#causes').val() == "") {
+                                                        alert('Capture las causes');
+                                                    } else if ($('#can_sol').val() == "") {
+                                                        alert('Capture la cantidad a entregar');
+                                                    } else {
+                                                        $.ajax({
+                                                            type: form.attr('method'),
+                                                            url: dir,
+                                                            data: form.serialize(),
+                                                            success: function(data) {
+                                                                limpiaCampos();
+                                                                hacerTabla(data);
+                                                            },
+                                                            error: function() {
+                                                                alert("Ha ocurrido un error");
+                                                            }
+                                                        });
+                                                        function limpiaCampos() {
+                                                            $("#cla_pro").val("");
+                                                            $("#des_pro").val("");
+                                                            $("#ori1").attr("value", "");
+                                                            $("#ori2").attr("value", "");
+                                                            $("#existencias").attr("value", "");
+                                                            $("#indica").val("");
+                                                            $("#causes").val("");
+                                                            $("#can_sol").val("");
+                                                        }
+
+                                                        function hacerTabla(data) {
+                                                            var json = JSON.parse(data);
+                                                            $("#tablaMedicamentos").empty();
+                                                            $("#tablaMedicamentos").append(
+                                                                    $("<tr>")
+                                                                    .append($("<td>").append("Clave"))
+                                                                    .append($("<td>").append("Descripción"))
+                                                                    .append($("<td>").append("Cant. Sol."))
+                                                                    .append($("<td>").append("Cant. Sur."))
+                                                                    .append($("<td>").append(""))
+                                                                    )
+                                                            for (var i = 0; i < json.length; i++) {
+                                                                var cla_pro = json[i].cla_pro;
+                                                                var des_pro = json[i].des_pro;
+                                                                var fol_det = json[i].fol_det;
+                                                                var can_sol = json[i].can_sol;
+                                                                var cant_sur = json[i].cant_sur;
+                                                                $("#tablaMedicamentos").append(
+                                                                        $("<tr>")
+                                                                        .append($("<td>").append(cla_pro))
+                                                                        .append($("<td>").append(des_pro))
+                                                                        .append($("<td>").append(can_sol))
+                                                                        .append($("<td>").append(cant_sur))/*fol_det*/
+                                                                        .append($("<td>").append(
+                                                                                .append($("<button>")))
+                                                                                )
+                                                                                )
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                else {
+                                                    alert("Capture primero el medicamento");
+                                                }
+                                            });
+                                            $('#btn_descripcion').click(function() {
+                                                var dir = '../ProductoDescripcion';
+                                                var form = $('#formulario_receta');
+                                                var folio_sp = $('#fol_sp').val();
+                                                if (folio_sp === "") {
+                                                    alert("Capture el paciente");
+                                                } else {
+                                                    $.ajax({
+                                                        type: form.attr('method'),
+                                                        url: dir,
+                                                        data: form.serialize(),
+                                                        success: function(data) {
+                                                            dameProducto(data);
+                                                        },
+                                                        error: function() {
+                                                            alert("Ha ocurrido un error");
+                                                        }
+                                                    });
+                                                    function dameProducto(data) {
+                                                        var json = JSON.parse(data);
+                                                        for (var i = 0; i < json.length; i++) {
+                                                            var ori1 = json[i].origen1;
+                                                            var ori2 = json[i].origen2;
+                                                            var total = json[i].total;
+                                                            var cla_pro = json[i].cla_pro;
+
+                                                            $("#ori1").attr("value", ori1);
+                                                            $("#ori2").attr("value", ori2);
+                                                            $("#existencias").attr("value", total);
+                                                            $("#cla_pro").val(cla_pro);
+                                                            $("#indica").focus();
+                                                            if (cla_pro == null) {
+                                                                alert('Clave fuera de Catálogo');
+                                                                $("#cla_pro").val("");
+                                                                $("#des_pro").val("");
+                                                                $("#ori1").attr("value", "");
+                                                                $("#ori2").attr("value", "");
+                                                                $("#existencias").attr("value", "");
+                                                                $("#indica").val("");
+                                                                $("#causes").val("");
+                                                                $("#can_sol").val("");
+                                                                $("#des_pro").focus();
+                                                            }
+                                                            if (total == null && cla_pro != null) {
+                                                                alert('Clave sin Existencias');
+                                                                $("#cla_pro").val("");
+                                                                $("#des_pro").val("");
+                                                                $("#ori1").attr("value", "");
+                                                                $("#ori2").attr("value", "");
+                                                                $("#existencias").attr("value", "");
+                                                                $("#indica").val("");
+                                                                $("#causes").val("");
+                                                                $("#can_sol").val("");
+                                                                $("#des_pro").focus();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            });
 
                                             $('#btn_clave').click(function() {
                                                 var dir = '../ProductoClave';
                                                 var form = $('#formulario_receta');
-                                                $.ajax({
-                                                    type: form.attr('method'),
-                                                    url: dir,
-                                                    data: form.serialize(),
-                                                    success: function(data) {
-                                                        devuelveFolio(data);
-                                                    },
-                                                    error: function() {
-                                                        alert("Ha ocurrido un error");
+                                                var folio_sp = $('#fol_sp').val();
+                                                if (folio_sp === "") {
+                                                    alert("Capture el paciente");
+                                                } else {
+                                                    $.ajax({
+                                                        type: form.attr('method'),
+                                                        url: dir,
+                                                        data: form.serialize(),
+                                                        success: function(data) {
+                                                            dameProducto(data);
+                                                        },
+                                                        error: function() {
+                                                            alert("Ha ocurrido un error");
+                                                        }
+                                                    });
+                                                    function dameProducto(data) {
+                                                        var json = JSON.parse(data);
+                                                        for (var i = 0; i < json.length; i++) {
+                                                            var ori1 = json[i].origen1;
+                                                            var ori2 = json[i].origen2;
+                                                            var total = json[i].total;
+                                                            var descripcion = json[i].des_pro;
+
+                                                            $("#ori1").attr("value", ori1);
+                                                            $("#ori2").attr("value", ori2);
+                                                            $("#existencias").attr("value", total);
+                                                            $("#des_pro").val(descripcion);
+                                                            $("#indica").focus();
+                                                            if (descripcion == null) {
+                                                                alert('Clave fuera de Catálogo');
+                                                                $("#cla_pro").val("");
+                                                                $("#des_pro").val("");
+                                                                $("#ori1").attr("value", "");
+                                                                $("#ori2").attr("value", "");
+                                                                $("#existencias").attr("value", "");
+                                                                $("#indica").val("");
+                                                                $("#causes").val("");
+                                                                $("#can_sol").val("");
+                                                                $("#cla_pro").focus();
+                                                            }
+                                                            if (total == null && descripcion != null) {
+                                                                alert('Clave sin Existencias');
+                                                                $("#cla_pro").val("");
+                                                                $("#des_pro").val("");
+                                                                $("#ori1").attr("value", "");
+                                                                $("#ori2").attr("value", "");
+                                                                $("#existencias").attr("value", "");
+                                                                $("#indica").val("");
+                                                                $("#causes").val("");
+                                                                $("#can_sol").val("");
+                                                                $("#cla_pro").focus();
+                                                            }
+                                                        }
                                                     }
-                                                });
-                                                function devuelveFolio(data) {
-                                                    var fol_rec = json[i].fol_rec;
-                                                    var nom_com = json[i].nom_com;
-                                                    var sexo = json[i].sexo;
-                                                    var fec_nac = json[i].fec_nac;
-                                                    $("#ori1").attr("value", "");
-                                                    $("#ori2").attr("value", "");
-                                                    $("#existencias").attr("value", "");
-                                                    $("#des_pro").attr("value", "");
                                                 }
                                             });
 
@@ -429,6 +600,7 @@
                                                 function devuelveFolio(data) {
                                                     var json = JSON.parse(data);
                                                     $('#select_pac').empty();
+                                                    $('#select_pac').focus();
                                                     $('#select_pac').append(
                                                             $('<option>', {
                                                                 value: "",
@@ -487,12 +659,14 @@
                                                         $("#sexo").attr("value", sexo);
                                                         $("#fec_nac").attr("value", fec_nac);
                                                         $("#fol_sp").attr("value", num_afi);
+                                                        $("#carnet").focus();
                                                         if (mensaje === "vig_no_val") {
                                                             alert("Vigencia no Valida");
                                                             $("#nom_pac").attr("value", "");
                                                             $("#sexo").attr("value", "");
                                                             $("#fec_nac").attr("value", "");
                                                             $("#fol_sp").attr("value", "");
+                                                            $("#nombre_jq").focus();
                                                         }
                                                         if (mensaje === "inexistente") {
                                                             alert("Paciente Inexistente");
@@ -500,6 +674,7 @@
                                                             $("#sexo").attr("value", "");
                                                             $("#fec_nac").attr("value", "");
                                                             $("#fol_sp").attr("value", "");
+                                                            $("#nombre_jq").focus();
                                                         }
                                                     }
                                                 }
@@ -534,12 +709,14 @@
                                                         $("#sexo").attr("value", sexo);
                                                         $("#fec_nac").attr("value", fec_nac);
                                                         $("#fol_sp").attr("value", num_afi);
+                                                        $("#carnet").focus();
                                                         if (mensaje === "vig_no_val") {
                                                             alert("Vigencia no Valida");
                                                             $("#nom_pac").attr("value", "");
                                                             $("#sexo").attr("value", "");
                                                             $("#fec_nac").attr("value", "");
                                                             $("#fol_sp").attr("value", "");
+                                                            $("#nombre_jq").focus();
                                                         }
                                                         if (mensaje === "inexistente") {
                                                             alert("Paciente Inexistente");
@@ -547,6 +724,7 @@
                                                             $("#sexo").attr("value", "");
                                                             $("#fec_nac").attr("value", "");
                                                             $("#fol_sp").attr("value", "");
+                                                            $("#nombre_jq").focus();
                                                         }
                                                     }
                                                 }

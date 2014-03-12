@@ -24,6 +24,14 @@
         <servlet-name>ProductoClave</servlet-name>
         <servlet-class>Servlets.ProductoClave</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CapturaMedicamento</servlet-name>
+        <servlet-class>Servlets.CapturaMedicamento</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductoDescripcion</servlet-name>
+        <servlet-class>Servlets.ProductoDescripcion</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -47,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>ProductoClave</servlet-name>
         <url-pattern>/ProductoClave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CapturaMedicamento</servlet-name>
+        <url-pattern>/CapturaMedicamento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductoDescripcion</servlet-name>
+        <url-pattern>/ProductoDescripcion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
