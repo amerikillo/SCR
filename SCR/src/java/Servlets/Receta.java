@@ -9,7 +9,6 @@ import Clases.ConectionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +17,7 @@ import org.json.simple.*;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -46,6 +46,7 @@ public class Receta extends HttpServlet {
             JSONObject json = new JSONObject();
             JSONArray jsona = new JSONArray();
             con.conectar();
+            HttpSession sesion = request.getSession(true);
             String folio_sp = request.getParameter("sp_pac");
             String folio_rec = request.getParameter("folio");
             String id_rec = "";
@@ -74,6 +75,13 @@ public class Receta extends HttpServlet {
                 ResultSet rset = con.consulta("select id_pac, nom_com, sexo, fec_nac, num_afi from pacientes where num_afi = '" + request.getParameter("sp_pac") + "' ");
                 while (rset.next()) {
                     ban = 1;
+
+                    sesion.setAttribute("folio_rec", folio_rec);
+                    sesion.setAttribute("id_pac", rset.getString(1));
+                    sesion.setAttribute("nom_com", rset.getString(2));
+                    sesion.setAttribute("sexo", rset.getString(3));
+                    sesion.setAttribute("fec_nac", df2.format(df.parse(rset.getString(4))));
+                    sesion.setAttribute("num_afi", rset.getString(5));
                     json.put("id_pac", rset.getString(1));
                     json.put("nom_com", rset.getString(2));
                     json.put("sexo", rset.getString(3));
@@ -95,6 +103,9 @@ public class Receta extends HttpServlet {
                 }
             } catch (Exception e) {
             }
+
+            System.out.println((String) sesion.getAttribute("folio_rec"));
+
             con.cierraConexion();
             out.println(jsona);
             System.out.println(jsona);
