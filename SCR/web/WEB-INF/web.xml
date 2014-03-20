@@ -24,6 +24,34 @@
         <servlet-name>ProductoClave</servlet-name>
         <servlet-class>Servlets.ProductoClave</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CapturaMedicamento</servlet-name>
+        <servlet-class>Servlets.CapturaMedicamento</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductoDescripcion</servlet-name>
+        <servlet-class>Servlets.ProductoDescripcion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EliminaClave</servlet-name>
+        <servlet-class>Servlets.EliminaClave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModificaClave</servlet-name>
+        <servlet-class>Servlets.ModificaClave</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MuestraInsumosReceta</servlet-name>
+        <servlet-class>Servlets.MuestraInsumosReceta</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditaMedicamento</servlet-name>
+        <servlet-class>Servlets.EditaMedicamento</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EliminaMedicamento</servlet-name>
+        <servlet-class>Servlets.EliminaMedicamento</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -47,6 +75,34 @@
     <servlet-mapping>
         <servlet-name>ProductoClave</servlet-name>
         <url-pattern>/ProductoClave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CapturaMedicamento</servlet-name>
+        <url-pattern>/CapturaMedicamento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductoDescripcion</servlet-name>
+        <url-pattern>/ProductoDescripcion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EliminaClave</servlet-name>
+        <url-pattern>/EliminaClave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModificaClave</servlet-name>
+        <url-pattern>/ModificaClave</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MuestraInsumosReceta</servlet-name>
+        <url-pattern>/MuestraInsumosReceta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditaMedicamento</servlet-name>
+        <url-pattern>/EditaMedicamento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EliminaMedicamento</servlet-name>
+        <url-pattern>/EliminaMedicamento</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

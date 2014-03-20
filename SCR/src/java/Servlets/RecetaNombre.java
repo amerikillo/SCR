@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -46,6 +47,7 @@ public class RecetaNombre extends HttpServlet {
             JSONObject json = new JSONObject();
             JSONArray jsona = new JSONArray();
             con.conectar();
+            HttpSession sesion = request.getSession(true);
             String folio_sp = request.getParameter("sp_pac");
             String folio_rec = request.getParameter("folio");
 
@@ -73,12 +75,14 @@ public class RecetaNombre extends HttpServlet {
                         con.actualizar("update indices set id_rec= '" + (Integer.parseInt(id_rec) + 1) + "' ");
                     }
                     json.put("fol_rec", id_rec);
+                    sesion.setAttribute("folio_rec", id_rec);
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
                 out.println();
             } else {
                 json.put("fol_rec", folio_rec);
+                sesion.setAttribute("folio_rec", folio_rec);
             }
             int ban = 0;
             try {
@@ -93,6 +97,11 @@ public class RecetaNombre extends HttpServlet {
                         System.out.println("mal");
                     }
                     ban = 1;
+                    sesion.setAttribute("id_pac", rset.getString(1));
+                    sesion.setAttribute("nom_com", rset.getString(2));
+                    sesion.setAttribute("sexo", rset.getString(3));
+                    sesion.setAttribute("fec_nac", df2.format(df.parse(rset.getString(4))));
+                    sesion.setAttribute("num_afi", rset.getString(5));
                     json.put("id_pac", rset.getString(1));
                     json.put("nom_com", rset.getString(2));
                     json.put("sexo", rset.getString(3));
@@ -113,6 +122,8 @@ public class RecetaNombre extends HttpServlet {
                 }
             } catch (Exception e) {
             }
+
+            System.out.println((String) sesion.getAttribute("folio_rec"));
             con.cierraConexion();
             out.println(jsona);
             System.out.println(jsona);

@@ -38,6 +38,35 @@
     } catch (Exception e) {
     }
 
+    String folio_rec = "", nom_com = "", sexo = "", fec_nac = "", num_afi = "", carnet = "", id_rec = "";
+    try {
+        folio_rec = (String) sesion.getAttribute("folio_rec");
+        nom_com = (String) sesion.getAttribute("nom_com");
+        sexo = (String) sesion.getAttribute("sexo");
+        fec_nac = (String) sesion.getAttribute("fec_nac");
+        num_afi = (String) sesion.getAttribute("num_afi");
+        try {
+            con.conectar();
+            ResultSet rset = con.consulta("select carnet, id_rec from receta where fol_rec = '" + folio_rec + "'");
+            while (rset.next()) {
+                carnet = rset.getString("carnet");
+                id_rec = rset.getString("id_rec");
+            }
+            con.cierraConexion();
+        } catch (Exception e) {
+
+        }
+    } catch (Exception e) {
+    }
+    System.out.println("folio***" + folio_rec);
+    if (folio_rec == null || folio_rec.equals("")) {
+        folio_rec = "";
+        nom_com = "";
+        sexo = "";
+        fec_nac = "";
+        num_afi = "";
+    }
+
 %>
 <%java.text.DateFormat df = new java.text.SimpleDateFormat("yyyyMMddhhmmss"); %>
 <%java.text.DateFormat df2 = new java.text.SimpleDateFormat("yyyy-MM-dd"); %>
@@ -130,7 +159,7 @@
                                 </div>
                                 <label for="fecha" class="col-sm-1 control-label">Folio</label>
                                 <div class="col-sm-2">
-                                    <input name="folio" type="text" class="form-control" id="folio" placeholder="Folio"  value="" readonly>
+                                    <input name="folio" type="text" class="form-control" id="folio" placeholder="Folio"  value="<%=folio_rec%>" readonly>
                                 </div>
                                 <div class="col-sm-2" id="respuesta">
                                 </div>
@@ -140,7 +169,8 @@
                             <div class="row">
                                 <label for="sp_pac" class="col-sm-1 control-label">No. SP</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="sp_pac" onkeypress="return isNumberKey(event)" name="sp_pac" placeholder="Folio SP"  value=""/>
+                                    <input type="text" class="form-control" id="sp_pac" onkeypress="return isNumberKey(event);
+                                            return tabular(event, this);" name="sp_pac" placeholder="Folio SP"  value=""/>
                                 </div>
                                 <div class="col-sm-2">
                                     <button class="btn btn-block btn-primary" name="mostrar1" id="mostrar1">Mostrar</button>
@@ -155,7 +185,7 @@
                             <div class="row">
                                 <label for="nombre_jq" class="col-sm-1 control-label">Nombre</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="nombre_jq" name="nombre_jq" placeholder="Nombre"  value="">
+                                    <input type="text" class="form-control" id="nombre_jq" name="nombre_jq" placeholder="Nombre" onkeypress="return tabular(event, this);" autofocus value="<%=nom_com%>">
                                 </div>
                                 <div class="col-sm-2">
                                     <button class="btn btn-block btn-primary" name="mostrar2" id="mostrar2">Mostrar</button>
@@ -164,92 +194,92 @@
                             <br>
                             <div class="row">
                                 <label for="nom_pac" class="col-sm-1 control-label">Paciente</label>
-                                <div class="col-sm-3">
-                                    <input name="nom_pac" type="text" class="form-control" id="nom_pac" placeholder="Paciente"  value="" readonly/>
+                                <div class="col-sm-4">
+                                    <input name="nom_pac" type="text" class="form-control" id="nom_pac" placeholder="Paciente"  value="<%=nom_com%>" readonly/>
                                 </div>
                                 <label for="sexo" class="col-sm-1 control-label">Sexo</label>
                                 <div class="col-sm-2">
-                                    <input name="sexo" type="text" class="form-control" id="sexo" placeholder="Sexo"  value="" readonly/>
+                                    <input name="sexo" type="text" class="form-control" id="sexo" placeholder="Sexo"  value="<%=sexo%>" readonly/>
                                 </div>
                                 <label for="fec_nac" class="col-sm-2 control-label">Fecha Nac.</label>
-                                <div class="col-sm-3">
-                                    <input name="fec_nac" type="text" class="form-control" id="fec_nac" placeholder="Fecha de Nacimiento"  value="" readonly>
-                                </div>
+                                <div class="col-sm-2"><input name="fec_nac" type="text" class="form-control" id="fec_nac" placeholder="Fecha de Nacimiento"  value="<%=fec_nac%>" readonly></div>
                             </div>
                             <br>
                             <div class="row">
                                 <label for="fol_sp" class="col-sm-1 control-label">Folio SP.</label>
                                 <div class="col-sm-3">
-                                    <input name="fol_sp" type="text" class="form-control" id="fol_sp" placeholder="Folio SP."  value="" readonly/>
+                                    <input name="fol_sp" type="text" class="form-control" id="fol_sp" placeholder="Folio SP."  value="<%=num_afi%>" readonly/>
                                 </div>
                                 <label for="carnet" class="col-sm-1 control-label">Carnet</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="carnet" name="carnet" placeholder="Carnet"  value=""/>
+                                    <input type="text" class="form-control" id="carnet" name="carnet" onkeypress="return tabular(event, this);" placeholder="Carnet"  value="<%=carnet%>"/>
                                 </div>
                                 <label for="fol_sp" class="col-sm-2 control-label"></label>
                                 <div class="col-sm-3">
-                                    <button class="btn btn-block btn-info">Nuevo paciente</button>
+                                    <button class="btn btn-block btn-info" onkeypress="return tabular(event, this);" >Nuevo paciente</button>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <label for="cla_pro1" class="col-sm-1 control-label">Clave</label>
+                                <label for="cla_pro" class="col-sm-1 control-label">Clave</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="cla_pro1" name="cla_pro1" placeholder="Clave"  value=""/>
+                                    <input type="text" class="form-control" id="cla_pro" name="cla_pro" placeholder="Clave" onkeypress="return tabular(event, this);"  value=""/>
                                 </div>
                                 <div class="col-sm-1">
                                     <button class="btn btn-block btn-primary" name="btn_clave" id="btn_clave">Clave</button>
                                 </div>
-                                <label for="des_pro1" class="col-sm-1 control-label">Descripción</label>
+                                <label for="des_pro" class="col-sm-1 control-label">Descripción</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="des_pro1" name="des_pro1" placeholder="Descripción"  value="">
+                                    <input type="text" class="form-control" id="des_pro" name="des_pro" placeholder="Descripción"  onkeypress="return tabular(event, this);"  value="">
                                 </div>
                                 <div class="col-sm-2">
-                                    <button class="btn btn-block btn-primary">Descripción</button>
+                                    <button class="btn btn-block btn-primary"name="btn_descripcion" id="btn_descripcion">Descripción</button>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
-                                <label for="existencias" class="col-sm-2 control-label">Existencias</label>
+                                <label for="existencias" class="col-sm-2 control-label">Existencias:</label>
 
                                 <label for="ori1" class="col-sm-1 control-label">Origen 1</label>
                                 <div class="col-sm-2">
-                                    <input name="ori1" type="text" class="form-control" id="ori1" placeholder="Origen 1"  value="" readonly>
+                                    <input name="ori1" type="text" class="form-control" id="ori1" placeholder="0"  value="0" readonly>
                                 </div>
                                 <label for="ori2" class="col-sm-1 control-label">Origen 2</label>
                                 <div class="col-sm-2">
-                                    <input name="ori2" type="text" class="form-control" id="ori2" placeholder="Origen 2"  value="" readonly>
+                                    <input name="ori2" type="text" class="form-control" id="ori2" placeholder="0"  value="0" readonly>
                                 </div>
-                                <label for="existencias" class="col-sm-2 control-label">Total</label>
+                                <label for="existencias" class="col-sm-1 control-label">Total</label>
                                 <div class="col-sm-2">
-                                    <input name="existencias" type="text" class="form-control" id="existencias" placeholder="Existencias"  value="" readonly/>
+                                    <input name="existencias" type="text" class="form-control" id="existencias" placeholder="0"  value="0" readonly/>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <label for="indica" class="col-sm-1 control-label">Indicaciones</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="indica" name="indica" placeholder="Indicaciones"  value=""/>
+                                    <input type="text" class="form-control" id="indica" name="indica" placeholder="Indicaciones"  onkeypress="return tabular(event, this);"  value=""/>
                                 </div>
                                 <label for="causes" class="col-sm-1 control-label">Causes</label>
                                 <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="causes" name="causes" placeholder="Causes"  value="">
+                                    <input type="text" class="form-control" id="causes" name="causes" placeholder="Causes"  onkeypress="return tabular(event, this);
+                                            return isNumberKey(event);" value="">
                                 </div>
                                 <label for="can_sol" class="col-sm-1 control-label">Cant. Sol</label>
                                 <div class="col-sm-3">
-                                    <input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0"  value="">
+                                    <input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0"  onkeypress="return tabular(event, this);
+                                            return isNumberKey(event);" value="">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-block btn-primary">Capturar</button>
+                                    <button class="btn btn-block btn-primary" id="btn_capturar">Capturar</button>
                                 </div>
                             </div>
                         </div>
                         <div class="panel-footer">
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-bordered" id="tablaMedicamentos">
                                 <tr>
                                     <td>Clave</td>
                                     <td>Descripción</td>
@@ -257,7 +287,7 @@
                                     <td>Cant. Sur.</td>
                                     <td></td>
                                 </tr>
-                                <tr>
+                                <!--tr>
                                     <td>0104</td>
                                     <td>Paracetamol 10 tab 500mg</td>
                                     <td>5</td>
@@ -272,21 +302,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>0105</td>
-                                    <td>Paracetamol 3 supositorios 300 mg</td>
-                                    <td>3</td>
-                                    <td>3</td>
-                                    <td><div class="row">
-                                            <div class="col-lg-6">
-                                                <button class="btn btn-warning btn-block" name="accion" value="modificar"><span class="glyphicon glyphicon-pencil" ></span></button>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <button class="btn btn-danger btn-block" name="accion" value="modificar"><span class="glyphicon glyphicon-remove" ></span></button>
-                                            </div>
-                                        </div></td>
-                                </tr>
+                                </tr-->
                             </table>
                             <div class="row">
                                 <div class="col-lg-6"></div>
@@ -307,6 +323,66 @@
                 <p class="text-muted">Place sticky footer content here.</p>
             </div>
         </div-->
+        <%
+            try {
+                con.conectar();
+                ResultSet rset = con.consulta("select dr.fol_det, dr.can_sol, dr.cant_sur, dp.cla_pro, p.des_pro from detreceta dr, detalle_productos dp, productos p where dr.det_pro = dp.det_pro and dp.cla_pro = p.cla_pro and id_rec = '" + id_rec + "' ");
+                while (rset.next()) {
+                    //System.out.println(rset.getString("fol_det"));
+        %>
+        <div class="modal fade" id="edita_clave_<%=rset.getString("fol_det")%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edición del medicamento</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="form_editaInsumo_<%=rset.getString("fol_det")%>" method="post" id="form_editaInsumo_<%=rset.getString("fol_det")%>">
+                            Clave: <input type="text" class="form-control" autofocus placeholder="Ingrese su Nombre" name="txtf_nom" id="txtf_nom" value="<%=rset.getString("cla_pro")%>" readonly />
+                            Descripción: <input type="text" class="form-control"  placeholder="Ingrese su Cuenta de Correo" name="txtf_cor" id="txtf_cor" value="<%=rset.getString("des_pro")%>" readonly />
+                            Cantidad Solicitada: <input type="text" class="form-control"  placeholder="Cant Sol" name="cant_sol_<%=rset.getString("fol_det")%>" id="cant_sol_<%=rset.getString("fol_det")%>" value="<%=rset.getString("can_sol")%>" />
+                            Cantidad Surtida: <input type="text" class="form-control"  placeholder="Cant Sur" name="cant_sur_<%=rset.getString("fol_det")%>" id="cant_sur_<%=rset.getString("fol_det")%>" value="<%=rset.getString("cant_sur")%>" readonly />
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn_modificar<%=rset.getString("fol_det")%>" name = "btn_modificar<%=rset.getString("fol_det")%>">Modificar Solicitud</button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <!--button type="button" class="btn btn-primary">Guardar Info</button-->
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+        <div class="modal fade" id="elimina_clave_<%=rset.getString("fol_det")%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabels" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Advertencia</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form name="form_eliminaInsumo_<%=rset.getString("fol_det")%>" method="post" id="form_eliminaInsumo_<%=rset.getString("fol_det")%>">
+                            ¿Esta seguro de eliminar este Medicamento?
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn_eliminar<%=rset.getString("fol_det")%>" name = "btn_eliminar<%=rset.getString("fol_det")%>">Eliminar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <!--button type="button" class="btn btn-primary">Guardar Info</button-->
+                    </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+        <%
+                }
+                con.cierraConexion();
+            } catch (Exception e) {
+            }
+        %>
+
     </body>
 
 
@@ -318,20 +394,13 @@
     <script src="../js/bootstrap.js"></script>
     <script src="../js/jquery-ui-1.10.3.custom.js"></script>
     <script src="../js/bootstrap-datepicker.js"></script>
+    <script src="../js/js_farmacia.js"></script>
     <script>
+                                        /*
+                                         * 
+                                         * @returns {undefined}
+                                         */
 
-                                        function isNumberKey(evt)
-                                        {
-                                            var charCode = (evt.which) ? evt.which : event.keyCode
-                                            if (charCode > 31 && (charCode < 48 || charCode > 57))
-                                                return false;
-                                            return true;
-                                        }
-
-                                        $(function() {
-                                            $("#fecha").datepicker();
-                                            $("#Caducidad").datepicker('option', {dateFormat: 'dd/mm/yy'});
-                                        });
                                         $(function() {
                                             var availableTags = [
         <%
@@ -374,187 +443,96 @@
             }
         %>
                                             ];
-                                            $("#des_pro1").autocomplete({
+                                            $("#des_pro").autocomplete({
                                                 source: availableTags
                                             });
                                         });
+
+
+
                                         $(document).ready(function() {
+        <%
+            try {
+                con.conectar();
+                ResultSet rset = con.consulta("select fol_det from detreceta where id_rec = '" + id_rec + "' ");
+                while (rset.next()) {
+                //System.out.println(rset.getString("fol_det"));
+        %>
+                                            $('#btn_modificar<%=rset.getString("fol_det")%>').click(function() {
+                                                var cant_sol = $('#cant_sol_<%=rset.getString("fol_det")%>').val();
+                                                var cant_sur = $('#cant_sur_<%=rset.getString("fol_det")%>').val();
+                                                var dir = '../EditaMedicamento';
+                                                var form = $('#form_editaInsumo_<%=rset.getString("fol_det")%>');
+                                                if (cant_sol === "" || cant_sur === "") {
+                                                    alert("No pueden ir esos campos vacios");
+                                                }
+                                                else {
 
-                                            $('#btn_clave').click(function() {
-                                                var dir = '../ProductoClave';
-                                                var form = $('#formulario_receta');
-                                                $.ajax({
-                                                    type: form.attr('method'),
-                                                    url: dir,
-                                                    data: form.serialize(),
-                                                    success: function(data) {
-                                                        devuelveFolio(data);
-                                                    },
-                                                    error: function() {
-                                                        alert("Ha ocurrido un error");
+                                                    $.ajax({
+                                                        type: form.attr('method'),
+                                                        url: dir,
+                                                        data: form.serialize(),
+                                                        success: function(data) {
+                                                            limpiaCampos();
+                                                            hacerTabla(data);
+                                                        },
+                                                        error: function() {
+                                                            limpiaCampos();
+                                                            hacerTabla(data);
+                                                            alert("Ha ocurrido un error");
+                                                        }
+                                                    });
+
+                                                    function limpiaCampos() {
+                                                        $("#cla_pro").val("");
+                                                        $("#des_pro").val("");
+                                                        $("#ori1").attr("value", "");
+                                                        $("#ori2").attr("value", "");
+                                                        $("#existencias").attr("value", "");
+                                                        $("#indica").val("");
+                                                        $("#causes").val("");
+                                                        $("#can_sol").val("");
                                                     }
-                                                });
-                                                function devuelveFolio(data) {
-                                                    var fol_rec = json[i].fol_rec;
-                                                    var nom_com = json[i].nom_com;
-                                                    var sexo = json[i].sexo;
-                                                    var fec_nac = json[i].fec_nac;
-                                                    $("#ori1").attr("value", "");
-                                                    $("#ori2").attr("value", "");
-                                                    $("#existencias").attr("value", "");
-                                                    $("#des_pro").attr("value", "");
+
+                                                    function hacerTabla(data) {
+                                                        var json = JSON.parse(data);
+                                                        $("#tablaMedicamentos").empty();
+                                                        $("#tablaMedicamentos").append(
+                                                                $("<tr>")
+                                                                .append($("<td>").append("Clave"))
+                                                                .append($("<td>").append("Descripción"))
+                                                                .append($("<td>").append("Cant. Sol."))
+                                                                .append($("<td>").append("Cant. Sur."))
+                                                                .append($("<td>").append(""))
+                                                                );
+                                                        for (var i = 0; i < json.length; i++) {
+                                                            var cla_pro = json[i].cla_pro;
+                                                            var des_pro = json[i].des_pro;
+                                                            var fol_det = json[i].fol_det;
+                                                            var can_sol = json[i].can_sol;
+                                                            var cant_sur = json[i].cant_sur;
+                                                            var btn_modi = "<a class='btn btn-warning' id='btn_modi' value = '" + fol_det + "' name = 'btn_modi'  data-toggle=\'modal\'  href=\'#myModal2\'><span class='glyphicon glyphicon-pencil' ></span></a>";
+                                                            var btn_eliminar = "<button class='btn btn-danger' id='btn_eli' value = '" + fol_det + "'  name = 'btn_eli'><span class='glyphicon glyphicon-remove' ></span></button>";
+                                                            $("#tablaMedicamentos").append(
+                                                                    $("<tr>")
+                                                                    .append($("<td>").append(cla_pro))
+                                                                    .append($("<td>").append(des_pro))
+                                                                    .append($("<td>").append(can_sol))
+                                                                    .append($("<td>").append(cant_sur))
+                                                                    .append($("<td>").append(btn_modi).append(btn_eliminar))
+                                                                    );
+                                                        }
+                                                    }
+
                                                 }
                                             });
-
-                                            $('#formulario_receta').submit(function() {
-                                                //alert("Ingresó");
-                                                return false;
-                                            });
-
-                                            $('#mostrar1').click(function() {
-                                                var sp_pac = $('#sp_pac').val();
-                                                var dir = '../Receta';
-                                                var form = $('#formulario_receta');
-                                                $.ajax({
-                                                    type: form.attr('method'),
-                                                    url: dir,
-                                                    data: form.serialize(),
-                                                    success: function(data) {
-                                                        devuelveFolio(data);
-                                                    },
-                                                    error: function() {
-                                                        alert("Ha ocurrido un error");
-                                                    }
-                                                });
-                                                function devuelveFolio(data) {
-                                                    var json = JSON.parse(data);
-                                                    $('#select_pac').empty();
-                                                    $('#select_pac').append(
-                                                            $('<option>', {
-                                                                value: "",
-                                                                text: "--Seleccione una Opción--"
-                                                            }));
-                                                    for (var i = 0; i < json.length; i++) {
-                                                        var fol_rec = json[i].fol_rec;
-                                                        var nom_com = json[i].nom_com;
-                                                        var sexo = json[i].sexo;
-                                                        var fec_nac = json[i].fec_nac;
-                                                        var num_afi = json[i].num_afi;
-                                                        var mensaje = json[i].mensaje;
-                                                        // alert(nom_com);
-
-                                                        $('#select_pac').append(
-                                                                $('<option>', {
-                                                                    value: nom_com,
-                                                                    text: nom_com
-                                                                }));
-
-                                                        if (mensaje != "") {
-                                                            alert("Paciente Inexistente");
-                                                        }
-                                                    }
-                                                }
-                                            });
-
-
-                                            $('#select_pac').change(function() {
-                                                var select_pac = $('#select_pac').val();
-                                                //alert(sp_pac);
-                                                var dir = '../RecetaNombre';
-                                                var form = $('#formulario_receta');
-                                                $.ajax({
-                                                    type: form.attr('method'),
-                                                    url: dir,
-                                                    data: form.serialize(),
-                                                    success: function(data) {
-                                                        devuelveFolio(data);
-                                                    },
-                                                    error: function() {
-                                                        alert("Ha ocurrido un error");
-                                                    }
-                                                });
-                                                function devuelveFolio(data) {
-                                                    var json = JSON.parse(data);
-                                                    for (var i = 0; i < json.length; i++) {
-                                                        var fol_rec = json[i].fol_rec;
-                                                        var nom_com = json[i].nom_com;
-                                                        var sexo = json[i].sexo;
-                                                        var fec_nac = json[i].fec_nac;
-                                                        var num_afi = json[i].num_afi;
-                                                        var mensaje = json[i].mensaje;
-                                                        $("#folio").attr("value", fol_rec);
-                                                        $("#nom_pac").attr("value", nom_com);
-                                                        $("#sexo").attr("value", sexo);
-                                                        $("#fec_nac").attr("value", fec_nac);
-                                                        $("#fol_sp").attr("value", num_afi);
-                                                        if (mensaje === "vig_no_val") {
-                                                            alert("Vigencia no Valida");
-                                                            $("#nom_pac").attr("value", "");
-                                                            $("#sexo").attr("value", "");
-                                                            $("#fec_nac").attr("value", "");
-                                                            $("#fol_sp").attr("value", "");
-                                                        }
-                                                        if (mensaje === "inexistente") {
-                                                            alert("Paciente Inexistente");
-                                                            $("#nom_pac").attr("value", "");
-                                                            $("#sexo").attr("value", "");
-                                                            $("#fec_nac").attr("value", "");
-                                                            $("#fol_sp").attr("value", "");
-                                                        }
-                                                    }
-                                                }
-                                            });
-
-                                            $('#mostrar2').click(function() {
-                                                var sp_pac = $('#sp_pac').val();
-                                                var dir = '../RecetaNombre';
-                                                var form = $('#formulario_receta');
-                                                $.ajax({
-                                                    type: form.attr('method'),
-                                                    url: dir,
-                                                    data: form.serialize(),
-                                                    success: function(data) {
-                                                        devuelveFolio(data);
-                                                    },
-                                                    error: function() {
-                                                        alert("Ha ocurrido un error");
-                                                    }
-                                                });
-                                                function devuelveFolio(data) {
-                                                    var json = JSON.parse(data);
-                                                    for (var i = 0; i < json.length; i++) {
-                                                        var fol_rec = json[i].fol_rec;
-                                                        var nom_com = json[i].nom_com;
-                                                        var sexo = json[i].sexo;
-                                                        var fec_nac = json[i].fec_nac;
-                                                        var num_afi = json[i].num_afi;
-                                                        var mensaje = json[i].mensaje;
-                                                        $("#folio").attr("value", fol_rec);
-                                                        $("#nom_pac").attr("value", nom_com);
-                                                        $("#sexo").attr("value", sexo);
-                                                        $("#fec_nac").attr("value", fec_nac);
-                                                        $("#fol_sp").attr("value", num_afi);
-                                                        if (mensaje === "vig_no_val") {
-                                                            alert("Vigencia no Valida");
-                                                            $("#nom_pac").attr("value", "");
-                                                            $("#sexo").attr("value", "");
-                                                            $("#fec_nac").attr("value", "");
-                                                            $("#fol_sp").attr("value", "");
-                                                        }
-                                                        if (mensaje === "inexistente") {
-                                                            alert("Paciente Inexistente");
-                                                            $("#nom_pac").attr("value", "");
-                                                            $("#sexo").attr("value", "");
-                                                            $("#fec_nac").attr("value", "");
-                                                            $("#fol_sp").attr("value", "");
-                                                        }
-                                                    }
-                                                }
-                                            });
-
+        <%
+                }
+                con.cierraConexion();
+            } catch (Exception e) {
+            }
+        %>
 
                                         });
-
-
     </script>
 </html>
