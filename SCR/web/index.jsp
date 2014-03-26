@@ -30,7 +30,7 @@
                     <h2 style="color: #ffffff; font-style: oblique">GNK Logística</h2>
                 </div>
                 <div class="panel panel-body">
-                    <h3>SCR</h3>
+                    <h3>SCR - Sistema de Captura de Recetas</h3>
                     <h4 class="form-signin-heading">Ingrese sus Credenciales</h4>
                     <div class="input-group">
                         <span class="input-group-addon">

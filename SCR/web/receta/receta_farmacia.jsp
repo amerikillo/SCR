@@ -84,7 +84,7 @@
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <title>Sistema de Captura de Receta</title>
     </head>
-    <body>
+    <body onload="focoInicial();">
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -329,7 +329,7 @@
                 ResultSet rset = con.consulta("select dr.fol_det, dr.can_sol, dr.cant_sur, dp.cla_pro, p.des_pro from detreceta dr, detalle_productos dp, productos p where dr.det_pro = dp.det_pro and dp.cla_pro = p.cla_pro and id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-        %>
+%>
         <div class="modal fade" id="edita_clave_<%=rset.getString("fol_det")%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -338,12 +338,13 @@
                     </div>
                     <div class="modal-body">
                         <form name="form_editaInsumo_<%=rset.getString("fol_det")%>" method="post" id="form_editaInsumo_<%=rset.getString("fol_det")%>">
+                            <input type="text" name="fol_det" class="hidden" value="<%=rset.getString("fol_det")%>">
                             Clave: <input type="text" class="form-control" autofocus placeholder="Ingrese su Nombre" name="txtf_nom" id="txtf_nom" value="<%=rset.getString("cla_pro")%>" readonly />
                             Descripción: <input type="text" class="form-control"  placeholder="Ingrese su Cuenta de Correo" name="txtf_cor" id="txtf_cor" value="<%=rset.getString("des_pro")%>" readonly />
-                            Cantidad Solicitada: <input type="text" class="form-control"  placeholder="Cant Sol" name="cant_sol_<%=rset.getString("fol_det")%>" id="cant_sol_<%=rset.getString("fol_det")%>" value="<%=rset.getString("can_sol")%>" />
-                            Cantidad Surtida: <input type="text" class="form-control"  placeholder="Cant Sur" name="cant_sur_<%=rset.getString("fol_det")%>" id="cant_sur_<%=rset.getString("fol_det")%>" value="<%=rset.getString("cant_sur")%>" readonly />
+                            Cantidad Solicitada: <input type="text" class="form-control"  placeholder="Cant Sol" name="cant_sol" id="cant_sol_<%=rset.getString("fol_det")%>" value="<%=rset.getString("can_sol")%>" />
+                            Cantidad Surtida: <input type="text" class="form-control"  placeholder="Cant Sur" name="cant_sur" id="cant_sur_<%=rset.getString("fol_det")%>" value="<%=rset.getString("cant_sur")%>" readonly />
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn_modificar<%=rset.getString("fol_det")%>" name = "btn_modificar<%=rset.getString("fol_det")%>">Modificar Solicitud</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn_modificar_<%=rset.getString("fol_det")%>" name = "btn_modificar_<%=rset.getString("fol_det")%>">Modificar Solicitud</button>
                             </div>
 
                         </form>
@@ -365,8 +366,9 @@
                     </div>
                     <div class="modal-body">
                         <form name="form_eliminaInsumo_<%=rset.getString("fol_det")%>" method="post" id="form_eliminaInsumo_<%=rset.getString("fol_det")%>">
+                            <input type="text" class="hidden" name="fol_det" value="<%=rset.getString("fol_det")%>">
                             ¿Esta seguro de eliminar este Medicamento?
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn_eliminar<%=rset.getString("fol_det")%>" name = "btn_eliminar<%=rset.getString("fol_det")%>">Eliminar</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" value="<%=rset.getString("fol_det")%>" id="btn_eliminar_<%=rset.getString("fol_det")%>" name = "btn_eliminar<%=rset.getString("fol_det")%>">Eliminar</button>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -456,15 +458,14 @@
                 con.conectar();
                 ResultSet rset = con.consulta("select fol_det from detreceta where id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
-                //System.out.println(rset.getString("fol_det"));
-        %>
-                                            $('#btn_modificar<%=rset.getString("fol_det")%>').click(function() {
-                                                var cant_sol = $('#cant_sol_<%=rset.getString("fol_det")%>').val();
-                                                var cant_sur = $('#cant_sur_<%=rset.getString("fol_det")%>').val();
+                    //System.out.println(rset.getString("fol_det"));
+%>
+                                            $('#btn_modificar_<%=rset.getString("fol_det")%>').click(function() {
                                                 var dir = '../EditaMedicamento';
                                                 var form = $('#form_editaInsumo_<%=rset.getString("fol_det")%>');
-                                                if (cant_sol === "" || cant_sur === "") {
-                                                    alert("No pueden ir esos campos vacios");
+                                                var cant_sol = $('#cant_sol_<%=rset.getString("fol_det")%>');
+                                                if (cant_sol === "") {
+                                                    alert("No puede ir el campo de solicitado vacío");
                                                 }
                                                 else {
 
@@ -473,58 +474,31 @@
                                                         url: dir,
                                                         data: form.serialize(),
                                                         success: function(data) {
-                                                            limpiaCampos();
-                                                            hacerTabla(data);
                                                         },
                                                         error: function() {
-                                                            limpiaCampos();
-                                                            hacerTabla(data);
-                                                            alert("Ha ocurrido un error");
+                                                            //alert("Ha ocurrido un error");
                                                         }
                                                     });
 
-                                                    function limpiaCampos() {
-                                                        $("#cla_pro").val("");
-                                                        $("#des_pro").val("");
-                                                        $("#ori1").attr("value", "");
-                                                        $("#ori2").attr("value", "");
-                                                        $("#existencias").attr("value", "");
-                                                        $("#indica").val("");
-                                                        $("#causes").val("");
-                                                        $("#can_sol").val("");
-                                                    }
-
-                                                    function hacerTabla(data) {
-                                                        var json = JSON.parse(data);
-                                                        $("#tablaMedicamentos").empty();
-                                                        $("#tablaMedicamentos").append(
-                                                                $("<tr>")
-                                                                .append($("<td>").append("Clave"))
-                                                                .append($("<td>").append("Descripción"))
-                                                                .append($("<td>").append("Cant. Sol."))
-                                                                .append($("<td>").append("Cant. Sur."))
-                                                                .append($("<td>").append(""))
-                                                                );
-                                                        for (var i = 0; i < json.length; i++) {
-                                                            var cla_pro = json[i].cla_pro;
-                                                            var des_pro = json[i].des_pro;
-                                                            var fol_det = json[i].fol_det;
-                                                            var can_sol = json[i].can_sol;
-                                                            var cant_sur = json[i].cant_sur;
-                                                            var btn_modi = "<a class='btn btn-warning' id='btn_modi' value = '" + fol_det + "' name = 'btn_modi'  data-toggle=\'modal\'  href=\'#myModal2\'><span class='glyphicon glyphicon-pencil' ></span></a>";
-                                                            var btn_eliminar = "<button class='btn btn-danger' id='btn_eli' value = '" + fol_det + "'  name = 'btn_eli'><span class='glyphicon glyphicon-remove' ></span></button>";
-                                                            $("#tablaMedicamentos").append(
-                                                                    $("<tr>")
-                                                                    .append($("<td>").append(cla_pro))
-                                                                    .append($("<td>").append(des_pro))
-                                                                    .append($("<td>").append(can_sol))
-                                                                    .append($("<td>").append(cant_sur))
-                                                                    .append($("<td>").append(btn_modi).append(btn_eliminar))
-                                                                    );
-                                                        }
-                                                    }
-
+                                                    location.reload();
                                                 }
+                                            });
+
+
+                                            $('#btn_eliminar_<%=rset.getString("fol_det")%>').click(function() {
+                                                var dir = '../EliminaClave';
+                                                var form = $('#form_eliminaInsumo_<%=rset.getString("fol_det")%>');
+                                                $.ajax({
+                                                    type: form.attr('method'),
+                                                    url: dir,
+                                                    data: form.serialize(),
+                                                    success: function(data) {
+                                                    },
+                                                    error: function() {
+                                                        //alert("Ha ocurrido un error");
+                                                    }
+                                                });
+                                                location.reload();
                                             });
         <%
                 }

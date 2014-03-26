@@ -69,15 +69,19 @@ public class ProductoClave extends HttpServlet {
                             id_pac = rset.getString(1);
                         }
 
-                        rset = con.consulta("select r.id_rec from receta r, usuarios us, unidades un where r.fol_rec = '" + request.getParameter("folio") + "' and r.cedula = '" + request.getParameter("cedula") + "' and r.id_tip = '1' and r.id_usu = us.id_usu and us.cla_uni = un.cla_uni and un.des_uni = '"+request.getParameter("uni_ate")+"' ");
+                        rset = con.consulta("select r.id_rec from receta r, usuarios us, unidades un where r.fol_rec = '" + request.getParameter("folio") + "' and r.cedula = '" + request.getParameter("cedula") + "' and r.id_tip = '1' and r.id_usu = us.id_usu and us.cla_uni = un.cla_uni and un.des_uni = '" + request.getParameter("uni_ate") + "' ");
                         while (rset.next()) {
                             ban = 1;
                             id_rec = rset.getString(1);
                         }
-
                         /*
                          *Si ya existe la receta actualiza campos
                          */
+                        if (carnet.equals("")) {
+                            carnet = "-";
+                        }
+
+                        json.put("carnet", carnet);
                         if (ban == 1) {
                             con.insertar("update receta set id_pac = '" + id_pac + "', cedula='" + request.getParameter("cedula") + "', carnet= '" + carnet + "' where id_rec= '" + id_rec + "'");
                         } else {//Si no inserta la receta

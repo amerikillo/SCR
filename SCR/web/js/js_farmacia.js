@@ -41,12 +41,25 @@ function isNumberKey(evt)
     return true;
 }
 
-$(function() {
-    $("#fecha").datepicker();
-    $("#Caducidad").datepicker('option', {dateFormat: 'dd/mm/yy'});
-});
+/*if(document.getElementById('nom_pac').val!==""){
+ document.getElementById('carnet').focus();
+ }
+ if(document.getElementById('carnet').val!==""){
+ document.getElementById('cla_pro').focus();
+ }*/
 
 $(function() {
+
+    if ($("#nom_pac").val() !== "") {
+        $("#carnet").focus();
+    }
+    if ($("#carnet").val() !== "") {
+        $("#cla_pro").focus();
+    }
+
+    $("#fecha").datepicker();
+    $("#Caducidad").datepicker('option', {dateFormat: 'dd/mm/yy'});
+
     var form = $('#formulario_receta');
     $.ajax({
         type: form.attr('method'),
@@ -57,7 +70,7 @@ $(function() {
             hacerTabla(data);
         },
         error: function() {
-            alert("Ha ocurrido un error");
+            alert("Ha ocurrido un error - insumo receta");
         }
     });
 
@@ -133,7 +146,7 @@ $(document).ready(function() {
                     success: function(data) {
                     },
                     error: function() {
-                        alert("Ha ocurrido un error");
+                        //alert("Ha ocurrido un error - capturar");
                     }
                 });
                 $.ajax({
@@ -145,7 +158,7 @@ $(document).ready(function() {
                         hacerTabla(data);
                     },
                     error: function() {
-                        alert("Ha ocurrido un error");
+                        //alert("Ha ocurrido un error - cap insumo");
                     }
                 });
                 function limpiaCampos() {
@@ -166,6 +179,8 @@ $(document).ready(function() {
                             $("<tr>")
                             .append($("<td>").append("Clave"))
                             .append($("<td>").append("Descripción"))
+                            .append($("<td>").append("Lote"))
+                            .append($("<td>").append("Caducidad"))
                             .append($("<td>").append("Cant. Sol."))
                             .append($("<td>").append("Cant. Sur."))
                             .append($("<td>").append(""))
@@ -173,15 +188,19 @@ $(document).ready(function() {
                     for (var i = 0; i < json.length; i++) {
                         var cla_pro = json[i].cla_pro;
                         var des_pro = json[i].des_pro;
+                        var lot_pro = json[i].lot_pro;
+                        var cad_pro = json[i].cad_pro;
                         var fol_det = json[i].fol_det;
                         var can_sol = json[i].can_sol;
                         var cant_sur = json[i].cant_sur;
-                        var btn_modi = "<a class='btn btn-warning' id='btn_modi' value = '" + fol_det + "' name = 'btn_modi'  data-toggle=\'modal\'  href=\'#myModal2\'><span class='glyphicon glyphicon-pencil' ></span></a>";
-                        var btn_eliminar = "<button class='btn btn-danger' id='btn_eli' value = '" + fol_det + "'  name = 'btn_eli'><span class='glyphicon glyphicon-remove' ></span></button>";
+                        var btn_modi = "<a class='btn btn-warning' id='btn_modi' value = '" + fol_det + "' name = 'btn_modi'  data-toggle=\'modal\'  href=\'#edita_clave_" + fol_det + "\'><span class='glyphicon glyphicon-pencil' ></span></a>";
+                        var btn_eliminar = "<a class='btn btn-danger' id='btn_eli' value = '" + fol_det + "' name = 'btn_eli' data-toggle=\'modal\'  href=\'#elimina_clave_" + fol_det + "\'><span class='glyphicon glyphicon-remove' ></span></a>";
                         $("#tablaMedicamentos").append(
                                 $("<tr>")
                                 .append($("<td>").append(cla_pro))
                                 .append($("<td>").append(des_pro))
+                                .append($("<td>").append(lot_pro))
+                                .append($("<td>").append(cad_pro))
                                 .append($("<td>").append(can_sol))
                                 .append($("<td>").append(cant_sur))
                                 .append($("<td>").append(btn_modi).append(btn_eliminar))
@@ -193,9 +212,13 @@ $(document).ready(function() {
         else {
             alert("Capture primero el medicamento");
         }
+
+        location.reload();
+        $("#cla_pro").focus();
+
     });
-    
-    
+
+
     $('#btn_descripcion').click(function() {
         var dir = '../ProductoDescripcion';
         var form = $('#formulario_receta');
@@ -211,7 +234,7 @@ $(document).ready(function() {
                     dameProducto(data);
                 },
                 error: function() {
-                    alert("Ha ocurrido un error");
+                    alert("Ha ocurrido un error - descripcion");
                 }
             });
             function dameProducto(data) {
@@ -222,6 +245,7 @@ $(document).ready(function() {
                     var total = json[i].total;
                     var cla_pro = json[i].cla_pro;
 
+                    $("#carnet").val(json[i].carnet);
                     $("#ori1").attr("value", ori1);
                     $("#ori2").attr("value", ori2);
                     $("#existencias").attr("value", total);
@@ -271,7 +295,7 @@ $(document).ready(function() {
                     dameProducto(data);
                 },
                 error: function() {
-                    alert("Ha ocurrido un error");
+                    alert("Ha ocurrido un error - clave");
                 }
             });
             function dameProducto(data) {
@@ -282,6 +306,7 @@ $(document).ready(function() {
                     var total = json[i].total;
                     var descripcion = json[i].des_pro;
 
+                    $("#carnet").val(json[i].carnet);
                     $("#ori1").attr("value", ori1);
                     $("#ori2").attr("value", ori2);
                     $("#existencias").attr("value", total);
@@ -333,7 +358,7 @@ $(document).ready(function() {
                 devuelveFolio(data);
             },
             error: function() {
-                alert("Ha ocurrido un error");
+                alert("Ha ocurrido un error - mostrar");
             }
         });
         function devuelveFolio(data) {
@@ -381,7 +406,7 @@ $(document).ready(function() {
                 devuelveFolio(data);
             },
             error: function() {
-                alert("Ha ocurrido un error");
+                alert("Ha ocurrido un error - paciente");
             }
         });
         function devuelveFolio(data) {
@@ -431,7 +456,7 @@ $(document).ready(function() {
                 devuelveFolio(data);
             },
             error: function() {
-                alert("Ha ocurrido un error");
+                alert("Ha ocurrido un error mostrar 2");
             }
         });
         function devuelveFolio(data) {
@@ -467,7 +492,7 @@ $(document).ready(function() {
                 }
             }
         }
-    });
 
+    });
 
 });

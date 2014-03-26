@@ -3,15 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Servlets;
 
+import Clases.ConectionDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
@@ -32,19 +38,36 @@ public class EliminaClave extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        System.out.println("hols");
+        DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        ConectionDB con = new ConectionDB();
+        JSONObject json = new JSONObject();
+        JSONArray jsona = new JSONArray();
+        HttpSession sesion = request.getSession(true);
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EliminaClave</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EliminaClave at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
+            con.conectar();
+            try {
+                String det_pro = "", id_rec = "";
+                int n_cant = 0, can_sol = 0, cant_sur = 0, cant_inv = 0;
+                ResultSet rset = con.consulta("select dr.det_pro, dr.can_sol, dr.cant_sur, i.cant, dr.id_rec from detreceta dr, detalle_productos dp, inventario i where dr.det_pro = dp.det_pro and dp.det_pro = i.det_pro and dr.fol_det = '" + request.getParameter("fol_det") + "' ");
+                while (rset.next()) {
+                    det_pro = rset.getString(1);
+                    can_sol = rset.getInt(2);
+                    cant_sur = rset.getInt(3);
+                    cant_inv = rset.getInt(4);
+                    id_rec = rset.getString(5);
+                }
+
+                n_cant = cant_inv + cant_sur;
+
+                con.insertar("update detreceta set can_sol = '0', cant_sur = '0', baja='1' where fol_det = '" + request.getParameter("fol_det") + "' ");
+                con.insertar("update inventario set cant = '" + n_cant + "' where det_pro = '" + det_pro + "' ");
+                con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + det_pro + "', '" + cant_sur + "', 'REINTEGRA AL IVENTARIO', '-', NOW(), 'SE ELIMINA INSUMO DE RECETA', '" + sesion.getAttribute("id_usu") + "', '0'); ");
+            } catch (Exception e) {
+            }
+            con.cierraConexion();
+        } catch (Exception e) {
         }
     }
 

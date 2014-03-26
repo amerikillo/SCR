@@ -44,7 +44,7 @@ public class ConectionDB {
         //poner los datos apropiados
         this.usuario = "root";
         this.clave = "eve9397";
-        this.url = "jdbc:mysql://localhost:3306/comodin";
+        this.url = "jdbc:mysql://localhost:3306/scr";
         this.driverClassName = "org.gjt.mm.mysql.Driver";
     
     }
