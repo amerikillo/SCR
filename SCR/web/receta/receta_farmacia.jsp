@@ -84,7 +84,7 @@
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <title>Sistema de Captura de Receta</title>
     </head>
-    <body onload="focoInicial();">
+    <body onload="">
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
