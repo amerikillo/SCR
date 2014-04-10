@@ -46,7 +46,14 @@
         </div>
         <div class="container-fluid">
             <div class="container">
-                <h3>Alta de Pacientes</h3>
+                <div class="row">
+                    <div class="col-lg-10">
+                        <h3>Alta de Pacientes</h3>
+                    </div>
+                    <div class="col-lg-2">
+                        <a class="btn btn-block btn-danger" href="../receta/receta_farmacia.jsp">Regresar</a>
+                    </div>
+                </div>
                 <div class="panel panel-default">
                     <form class="form-horizontal" role="form" name="formulario_pacientes" id="formulario_pacientes" method="get" action="../Pacientes">
                         <div class="panel-body">
@@ -57,7 +64,7 @@
                                 </div>
                                 <label for="tip_cob" class="col-sm-2 control-label">Tipo de Cobranza</label>
                                 <div class="col-sm-2">
-                                    <select class="form-control" id="tip_cob" name="tip_cob">
+                                    <select class="form-control" id="tip_cob" name="tip_cob" onchange="numAfiPA();">
                                         <option>SP</option>
                                         <option>OP</option>
                                         <option>PA</option>
@@ -138,7 +145,27 @@
 <script src="../js/bootstrap.js"></script>
 <script src="../js/jquery-ui-1.10.3.custom.js"></script>
 <script src="../js/bootstrap-datepicker.js"></script>
+<script src="../js/moment.js"></script>
 <script>
+                                    function numAfiPA() {
+                                        var d = new Date();
+                                        //alert(d);
+                                        var now = moment();
+                                        now.format('dddd');
+                                        //alert(now);
+                                        var tipo = "";
+                                        if (document.getElementById('tip_cob').value === 'OP') {
+                                            tipo = 'OP';
+                                        } else if (document.getElementById('tip_cob').value === 'PA') {
+                                            tipo = 'PA';
+                                        }
+                                        document.getElementById('no_afi').value = tipo + now.format('YYMMDDHHmmss');
+                                        document.getElementById('no_afi').readOnly = true;
+                                        if (document.getElementById('tip_cob').value === 'SP') {
+                                            document.getElementById('no_afi').value = "";
+                                            document.getElementById('no_afi').readOnly = false;
+                                        }
+                                    }
 
 
                                     function tabular(e, obj)

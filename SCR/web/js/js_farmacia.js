@@ -10,6 +10,32 @@
  * @returns {undefined}
  */
 
+function focoInicial() {
+    document.getElementById('nombre_jq').focus();
+    if (document.getElementById('nom_pac').value !== "") {
+        document.getElementById('cla_pro').focus();
+    }
+}
+function sumar() {
+    //alert('hola');
+    var unidades = document.formulario_receta.unidades.value;
+    if (unidades === "")
+        unidades = 0;
+    var horas = document.formulario_receta.horas.value;
+    if (horas === "")
+        horas = 0;
+    var dias = document.formulario_receta.dias.value;
+    if (dias === "")
+        dias = 0;
+    //alert(horas);
+    var hrs = 24 / parseInt(horas);
+    //alert(unidades+""+hrs+""+dias);
+    var total = parseInt(unidades) * hrs * parseInt(dias);
+    var amp = document.formulario_receta.amp.value;
+    var cajas = total / amp;
+    document.formulario_receta.piezas_sol.value = Math.ceil(total);
+    document.formulario_receta.can_sol.value = Math.ceil(cajas);
+}
 
 
 function tabular(e, obj)
@@ -47,8 +73,11 @@ function isNumberKey(evt)
  if(document.getElementById('carnet').val!==""){
  document.getElementById('cla_pro').focus();
  }*/
-
 $(function() {
+
+
+    $('#bus_pac').tooltip();
+    $('#bus_pacn').tooltip();
 
     if ($("#nom_pac").val() !== "") {
         $("#carnet").focus();
@@ -136,6 +165,7 @@ $(document).ready(function() {
         if (cla_pro !== "" && des_pro !== "") {
             if ($('#causes').val() === "") {
                 alert('Capture las causes');
+                $('#causes').focus();
             } else if ($('#can_sol').val() === "") {
                 alert('Capture la cantidad a entregar');
             } else {
@@ -207,14 +237,14 @@ $(document).ready(function() {
                                 );
                     }
                 }
+                location.reload();
+                $("#cla_pro").focus();
             }
         }
         else {
             alert("Capture primero el medicamento");
         }
 
-        location.reload();
-        $("#cla_pro").focus();
 
     });
 
@@ -244,12 +274,14 @@ $(document).ready(function() {
                     var ori2 = json[i].origen2;
                     var total = json[i].total;
                     var cla_pro = json[i].cla_pro;
+                    var ampuleo = json[i].amp_pro;
 
                     $("#carnet").val(json[i].carnet);
                     $("#ori1").attr("value", ori1);
                     $("#ori2").attr("value", ori2);
                     $("#existencias").attr("value", total);
                     $("#cla_pro").val(cla_pro);
+                    $("#amp").attr("value", ampuleo);
                     $("#indica").focus();
                     if (cla_pro === null) {
                         alert('Clave fuera de Catálogo');
@@ -305,13 +337,15 @@ $(document).ready(function() {
                     var ori2 = json[i].origen2;
                     var total = json[i].total;
                     var descripcion = json[i].des_pro;
+                    var ampuleo = json[i].amp_pro;
 
                     $("#carnet").val(json[i].carnet);
                     $("#ori1").attr("value", ori1);
                     $("#ori2").attr("value", ori2);
                     $("#existencias").attr("value", total);
                     $("#des_pro").val(descripcion);
-                    $("#indica").focus();
+                    $("#amp").attr("value", ampuleo);
+                    $("#unidades").focus();
                     if (descripcion === null) {
                         alert('Clave fuera de Catálogo');
                         $("#cla_pro").val("");
@@ -395,6 +429,7 @@ $(document).ready(function() {
 
     $('#select_pac').change(function() {
         var select_pac = $('#select_pac').val();
+        $('#nombre_jq').attr("value", "");
         //alert(sp_pac);
         var dir = '../RecetaNombre';
         var form = $('#formulario_receta');

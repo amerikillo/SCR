@@ -85,7 +85,7 @@ public class ProductoClave extends HttpServlet {
                         if (ban == 1) {
                             con.insertar("update receta set id_pac = '" + id_pac + "', cedula='" + request.getParameter("cedula") + "', carnet= '" + carnet + "' where id_rec= '" + id_rec + "'");
                         } else {//Si no inserta la receta
-                            con.insertar("insert into receta values ('0', '" + request.getParameter("folio") + "', '" + id_pac + "', '" + request.getParameter("cedula") + "', '1', '" + sesion.getAttribute("id_usu") + "', '-', '" + carnet + "', '1', NOW(),'0', '0')");
+                            con.insertar("insert into receta values ('0', '" + request.getParameter("folio") + "', '" + id_pac + "', '" + request.getParameter("cedula") + "', '1', '" + sesion.getAttribute("id_usu") + "', '-', '" + carnet + "', '1', NOW(),'1', '0', '0')");
                         }
 
                     } catch (Exception e) {
@@ -97,9 +97,10 @@ public class ProductoClave extends HttpServlet {
                 /*
                  *Devuelve datos de la clave solicitada
                  */
-                ResultSet rset = con.consulta("select des_pro from productos where cla_pro = '" + request.getParameter("cla_pro") + "' ");
+                ResultSet rset = con.consulta("select des_pro, amp_pro from productos where cla_pro = '" + request.getParameter("cla_pro") + "' ");
                 while (rset.next()) {
                     json.put("des_pro", rset.getString(1));
+                    json.put("amp_pro", rset.getString(2));
                 }
                 rset = con.consulta("SELECT sum(i.cant)\n"
                         + "FROM productos p, detalle_productos dp, inventario i\n"

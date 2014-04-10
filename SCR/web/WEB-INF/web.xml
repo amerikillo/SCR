@@ -52,6 +52,10 @@
         <servlet-name>EliminaMedicamento</servlet-name>
         <servlet-class>Servlets.EliminaMedicamento</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Farmacias</servlet-name>
+        <servlet-class>Servlets.Farmacias</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>EliminaMedicamento</servlet-name>
         <url-pattern>/EliminaMedicamento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Farmacias</servlet-name>
+        <url-pattern>/Farmacias</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
