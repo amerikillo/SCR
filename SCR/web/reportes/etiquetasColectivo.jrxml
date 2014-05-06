@@ -75,7 +75,7 @@
 			<textField>
 				<reportElement uuid="3ca2245e-3dc2-4bad-bbfa-504e00d07f9c" x="203" y="24" width="71" height="11"/>
 				<textElement>
-					<font size="8"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha_hora}]]></textFieldExpression>
 			</textField>
@@ -89,14 +89,14 @@
 			<textField>
 				<reportElement uuid="9a902108-f4bc-4f6b-ad08-189173b2f666" x="46" y="35" width="228" height="11"/>
 				<textElement>
-					<font size="8"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nom_com}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="e7c4ad07-6a39-43b0-9f5f-b6a61e826e60" x="0" y="24" width="100" height="11"/>
 				<textElement>
-					<font size="8"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fol_rec}]]></textFieldExpression>
 			</textField>
@@ -106,7 +106,7 @@
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["*"]]></textFieldExpression>
-				<hyperlinkReferenceExpression><![CDATA["http://localhost:8089/SCR/farmacia/modSurteFarmacia.jsp"]]></hyperlinkReferenceExpression>
+				<hyperlinkReferenceExpression><![CDATA["http://localhost:8089/SCR/farmacia/modColectivo.jsp"]]></hyperlinkReferenceExpression>
 				<hyperlinkParameter name="report">
 					<hyperlinkParameterExpression><![CDATA["farmacia/modFarmacia.jsp"]]></hyperlinkParameterExpression>
 				</hyperlinkParameter>
@@ -150,7 +150,7 @@
 			<textField>
 				<reportElement uuid="4b821f20-f2c4-4459-a75b-3903cd86bd6b" x="0" y="0" width="42" height="10"/>
 				<textElement>
-					<font size="7"/>
+					<font size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cla_pro}]]></textFieldExpression>
 			</textField>
@@ -178,21 +178,6 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="11">
-			<textField>
-				<reportElement uuid="88860a48-e3a5-46bf-a8dc-96d0eaa77c2b" x="142" y="0" width="132" height="11"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{medico}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="d4621c90-0c3f-4a29-a277-751248c8ef4f" x="113" y="0" width="29" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Médico]]></text>
-			</staticText>
-		</band>
+		<band height="11"/>
 	</pageFooter>
 </jasperReport>

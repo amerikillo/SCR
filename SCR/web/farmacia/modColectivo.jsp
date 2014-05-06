@@ -38,19 +38,18 @@
     } catch (Exception e) {
     }
 
-    String folio_rec = "", nom_com = "", sexo = "", fec_nac = "", num_afi = "", carnet = "", id_rec = "";
+    String folio_rec = "", nom_com = "", id_rec = "", id_ser="";
     try {
         folio_rec = (String) sesion.getAttribute("folio_rec");
+       System.out.println("***********"+folio_rec);
         nom_com = (String) sesion.getAttribute("nom_com");
-        sexo = (String) sesion.getAttribute("sexo");
-        fec_nac = (String) sesion.getAttribute("fec_nac");
-        num_afi = (String) sesion.getAttribute("num_afi");
         try {
             con.conectar();
-            ResultSet rset = con.consulta("select carnet, id_rec from receta where fol_rec = '" + folio_rec + "'");
+            ResultSet rset = con.consulta("select id_ser, enc_ser, id_rec from receta where fol_rec = '" + folio_rec + "'");
             while (rset.next()) {
-                carnet = rset.getString("carnet");
                 id_rec = rset.getString("id_rec");
+                id_ser = rset.getString("id_ser");
+                nom_com = rset.getString("enc_ser");
             }
             con.cierraConexion();
         } catch (Exception e) {
@@ -62,24 +61,18 @@
     if (folio_rec == null || folio_rec.equals("")) {
         folio_rec = "";
         nom_com = "";
-        sexo = "";
-        fec_nac = "";
-        num_afi = "";
     }
 
     try {
         if (request.getParameter("accion").equals("nueva")) {
             folio_rec = "";
             nom_com = "";
-            sexo = "";
-            fec_nac = "";
-            num_afi = "";
 
-            sesion.setAttribute("folio_rec","");
-            sesion.setAttribute("nom_com","");
-            sesion.setAttribute("sexo","");
-            sesion.setAttribute("fec_nac","");
-            sesion.setAttribute("num_afi","");
+            sesion.setAttribute("folio_rec", "");
+            sesion.setAttribute("nom_com", "");
+            sesion.setAttribute("sexo", "");
+            sesion.setAttribute("fec_nac", "");
+            sesion.setAttribute("num_afi", "");
         }
     } catch (Exception e) {
 
@@ -150,7 +143,7 @@
             <div class="container">
                 <h3>Captura de Recetas</h3>
                 <div class="panel panel-default">
-                    <form class="form-horizontal" role="form" name="formulario_receta" id="formulario_receta" method="get" action="../Receta">
+                    <form class="form-horizontal" role="form" name="formulario_receta" id="formulario_receta" method="post" action="../Receta">
                         <div class="panel-body">
                             <div class="row">
                                 <label for="fecha" class="col-sm-2 control-label"> Unidad de Salud:</label>
@@ -159,16 +152,6 @@
                                 </div>
                             </div>
                             <br />
-                            <div class="row">
-                                <label for="fecha" class="col-sm-1 control-label"> Médico:</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" id="medico" readonly name="medico" placeholder="" value="<%=medico%>"/>
-                                </div>
-                                <label for="fecha" class="col-sm-1 control-label"> Cédula:</label>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" id="cedula" readonly name="cedula" placeholder="" value="<%=cedula%>"/>
-                                </div>
-                            </div>
                             <br />
                             <div class="row">
                                 <label for="fecha" class="col-sm-1 control-label">Fecha</label>
@@ -185,64 +168,44 @@
                         </div>
                         <div class="panel-footer">
                             <div class="row">
-                                <label for="sp_pac" class="col-sm-2 control-label">
-                                    <button type="button" class="btn btn-default" data-placement="left" data-toggle="tooltip" data-placement="left" title="Buscar Paciente por folio de seguro popular" id="bus_pac"><span class="glyphicon glyphicon-search"></span></button>
-                                    No. SP
+                                <label for="sp_pac" class="col-sm-3 control-label">
+                                    <button type="button" class="btn btn-default"  data-toggle="tooltip" data-placement="left" title="Buscar Paciente por folio de seguro popular" id="bus_pac"><span class="glyphicon glyphicon-search"></span></button>
+                                    Servicio:
                                 </label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="sp_pac" onkeypress="return isNumberKey(event);
-                                            return tabular(event, this);" name="sp_pac" placeholder="Folio SP"  value=""/>
-                                </div>
-                                <div class="col-sm-2">
-                                    <button class="btn btn-block btn-primary" name="mostrar1" id="mostrar1">Mostrar</button>
-                                </div>
                                 <div class="col-sm-6">
-                                    <select class="form-control" id="select_pac" name="select_pac">
+                                    <select class="form-control" id="select_serv" autofocus name="select_serv">
                                         <option>Seleccione Nombre</option>
+                                        <%
+                                        try{
+                                            con.conectar();
+                                            ResultSet rset= con.consulta("select id_ser, nom_ser from servicios where nom_ser != '-'");
+                                            while(rset.next()){
+                                                String select = "";
+                                                if(id_ser.equals(rset.getString(1))){
+                                                    select = "selected";
+                                                }
+                                                out.println("<option value='"+rset.getString(1)+"' "+select+" >"+rset.getString(2)+"</option>");
+                                            }
+                                            con.cierraConexion();
+                                        }catch (Exception e){
+                                            
+                                        }
+                                        %>
                                     </select>
                                 </div>
                             </div>
                             <br />
                             <div class="row">
-                                <label for="nombre_jq" class="col-sm-2 control-label">
-                                    <button type="button" class="btn btn-default" data-placement="left" data-toggle="tooltip" data-placement="left" title="Buscar Paciente por su nombre" id="bus_pacn"><span class="glyphicon glyphicon-search"></span></button>
-                                    Nombre
+                                <label for="nombre_jq" class="col-sm-3 control-label">
+                                    <button type="button" class="btn btn-default"  data-toggle="tooltip" data-placement="left" title="Buscar Paciente por su nombre" id="bus_pacn"><span class="glyphicon glyphicon-search"></span></button>
+                                    Encargado del Servicio
                                 </label>
-                                <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="nombre_jq" name="nombre_jq" placeholder="Nombre" onkeypress="return tabular(event, this);" autofocus value="<%=nom_com%>">
-                                </div>
-                                <div class="col-sm-2">
-                                    <button class="btn btn-block btn-primary" name="mostrar2" id="mostrar2">Mostrar</button>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="encargado" name="encargado" placeholder="Nombre" onkeypress="return tabular(event, this);"  value="<%=nom_com%>">
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
-                                <label for="nom_pac" class="col-sm-1 control-label">Paciente</label>
-                                <div class="col-sm-4">
-                                    <input name="nom_pac" type="text" class="form-control" id="nom_pac" placeholder="Paciente"  value="<%=nom_com%>" readonly/>
-                                </div>
-                                <label for="sexo" class="col-sm-1 control-label">Sexo</label>
-                                <div class="col-sm-2">
-                                    <input name="sexo" type="text" class="form-control" id="sexo" placeholder="Sexo"  value="<%=sexo%>" readonly/>
-                                </div>
-                                <label for="fec_nac" class="col-sm-2 control-label">Fecha Nac.</label>
-                                <div class="col-sm-2"><input name="fec_nac" type="text" class="form-control" id="fec_nac" placeholder="Fecha de Nacimiento"  value="<%=fec_nac%>" readonly></div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <label for="fol_sp" class="col-sm-1 control-label">Folio SP.</label>
-                                <div class="col-sm-3">
-                                    <input name="fol_sp" type="text" class="form-control" id="fol_sp" placeholder="Folio SP."  value="<%=num_afi%>" readonly/>
-                                </div>
-                                <label for="carnet" class="col-sm-1 control-label">Carnet</label>
-                                <div class="col-sm-2">
-                                    <input type="text" class="form-control" id="carnet" name="carnet" onkeypress="return tabular(event, this);" placeholder="Carnet"  value="<%=carnet%>"/>
-                                </div>
-                                <label for="fol_sp" class="col-sm-2 control-label"></label>
-                                <div class="col-sm-3">
-                                    <a class="btn btn-block btn-info" onkeypress="return tabular(event, this);" href="../pacientes/alta_pacientes.jsp" >Nuevo paciente</a>
-                                </div>
-                            </div>
+                            
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -251,14 +214,14 @@
                                     <input type="text" class="form-control" id="cla_pro" name="cla_pro" placeholder="Clave" onkeypress="return tabular(event, this);"  value=""/>
                                 </div>
                                 <div class="col-sm-1">
-                                    <button class="btn btn-block btn-primary" name="btn_clave" id="btn_clave">Clave</button>
+                                    <button class="btn btn-block btn-primary" name="btn_clave" value="1" id="btn_clave">Clave</button>
                                 </div>
                                 <label for="des_pro" class="col-sm-1 control-label">Descripción</label>
                                 <div class="col-sm-5">
                                     <input type="text" class="form-control" id="des_pro" name="des_pro" placeholder="Descripción"  onkeypress="return tabular(event, this);"  value="">
                                 </div>
                                 <div class="col-sm-2">
-                                    <button class="btn btn-block btn-primary"name="btn_descripcion" id="btn_descripcion">Descripción</button>
+                                    <button class="btn btn-block btn-primary" name="btn_descripcion" value="1" id="btn_descripcion">Descripción</button>
                                 </div>
                             </div>
                             <br>
@@ -266,42 +229,33 @@
                                 <label for="existencias" class="col-sm-2 control-label">Existencias:</label>
 
                                 <label for="ori1" class="col-sm-1 control-label">Origen 1</label>
-                                <div class="col-sm-2">
+                                <div class="col-sm-1">
                                     <input name="ori1" type="text" class="form-control" id="ori1" placeholder="0"  value="0" readonly>
                                 </div>
                                 <label for="ori2" class="col-sm-1 control-label">Origen 2</label>
-                                <div class="col-sm-2">
+                                <div class="col-sm-1">
                                     <input name="ori2" type="text" class="form-control" id="ori2" placeholder="0"  value="0" readonly>
                                 </div>
                                 <label for="existencias" class="col-sm-1 control-label">Total</label>
-                                <div class="col-sm-2">
+                                <div class="col-sm-1">
                                     <input name="existencias" type="text" class="form-control" id="existencias" placeholder="0"  value="0" readonly/>
                                 </div>
-                                <div class="col-sm-2">
-                                    <input name="amp" type="text" class="hidden" id="amp" placeholder="0"  value="0" readonly/>
+                                <label for="amp" class="col-sm-2 control-label">Ampuleo</label>
+                                <div class="col-sm-1">
+                                    <input name="amp" type="text" class="form-control" id="amp" placeholder="0"  value="0" readonly/>
                                 </div>
                             </div>
                             <br>
-                            <div class="row">
-                                <div for="fol_sp" class="col-sm-2"><h4>Indicaciones:</h4></div>
-                            </div>
+                            <div class="row"></div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <table align="center">
                                         <tr>
-                                            <td><input type="text" class="form-control" name="unidades" id="unidades" placeholder="" size="1" onkeyup="sumar();" onkeypress="return tabular(event, this);"  value=""/></td>
-                                            <td><b>unidades, cada</b></td>
-                                            <td><input type="text" class="form-control" name="horas" id="horas" placeholder=""  size="1" onkeyup="sumar();"  onkeypress="return tabular(event, this);"  value=""/></td>
-                                            <td><b>horas, por</b></td>
-                                            <td><input type="text" class="form-control" name="dias" id="dias" placeholder=""  size="1" onkeyup="sumar();"  onkeypress="return tabular(event, this);"  value=""/></td> 
-                                            <td><b>días</b></td>
-                                            <td width="30px"> </td>
-                                            <td><b>Causes</b></td>
-                                            <td><input type="text" class="form-control" id="causes" name="causes" placeholder="Causes" size="1"  onkeypress="return isNumberKey(event, this);" value=""></td>
                                             <td><b>Piezas Solicitadas</b></td>
-                                            <td><input type="text" class="form-control" id="piezas_sol" name="piezas_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="piezas_sol" name="piezas_sol" placeholder="0" size="1" onkeyup="calculaCajas();" onkeypress="return isNumberKey(event, this);" value="" ></td>
                                             <td><b>Cajas Solicitadas</b></td>
-                                            <td><input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0" size="1"  onkeypress="return tabular(event, this);
+                                                    return isNumberKey(event);" value="" readonly></td>
                                         </tr>
                                     </table>
 
@@ -351,7 +305,7 @@
                                     if (ban_imp == 1) {
                                 %>
                                 <div class="col-lg-3">
-                                    <a class="btn btn-success btn-block" href="../reportes/TicketFolio.jsp?fol_rec=<%=folio_rec%>">Imprimir Comprobante</a>
+                                    <a class="btn btn-success btn-block" href="../reportes/TicketColectivo.jsp?fol_rec=<%=folio_rec%>">Imprimir Comprobante</a>
                                 </div>
                                 <%
                                     }
@@ -373,7 +327,7 @@
                 ResultSet rset = con.consulta("select dr.fol_det, dr.can_sol, dr.cant_sur, dp.cla_pro, p.des_pro from detreceta dr, detalle_productos dp, productos p where dr.det_pro = dp.det_pro and dp.cla_pro = p.cla_pro and id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-        %>
+%>
         <div class="modal fade" id="edita_clave_<%=rset.getString("fol_det")%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -440,36 +394,14 @@
     <script src="../js/bootstrap.js"></script>
     <script src="../js/jquery-ui.js"></script>
     <!--script src="../js/bootstrap-datepicker.js"></script-->
-    <script src="../js/js_farmacia.js"></script>
+    <script src="../js/js_colectivo.js"></script>
     <script>
                                                 /*
                                                  * 
                                                  * @returns {undefined}
                                                  */
 
-                                                $(function() {
-                                                    var availableTags = [
-        <%
-            try {
-                con.conectar();
-                try {
-                    ResultSet rset = con.consulta("select id_pac, nom_com from pacientes");
-                    while (rset.next()) {
-                        out.println("'" + rset.getString(2) + "',");
-                    }
-                } catch (Exception e) {
-
-                }
-                con.cierraConexion();
-            } catch (Exception e) {
-
-            }
-        %>
-                                                    ];
-                                                    $("#nombre_jq").autocomplete({
-                                                        source: availableTags
-                                                    });
-                                                });
+                                                
                                                 $(function() {
                                                     var availableTags = [
         <%
@@ -503,7 +435,7 @@
                 ResultSet rset = con.consulta("select fol_det from detreceta where id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-        %>
+%>
                                                     $('#btn_modificar_<%=rset.getString("fol_det")%>').click(function() {
                                                         var dir = '../EditaMedicamento';
                                                         var form = $('#form_editaInsumo_<%=rset.getString("fol_det")%>');

@@ -49,48 +49,98 @@ public class CapturaMedicamento extends HttpServlet {
         try {
             con.conectar();
             try {
+                System.out.println("hola");
                 int sol = Integer.parseInt(request.getParameter("can_sol"));
                 int sur = Integer.parseInt(request.getParameter("can_sol"));
                 int sol1 = 0;
                 String det_pro = "";
                 String id_rec = "";
-                ResultSet rset = con.consulta("select r.id_rec from receta r, usuarios us, unidades un where r.fol_rec = '" + request.getParameter("folio") + "' and r.cedula = '" + request.getParameter("cedula") + "' and r.id_tip = '1' and r.id_usu = us.id_usu and us.cla_uni = un.cla_uni and un.des_uni = '" + request.getParameter("uni_ate") + "' ");
+                String id_tip = "";
+                ResultSet rset = con.consulta("select r.id_rec, id_tip from receta r, usuarios us, unidades un where r.fol_rec = '" + request.getParameter("folio") + "' and r.cedula = '" + request.getParameter("cedula") + "' and r.id_usu = us.id_usu and us.cla_uni = un.cla_uni and un.des_uni = '" + request.getParameter("uni_ate") + "' ");
                 while (rset.next()) {
                     id_rec = rset.getString(1);
+                    id_tip = rset.getString(2);
                 }
-                System.out.println(id_rec);
-
-                rset = con.consulta("SELECT i.id_inv, DP.det_pro, P.cla_pro, P.des_pro, DP.cad_pro, DP.lot_pro, I.cant, DP.cla_fin, DP.id_ori FROM detalle_productos DP, productos P, inventario I, unidades U, usuarios US WHERE DP.cla_pro = P.cla_pro AND DP.det_pro = I.det_pro AND I.cla_uni = U.cla_uni AND US.cla_uni = U.cla_uni AND P.cla_pro = '" + request.getParameter("cla_pro") + "' AND US.id_usu='" + sesion.getAttribute("id_usu") + "' ORDER BY  DP.id_ori, DP.cad_pro, I.cant ASC ");
-                while (rset.next()) {
-                    det_pro = rset.getString("det_pro");
-                    if (Integer.parseInt(rset.getString("cant")) > 0) {
-                        sol1 = sol;
-                        sol = sol - Integer.parseInt(rset.getString("cant"));
-                        if (sol <= 0) {
-                            if (sol == 0) {
-                                sur = Integer.parseInt(rset.getString("cant"));
-                                con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + request.getParameter("can_sol") + "', '" + sur + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + request.getParameter("causes") + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
-                                con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + sur + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
-                                con.insertar("update inventario set cant = '0', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
+                System.out.println("----------------****" + id_rec);
+                if (id_tip.equals("1")) {
+                    /*
+                     *
+                     *Para receta de farmacia
+                     *
+                     */
+                    rset = con.consulta("SELECT i.id_inv, DP.det_pro, P.cla_pro, P.des_pro, DP.cad_pro, DP.lot_pro, I.cant, DP.cla_fin, DP.id_ori FROM detalle_productos DP, productos P, inventario I, unidades U, usuarios US WHERE DP.cla_pro = P.cla_pro AND DP.det_pro = I.det_pro AND I.cla_uni = U.cla_uni AND US.cla_uni = U.cla_uni AND P.cla_pro = '" + request.getParameter("cla_pro") + "' AND US.id_usu='" + sesion.getAttribute("id_usu") + "' ORDER BY  DP.id_ori, DP.cad_pro, I.cant ASC ");
+                    while (rset.next()) {
+                        det_pro = rset.getString("det_pro");
+                        if (Integer.parseInt(rset.getString("cant")) > 0) {
+                            sol1 = sol;
+                            sol = sol - Integer.parseInt(rset.getString("cant"));
+                            if (sol <= 0) {
+                                if (sol == 0) {
+                                    sur = Integer.parseInt(rset.getString("cant"));
+                                    con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + request.getParameter("can_sol") + "', '" + sur + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + request.getParameter("causes") + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
+                                    con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + sur + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
+                                    con.insertar("update inventario set cant = '0', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
+                                }
+                                if (sol < 0) {
+                                    sur = sol * -1;
+                                    con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + (sol1) + "', '" + (sol1) + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + request.getParameter("causes") + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
+                                    con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + sol1 + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
+                                    con.insertar("update inventario set cant = '" + (-1 * sol) + "', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
+                                }
+                                break;
                             }
-                            if (sol < 0) {
-                                sur = sol * -1;
-                                con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + (sol1) + "', '" + (sol1) + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + request.getParameter("causes") + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
-                                con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + sol1 + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
-                                con.insertar("update inventario set cant = '" + (-1 * sol) + "', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
-                            }
-                            break;
+                            con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', '" + rset.getString("cant") + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + request.getParameter("causes") + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
+                            con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
+                            con.insertar("update inventario set cant = '0', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
+                        } else {
                         }
-                        con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', '" + rset.getString("cant") + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + request.getParameter("causes") + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
-                        con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
-                        con.insertar("update inventario set cant = '0', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
-                    } else {
+                    }
+                    if (sol > 0) {
+                        con.insertar("insert into detreceta values ('0', '" + det_pro + "', '" + sol + "', '0', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '0', '" + id_rec + "', CURTIME(), '" + request.getParameter("causes") + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
+                        con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + det_pro + "', '0', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
+                    }
+                } else if (id_tip.equals("2")) {
+                    /*
+                     *
+                     *Para receta de colactiva
+                     *
+                     */
+
+                    sol = Integer.parseInt(request.getParameter("piezas_sol"));
+                    sur = Integer.parseInt(request.getParameter("piezas_sol"));
+                    rset = con.consulta("SELECT i.id_inv, DP.det_pro, P.cla_pro, P.des_pro, DP.cad_pro, DP.lot_pro, I.cant, DP.cla_fin, DP.id_ori FROM detalle_productos DP, productos P, inventario I, unidades U, usuarios US WHERE DP.cla_pro = P.cla_pro AND DP.det_pro = I.det_pro AND I.cla_uni = U.cla_uni AND US.cla_uni = U.cla_uni AND P.cla_pro = '" + request.getParameter("cla_pro") + "' AND US.id_usu='" + sesion.getAttribute("id_usu") + "' ORDER BY  DP.id_ori, DP.cad_pro, I.cant ASC ");
+                    while (rset.next()) {
+                        det_pro = rset.getString("det_pro");
+                        if (Integer.parseInt(rset.getString("cant")) > 0) {
+                            sol1 = sol;
+                            sol = sol - Integer.parseInt(rset.getString("cant"));
+                            if (sol <= 0) {
+                                if (sol == 0) {
+                                    sur = Integer.parseInt(rset.getString("cant"));
+                                    con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + request.getParameter("can_sol") + "', '" + sur + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '1','SIN INDICACIONES', '0', '0' ) ");
+                                    con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + sur + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA COL', '" + sesion.getAttribute("id_usu") + "', '0')");
+                                    con.insertar("update inventario set cant = '0', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
+                                }
+                                if (sol < 0) {
+                                    sur = sol * -1;
+                                    con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + (sol1) + "', '" + (sol1) + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '1','SIN INDICACIONES', '0', '0' ) ");
+                                    con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + sol1 + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA COL', '" + sesion.getAttribute("id_usu") + "', '0')");
+                                    con.insertar("update inventario set cant = '" + (-1 * sol) + "', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
+                                }
+                                break;
+                            }
+                            con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', '" + rset.getString("cant") + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '1','SIN INDICACIONES', '0', '0' ) ");
+                            con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA COL', '" + sesion.getAttribute("id_usu") + "', '0')");
+                            con.insertar("update inventario set cant = '0', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
+                        } else {
+                        }
+                    }
+                    if (sol > 0) {
+                        con.insertar("insert into detreceta values ('0', '" + det_pro + "', '" + sol + "', '0', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '0', '" + id_rec + "', CURTIME(), '1','SIN INDICACIONES', '0', '0' ) ");
+                        con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + det_pro + "', '0', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA COL', '" + sesion.getAttribute("id_usu") + "', '0')");
                     }
                 }
-                if (sol > 0) {
-                    con.insertar("insert into detreceta values ('0', '" + det_pro + "', '" + sol + "', '0', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '0', '" + id_rec + "', CURTIME(), '" + request.getParameter("causes") + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
-                    con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + det_pro + "', '0', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
-                }
+
             } catch (NumberFormatException e) {
                 System.out.println(e.getMessage());
             } catch (SQLException e) {

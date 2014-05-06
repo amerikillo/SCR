@@ -5,17 +5,6 @@
  */
 
 
-/*
- * 
- * @returns {undefined}
- */
-
-function focoInicial() {
-    document.getElementById('nombre_jq').focus();
-    if (document.getElementById('nom_pac').value !== "") {
-        document.getElementById('cla_pro').focus();
-    }
-}
 function sumar() {
     //alert('hola');
     var unidades = document.formulario_receta.unidades.value;
@@ -36,7 +25,6 @@ function sumar() {
     document.formulario_receta.piezas_sol.value = Math.ceil(total);
     document.formulario_receta.can_sol.value = Math.ceil(cajas);
 }
-
 
 function tabular(e, obj)
 {
@@ -85,12 +73,7 @@ function isNumberKey(evt, obj)
 
 }
 
-/*if(document.getElementById('nom_pac').val!==""){
- document.getElementById('carnet').focus();
- }
- if(document.getElementById('carnet').val!==""){
- document.getElementById('cla_pro').focus();
- }*/
+
 $(function() {
 
 
@@ -175,6 +158,87 @@ $(document).ready(function() {
         var cla_pro = $('#btn_eli').val();
         alert(cla_pro);
     });
+
+    $('#btn_medico').click(function() {
+        var cla_pro = $('#cedula').val();
+        if (cla_pro !== "") {
+            var dir = '../Medicos';
+            $.ajax({
+                type: form.attr('method'),
+                url: dir,
+                data: form.serialize(),
+                success: function(data) {
+                },
+                error: function() {
+                    //alert("Ha ocurrido un error - capturar");
+                }
+            });
+            $.ajax({
+                type: form.attr('method'),
+                url: '../MuestraInsumosReceta',
+                data: form.serialize(),
+                success: function(data) {
+                    limpiaCampos();
+                    hacerTabla(data);
+                },
+                error: function() {
+                    //alert("Ha ocurrido un error - cap insumo");
+                }
+            });
+            function limpiaCampos() {
+                $("#cla_pro").val("");
+                $("#des_pro").val("");
+                $("#ori1").attr("value", "");
+                $("#ori2").attr("value", "");
+                $("#existencias").attr("value", "");
+                $("#indica").val("");
+                $("#causes").val("");
+                $("#can_sol").val("");
+            }
+
+            function hacerTabla(data) {
+                var json = JSON.parse(data);
+                $("#tablaMedicamentos").empty();
+                $("#tablaMedicamentos").append(
+                        $("<tr>")
+                        .append($("<td>").append("Clave"))
+                        .append($("<td>").append("Descripción"))
+                        .append($("<td>").append("Lote"))
+                        .append($("<td>").append("Caducidad"))
+                        .append($("<td>").append("Cant. Sol."))
+                        .append($("<td>").append("Cant. Sur."))
+                        .append($("<td>").append(""))
+                        );
+                for (var i = 0; i < json.length; i++) {
+                    var cla_pro = json[i].cla_pro;
+                    var des_pro = json[i].des_pro;
+                    var lot_pro = json[i].lot_pro;
+                    var cad_pro = json[i].cad_pro;
+                    var fol_det = json[i].fol_det;
+                    var can_sol = json[i].can_sol;
+                    var cant_sur = json[i].cant_sur;
+                    var btn_modi = "<a class='btn btn-warning' id='btn_modi' value = '" + fol_det + "' name = 'btn_modi'  data-toggle=\'modal\'  href=\'#edita_clave_" + fol_det + "\'><span class='glyphicon glyphicon-pencil' ></span></a>";
+                    var btn_eliminar = "<a class='btn btn-danger' id='btn_eli' value = '" + fol_det + "' name = 'btn_eli' data-toggle=\'modal\'  href=\'#elimina_clave_" + fol_det + "\'><span class='glyphicon glyphicon-remove' ></span></a>";
+                    $("#tablaMedicamentos").append(
+                            $("<tr>")
+                            .append($("<td>").append(cla_pro))
+                            .append($("<td>").append(des_pro))
+                            .append($("<td>").append(lot_pro))
+                            .append($("<td>").append(cad_pro))
+                            .append($("<td>").append(can_sol))
+                            .append($("<td>").append(cant_sur))
+                            .append($("<td>").append(btn_modi).append(btn_eliminar))
+                            );
+                }
+            }
+            location.reload();
+            $("#cla_pro").focus();
+        } else {
+            alert('Debe ingresar la cédula primero');
+            $('#cedula').focus();
+        }
+    });
+
     $('#btn_capturar').click(function() {
         var cla_pro = $('#cla_pro').val();
         var des_pro = $('#des_pro').val();
@@ -273,12 +337,7 @@ $(document).ready(function() {
         var folio_sp = $('#fol_sp').val();
         if (folio_sp === "") {
             alert("Capture el paciente");
-        }
-        if ($('#des_pro').val() === "") {
-            alert("Capture un Medicamento");
-            $('#des_pro').focus();
-        }
-        else {
+        } else {
             $.ajax({
                 type: form.attr('method'),
                 url: dir,
@@ -305,7 +364,7 @@ $(document).ready(function() {
                     $("#existencias").attr("value", total);
                     $("#cla_pro").val(cla_pro);
                     $("#amp").attr("value", ampuleo);
-                    $("#unidades").focus();
+                    $("#indica").focus();
                     if (cla_pro === null) {
                         alert('Clave fuera de Catálogo');
                         $("#cla_pro").val("");
@@ -341,12 +400,7 @@ $(document).ready(function() {
         var folio_sp = $('#fol_sp').val();
         if (folio_sp === "") {
             alert("Capture el paciente");
-        }
-        if ($('#cla_pro').val() === "") {
-            alert("Capture una clave");
-            $('#cla_pro').focus();
-        }
-        else {
+        } else {
             $.ajax({
                 type: form.attr('method'),
                 url: dir,

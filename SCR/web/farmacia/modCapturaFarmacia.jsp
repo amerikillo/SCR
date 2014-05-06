@@ -11,18 +11,15 @@
     ConectionDB con = new ConectionDB();
     HttpSession sesion = request.getSession();
     String id_usu = "";
-    String uni_ate = "", cedula = "", medico = "";
+    String uni_ate = "";
     try {
         id_usu = (String) session.getAttribute("id_usu");
         uni_ate = (String) session.getAttribute("cla_uni");
-        cedula = (String) session.getAttribute("cedula");
-        medico = (String) session.getAttribute("id_usu");
-
         con.conectar();
         try {
             ResultSet rset = con.consulta("select us.nombre, un.des_uni from usuarios us, unidades un where us.cla_uni = un.cla_uni and us.id_usu = '" + id_usu + "' ");
             while (rset.next()) {
-                medico = rset.getString(1);
+                /*medico = rset.getString(1);*/
                 uni_ate = rset.getString(2);
             }
         } catch (Exception e) {
@@ -38,13 +35,16 @@
     } catch (Exception e) {
     }
 
-    String folio_rec = "", nom_com = "", sexo = "", fec_nac = "", num_afi = "", carnet = "", id_rec = "";
+    String folio_rec = "", nom_com = "", sexo = "", fec_nac = "", num_afi = "", carnet = "", id_rec = "", cedula = "", medico = "";
     try {
         folio_rec = (String) sesion.getAttribute("folio_rec");
         nom_com = (String) sesion.getAttribute("nom_com");
         sexo = (String) sesion.getAttribute("sexo");
         fec_nac = (String) sesion.getAttribute("fec_nac");
         num_afi = (String) sesion.getAttribute("num_afi");
+        cedula = (String) session.getAttribute("ced_rec");
+        medico = (String) session.getAttribute("med_rec");
+
         try {
             con.conectar();
             ResultSet rset = con.consulta("select carnet, id_rec from receta where fol_rec = '" + folio_rec + "'");
@@ -65,6 +65,8 @@
         sexo = "";
         fec_nac = "";
         num_afi = "";
+        cedula = "";
+        medico = "";
     }
 
     try {
@@ -74,12 +76,17 @@
             sexo = "";
             fec_nac = "";
             num_afi = "";
+            cedula = "";
+            medico = "";
 
-            sesion.setAttribute("folio_rec","");
-            sesion.setAttribute("nom_com","");
-            sesion.setAttribute("sexo","");
-            sesion.setAttribute("fec_nac","");
-            sesion.setAttribute("num_afi","");
+            sesion.setAttribute("folio_rec", "");
+            sesion.setAttribute("nom_com", "");
+            sesion.setAttribute("sexo", "");
+            sesion.setAttribute("fec_nac", "");
+            sesion.setAttribute("num_afi", "");
+            sesion.setAttribute("ced_rec", "");
+            sesion.setAttribute("med_rec", "");
+            
         }
     } catch (Exception e) {
 
@@ -160,17 +167,6 @@
                             </div>
                             <br />
                             <div class="row">
-                                <label for="fecha" class="col-sm-1 control-label"> Médico:</label>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" id="medico" readonly name="medico" placeholder="" value="<%=medico%>"/>
-                                </div>
-                                <label for="fecha" class="col-sm-1 control-label"> Cédula:</label>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" id="cedula" readonly name="cedula" placeholder="" value="<%=cedula%>"/>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row">
                                 <label for="fecha" class="col-sm-1 control-label">Fecha</label>
                                 <div class="col-sm-2">
                                     <input type="text" class="form-control" id="fecha1" readonly name="fecha" placeholder="" data-date-format="dd/mm/yyyy" value="<%=df3.format(new java.util.Date())%>"/>
@@ -182,11 +178,28 @@
                                 <div class="col-sm-2" id="respuesta">
                                 </div>
                             </div>
+                            <br />
+                            <div class="row">
+                                <label for="fecha" class="col-sm-1 control-label"> Cédula:</label>
+                                <div class="col-md-2">
+                                    <input type="text" class="form-control" id="cedula"  name="cedula" autofocus placeholder="" value="<%=cedula%>"/>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-block btn-primary" name="medico" id="btn_medico">Médico</button>
+                                </div>
+                                <label for="fecha" class="col-sm-1 control-label"> Médico:</label>
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="medico" readonly name="medico" placeholder="" value="<%=medico%>"/>
+                                </div>
+
+                            </div>
+                            <br />
+
                         </div>
                         <div class="panel-footer">
                             <div class="row">
                                 <label for="sp_pac" class="col-sm-2 control-label">
-                                    <button type="button" class="btn btn-default" data-placement="left" data-toggle="tooltip" data-placement="left" title="Buscar Paciente por folio de seguro popular" id="bus_pac"><span class="glyphicon glyphicon-search"></span></button>
+                                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Buscar Paciente por folio de seguro popular" id="bus_pac"><span class="glyphicon glyphicon-search"></span></button>
                                     No. SP
                                 </label>
                                 <div class="col-sm-2">
@@ -205,11 +218,11 @@
                             <br />
                             <div class="row">
                                 <label for="nombre_jq" class="col-sm-2 control-label">
-                                    <button type="button" class="btn btn-default" data-placement="left" data-toggle="tooltip" data-placement="left" title="Buscar Paciente por su nombre" id="bus_pacn"><span class="glyphicon glyphicon-search"></span></button>
+                                    <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Buscar Paciente por su nombre" id="bus_pacn"><span class="glyphicon glyphicon-search"></span></button>
                                     Nombre
                                 </label>
                                 <div class="col-sm-8">
-                                    <input type="text" class="form-control" id="nombre_jq" name="nombre_jq" placeholder="Nombre" onkeypress="return tabular(event, this);" autofocus value="<%=nom_com%>">
+                                    <input type="text" class="form-control" id="nombre_jq" name="nombre_jq" placeholder="Nombre" onkeypress="return tabular(event, this);"  value="<%=nom_com%>">
                                 </div>
                                 <div class="col-sm-2">
                                     <button class="btn btn-block btn-primary" name="mostrar2" id="mostrar2">Mostrar</button>
@@ -297,11 +310,11 @@
                                             <td><b>días</b></td>
                                             <td width="30px"> </td>
                                             <td><b>Causes</b></td>
-                                            <td><input type="text" class="form-control" id="causes" name="causes" placeholder="Causes" size="1"  onkeypress="return isNumberKey(event, this);" value=""></td>
+                                            <td><input type="text" class="form-control" id="causes" name="causes" placeholder="Causes" size="1"  onkeypress="return isNumberKey(event);" value=""></td>
                                             <td><b>Piezas Solicitadas</b></td>
-                                            <td><input type="text" class="form-control" id="piezas_sol" name="piezas_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="piezas_sol" name="piezas_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event);" value="" readonly></td>
                                             <td><b>Cajas Solicitadas</b></td>
-                                            <td><input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event);" value="" readonly></td>
                                         </tr>
                                     </table>
 
@@ -373,7 +386,7 @@
                 ResultSet rset = con.consulta("select dr.fol_det, dr.can_sol, dr.cant_sur, dp.cla_pro, p.des_pro from detreceta dr, detalle_productos dp, productos p where dr.det_pro = dp.det_pro and dp.cla_pro = p.cla_pro and id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-        %>
+%>
         <div class="modal fade" id="edita_clave_<%=rset.getString("fol_det")%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -440,7 +453,7 @@
     <script src="../js/bootstrap.js"></script>
     <script src="../js/jquery-ui.js"></script>
     <!--script src="../js/bootstrap-datepicker.js"></script-->
-    <script src="../js/js_farmacia.js"></script>
+    <script src="../js/js_caprecetafarm.js"></script>
     <script>
                                                 /*
                                                  * 
@@ -503,7 +516,7 @@
                 ResultSet rset = con.consulta("select fol_det from detreceta where id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-        %>
+%>
                                                     $('#btn_modificar_<%=rset.getString("fol_det")%>').click(function() {
                                                         var dir = '../EditaMedicamento';
                                                         var form = $('#form_editaInsumo_<%=rset.getString("fol_det")%>');
