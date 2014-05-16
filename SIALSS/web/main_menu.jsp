@@ -60,7 +60,7 @@
                         <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mod. Farmacias<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="farmacia/modFarmacia.jsp">Ver Recetas</a></li>
+                            <li><a href="farmacia/modSurteFarmacia.jsp">Ver Recetas</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
@@ -74,7 +74,7 @@
                     %>
 
 
-                    <li><a href="#ap">Alta de Pacientes</a></li>
+                    <li><a href="pacientes/alta_pacientes.jsp">Alta de Pacientes</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

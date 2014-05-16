@@ -33,13 +33,13 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Receta Electronica <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#rf">Captura de Receta</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#rf">Reimpresión de Comprobantes</a></li>
+                            <li><a href="../receta/receta_farmacia.jsp">Captura de Receta</a></li>
+                            <!--li class="divider"></li>
+                            <!--li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
-                    <li><a href="#rc">Receta Colectiva</a></li>
-                    <li><a href="#ap">Alta de Pacientes</a></li>
+                    <!--li><a href="#rc">Receta Colectiva</a></li-->
+                    <li><a href="alta_pacientes.jsp">Alta de Pacientes</a></li>
 
                 </ul>
             </div><!--/.nav-collapse -->

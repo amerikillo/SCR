@@ -38,6 +38,9 @@ public class Farmacias extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession sesion = request.getSession(true);
         try {
+            /*
+             * Para el Surtido de la Receta
+             */
             if (request.getParameter("accion").equals("surtir")) {
                 con.conectar();
                 try {
@@ -48,8 +51,12 @@ public class Farmacias extends HttpServlet {
                     out.println("<script>alert('Error al surtir la receta')</script>");
                 }
                 con.cierraConexion();
-                out.println("<script>window.location='reportes/TicketReceta.jsp?fol_rec="+request.getParameter("fol_rec")+"'</script>");
-            } else if (request.getParameter("accion").equals("cancelar")) {
+                out.println("<script>window.location='reportes/TicketReceta.jsp?fol_rec=" + request.getParameter("fol_rec") + "'</script>");
+            } 
+            /*
+             * 
+             * Para Cancelar una Receta
+             */ else if (request.getParameter("accion").equals("cancelar")) {
                 con.conectar();
                 try {
 
@@ -95,26 +102,26 @@ public class Farmacias extends HttpServlet {
                             if (Integer.parseInt(sur) > Integer.parseInt(sol)) {
                                 out.println("<script>alert('No se puede surtir una cantidad mayor que la solicitada.')</script>");
                             } else {
-                                String id_inv="", id_rec="", det_pro="";
-                                int sol1=Integer.parseInt(sol);
-                                int sur1=Integer.parseInt(sur);
-                                int dif = sol1-sur1;
-                                int cant_inv=0;
-                                int cant_nueva=0;
+                                String id_inv = "", id_rec = "", det_pro = "";
+                                int sol1 = Integer.parseInt(sol);
+                                int sur1 = Integer.parseInt(sur);
+                                int dif = sol1 - sur1;
+                                int cant_inv = 0;
+                                int cant_nueva = 0;
                                 try {
-                                    ResultSet rset = con.consulta("select * from salidas where fol_det = '"+folios[i]+"' ");
-                                    while(rset.next()){
-                                        cant_inv=rset.getInt("cant");
-                                        id_rec= rset.getString("id_rec");
-                                        id_inv= rset.getString("id_inv");
-                                        det_pro=rset.getString("det_pro");
+                                    ResultSet rset = con.consulta("select * from salidas where fol_det = '" + folios[i] + "' ");
+                                    while (rset.next()) {
+                                        cant_inv = rset.getInt("cant");
+                                        id_rec = rset.getString("id_rec");
+                                        id_inv = rset.getString("id_inv");
+                                        det_pro = rset.getString("det_pro");
                                     }
                                 } catch (Exception e) {
                                 }
-                                cant_nueva = cant_inv+dif;
+                                cant_nueva = cant_inv + dif;
                                 try {
-                                    con.insertar("insert into kardex values ('0', '"+id_rec+"', '"+det_pro+"', '"+dif+"', 'ENTRADA POR AJUSTE', '-', NOW(), 'SE EDITA RECETA AL ENTREGARSE', '"+ sesion.getAttribute("id_usu") +"', '0')  ");
-                                    con.insertar("update inventario set cant = '"+cant_nueva+"' where id_inv= '"+id_inv+"' ");
+                                    con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + det_pro + "', '" + dif + "', 'ENTRADA POR AJUSTE', '-', NOW(), 'SE EDITA RECETA AL ENTREGARSE', '" + sesion.getAttribute("id_usu") + "', '0')  ");
+                                    con.insertar("update inventario set cant = '" + cant_nueva + "' where id_inv= '" + id_inv + "' ");
                                     con.insertar("update detreceta set cant_sur = '" + sur + "', can_sol = '" + sol + "' where fol_det  = '" + folios[i] + "' ");
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());

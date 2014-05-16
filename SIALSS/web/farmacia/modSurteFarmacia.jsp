@@ -147,7 +147,7 @@
                                                     <input class="hidden" name="fol_det" value="<%=fol_det%>" />
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <button target="_blank" class="btn btn-block btn-primary" type="submit" name="accion" value="surtir" onclick="return confirm('Seguro que desea surtir esta receta?')">Surtir</button>
+                                                    <button class="btn btn-block btn-primary" type="submit" name="accion" value="surtir" onclick="return confirm('Seguro que desea surtir esta receta?')">Surtir</button>
                                                 </div>
                                                 <div class="col-sm-3">
                                                     <button class="btn btn-block btn-danger" type="submit" name="accion" value="cancelar" onclick="return confirm('Seguro que desea cancelar esta receta?')">Cancelar</button>

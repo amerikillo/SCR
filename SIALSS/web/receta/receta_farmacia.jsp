@@ -351,7 +351,7 @@
                                     if (ban_imp == 1) {
                                 %>
                                 <div class="col-lg-3">
-                                    <a class="btn btn-success btn-block" href="../reportes/TicketFolio.jsp?fol_rec=<%=folio_rec%>">Imprimir Comprobante</a>
+                                    <a class="btn btn-success btn-block" href="../reportes/TicketFolio.jsp?fol_rec=<%=folio_rec%>" target="_blank">Imprimir Comprobante</a>
                                 </div>
                                 <%
                                     }
