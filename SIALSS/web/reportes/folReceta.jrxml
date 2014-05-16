@@ -6,6 +6,7 @@
 	<parameter name="fol_rec" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="ruta" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select * from recetas where fol_rec = $P{fol_rec} group by id_rec;]]>
 	</queryString>
@@ -106,7 +107,7 @@
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["*"]]></textFieldExpression>
-				<hyperlinkReferenceExpression><![CDATA["http://localhost:8089/SCR/receta/receta_farmacia.jsp"]]></hyperlinkReferenceExpression>
+				<hyperlinkReferenceExpression><![CDATA[$P{ruta}]]></hyperlinkReferenceExpression>
 				<hyperlinkParameter name="report">
 					<hyperlinkParameterExpression><![CDATA["farmacia/modFarmacia.jsp"]]></hyperlinkParameterExpression>
 				</hyperlinkParameter>

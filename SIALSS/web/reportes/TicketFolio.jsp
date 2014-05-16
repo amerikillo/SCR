@@ -18,7 +18,13 @@
     } else {
         //response.sendRedirect("index.jsp");
     }
-    String folio_gnk = (String) session.getAttribute("folio");
+    String ruta = request.getRequestURL().toString();
+    String ruta2[] = ruta.split("/");
+    String rutaFinal = "";
+    for (int i = 0; i < 4; i++) {
+        out.println(ruta2[i] + i + "\n");
+        rutaFinal = rutaFinal + ruta2[i] + "/";
+    }
     Connection conexion;
     Class.forName("com.mysql.jdbc.Driver").newInstance();
     conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/scr", "root", "eve9397");
@@ -28,6 +34,7 @@
      cualquier cadena de texto ya que solo seguiremos el formato del método runReportToPdf*/
     Map parameters = new HashMap();
     parameters.put("fol_rec", request.getParameter("fol_rec"));
+    parameters.put("ruta", rutaFinal+"receta/receta_farmacia.jsp");
     /*Enviamos la ruta del reporte, los parámetros y la conexión(objeto Connection)*/
     byte[] bytes = JasperRunManager.runReportToPdf(reportFile.getPath(), parameters, conexion);
     /*Indicamos que la respuesta va a ser en formato PDF*/ response.setContentType("application/pdf");

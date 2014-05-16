@@ -7,7 +7,9 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="Clases.ConectionDB"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%
+    ServletContext context = session.getServletContext();
     ConectionDB con = new ConectionDB();
     HttpSession sesion = request.getSession();
     String id_usu = "";
@@ -148,7 +150,9 @@
 
         <div class="container-fluid">
             <div class="container">
-                <h3>Captura de Recetas</h3>
+                <h3>Captura de Recetas<%=context.getRealPath(request.getContextPath())%> </h3>
+                
+                
                 <div class="panel panel-default">
                     <form class="form-horizontal" role="form" name="formulario_receta" id="formulario_receta" method="get" action="../Receta">
                         <div class="panel-body">
@@ -351,7 +355,7 @@
                                     if (ban_imp == 1) {
                                 %>
                                 <div class="col-lg-3">
-                                    <a class="btn btn-success btn-block" href="../reportes/TicketFolio.jsp?fol_rec=<%=folio_rec%>" target="_blank">Imprimir Comprobante</a>
+                                    <a class="btn btn-success btn-block" href="../reportes/TicketFolio.jsp?fol_rec=<%=folio_rec%>" >Imprimir Comprobante</a>
                                 </div>
                                 <%
                                     }
