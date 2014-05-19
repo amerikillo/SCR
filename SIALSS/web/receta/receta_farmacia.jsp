@@ -141,16 +141,14 @@
 
                         }
                     %>
-
-
-                    <li><a href="../pacientes/alta_pacientes.jsp">Alta de Pacientes</a></li>
-                </ul>
+ 
+               </ul>
             </div><!--/.nav-collapse -->
         </div>
 
         <div class="container-fluid">
             <div class="container">
-                <h3>Captura de Recetas<%=context.getRealPath(request.getContextPath())%> </h3>
+                <h3>Captura de Recetas</h3>
                 
                 
                 <div class="panel panel-default">

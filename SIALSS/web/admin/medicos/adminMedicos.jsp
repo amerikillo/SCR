@@ -9,7 +9,7 @@
 <html>
     <head>
         <!---Bootstrap--->
-        <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
         <!---Bootstrap--->
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Administracion de Usuarios Médicos</title>
@@ -53,7 +53,7 @@
     ================================================== -->
     <!-- Se coloca al final del documento para que cargue mas rapido -->
     <!-- Se debe de seguir ese orden al momento de llamar los JS -->
-    <script src="../js/jquery-1.9.1.js"></script>
-    <script src="../js/bootstrap.js"></script>
-    <script src="../js/jquery-ui.js"></script>
+    <script src="../../js/jquery-1.9.1.js"></script>
+    <script src="../../js/bootstrap.js"></script>
+    <script src="../../js/jquery-ui.js"></script>
 </html>

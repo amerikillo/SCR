@@ -25,16 +25,12 @@
     </head>
     <body>
         <div class="container">
-            <div class="text-right">
-                <a class="btn btn-primary" href="index_admin.jsp">Si eres Administrador da Click Aquí</a>
-            </div>
-            
-            <form class="form-signin" action="Login" method="GET">
+            <form class="form-signin" action="LoginAdmin" method="GET">
                 <div class="text-center">
                     <h2 style="color: #ffffff; font-style: oblique">GNK Logística</h2>
                 </div>
                 <div class="panel panel-body">
-                    <h3>SIALSS</h3>
+                    <h3>SIALSS - Administrador</h3>
                     <h4 class="form-signin-heading">Ingrese sus Credenciales</h4>
                     <div class="input-group">
                         <span class="input-group-addon">

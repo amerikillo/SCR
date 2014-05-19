@@ -87,6 +87,9 @@
 
                     <li><a href="#ap">Alta de Pacientes</a></li>
                 </ul>
+                <div class="navbar-form navbar-right">
+                    <a class="btn btn-default" href="../index.jsp">Salir</a>
+                </div>
             </div><!--/.nav-collapse -->
         </div>
 

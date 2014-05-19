@@ -10,10 +10,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Bootstrap -->
-        <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="../css/pie-pagina.css" rel="stylesheet" media="screen">
-        <link href="../css/topPadding.css" rel="stylesheet">
-        <link href="../css/datepicker3.css" rel="stylesheet">
+        <link href="../../css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="../../css/pie-pagina.css" rel="stylesheet" media="screen">
+        <link href="../../css/topPadding.css" rel="stylesheet">
+        <link href="../../css/datepicker3.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <title>JSP Page</title>
     </head>
@@ -31,17 +31,27 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Receta Electronica <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de Médicos<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="../receta/receta_farmacia.jsp">Captura de Receta</a></li>
+                            <li><a href="../medicos/adminMedicos.jsp">Alta de Médicos</a></li>
                             <!--li class="divider"></li>
-                            <!--li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
-                    <!--li><a href="#rc">Receta Colectiva</a></li-->
-                    <li><a href="alta_pacientes.jsp">Alta de Pacientes</a></li>
-
+                    <!--a href="#rc">Receta Colectiva</a-->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de Pacientes<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="alta_pacientes.jsp">Alta de Pacientes</a></li>
+                            <li><a href="editar_paciente.jsp">Edición de Pacientes</a></li>
+                            <!--li class="divider"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
+                    </li>
                 </ul>
+                <div class="navbar-form navbar-right">
+                    <a class="btn btn-default" href="../../index_admin.jsp">Salir</a>
+                </div>
             </div><!--/.nav-collapse -->
         </div>
         <div class="container-fluid">
@@ -141,11 +151,11 @@
 ================================================== -->
 <!-- Se coloca al final del documento para que cargue mas rapido -->
 <!-- Se debe de seguir ese orden al momento de llamar los JS -->
-<script src="../js/jquery-1.9.1.js"></script>
-<script src="../js/bootstrap.js"></script>
-<script src="../js/jquery-ui-1.10.3.custom.js"></script>
-<script src="../js/bootstrap-datepicker.js"></script>
-<script src="../js/moment.js"></script>
+<script src="../../js/jquery-1.9.1.js"></script>
+<script src="../../js/bootstrap.js"></script>
+<script src="../../js/jquery-ui-1.10.3.custom.js"></script>
+<script src="../../js/bootstrap-datepicker.js"></script>
+<script src="../../js/moment.js"></script>
 <script>
                                     function numAfiPA() {
                                         var d = new Date();

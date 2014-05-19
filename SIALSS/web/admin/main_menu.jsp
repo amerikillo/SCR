@@ -22,8 +22,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Bootstrap -->
-        <link href="css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="css/topPadding.css" rel="stylesheet">
+        <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="../css/topPadding.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <title>Sistema de Captura de Receta</title>
     </head>
@@ -40,54 +40,35 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <%
-                        try {
-                            if (((String) sesion.getAttribute("tipo")).equals("FARMACIA")) {
-                    %>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Receta Electronica <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de Médicos<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="receta/receta_farmacia.jsp">Captura de Receta</a></li>
+                            <li><a href="medicos/adminMedicos.jsp">Alta de Médicos</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
-                    <%
-                    } else {
-                    %>
-                    
-                        <!--a href="#rc">Receta Colectiva</a-->
+                    <!--a href="#rc">Receta Colectiva</a-->
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mod. Farmacias<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de Pacientes<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="farmacia/modSurteFarmacia.jsp">Ver Recetas</a></li>
+                            <li><a href="pacientes/alta_pacientes.jsp">Alta de Pacientes</a></li>
+                            <li><a href="pacientes/editar_paciente.jsp">Edición de Pacientes</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Existencia<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="farmacia/modSurteFarmacia.jsp">Cargar Abasto</a></li>
-                            <!--li class="divider"></li>
-                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
-                        </ul>
-                    </li>
-                    <%
-                            }
-                        } catch (Exception e) {
-
-                        }
-                    %>
-
                 </ul>
+                <div class="navbar-form navbar-right">
+                    <a class="btn btn-default" href="../index_admin.jsp">Salir</a>
+                </div>
             </div><!--/.nav-collapse -->
         </div>
 
         <div class="container-fluid">
             <div class="starter-template">
-                <h1>SCR</h1>
-                <p class="lead">Sistema de Captura de Receta</p>
+                <h1>SIALSS - Administrador</h1>
+                <p class="lead"></p>
             </div>
         </div>
 
@@ -99,6 +80,6 @@
 ================================================== -->
 <!-- Se coloca al final del documento para que cargue mas rapido -->
 <!-- Se debe de seguir ese orden al momento de llamar los JS -->
-<script src="js/jquery-1.9.1.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/jquery-ui-1.10.3.custom.js"></script>
+<script src="../js/jquery-1.9.1.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/jquery-ui-1.10.3.custom.js"></script>

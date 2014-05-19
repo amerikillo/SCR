@@ -60,6 +60,22 @@
         <servlet-name>Medicos</servlet-name>
         <servlet-class>Servlets.Medicos</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginAdmin</servlet-name>
+        <servlet-class>Admin.LoginAdmin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CargarAbasto</servlet-name>
+        <servlet-class>Abastos.CargarAbasto</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <servlet-class>in.co.sneh.controller.FileUploadServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FileUplaod</servlet-name>
+        <servlet-class>in.co.sneh.model.FileUplaod</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -119,6 +135,22 @@
     <servlet-mapping>
         <servlet-name>Medicos</servlet-name>
         <url-pattern>/Medicos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginAdmin</servlet-name>
+        <url-pattern>/LoginAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CargarAbasto</servlet-name>
+        <url-pattern>/CargarAbasto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileUploadServlet</servlet-name>
+        <url-pattern>/FileUploadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileUplaod</servlet-name>
+        <url-pattern>/FileUplaod</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
