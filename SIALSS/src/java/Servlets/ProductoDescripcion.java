@@ -85,7 +85,7 @@ public class ProductoDescripcion extends HttpServlet {
                         if (ban == 1) {
                             con.insertar("update receta set id_pac = '" + id_pac + "', cedula='" + request.getParameter("cedula") + "', carnet= '" + carnet + "' where id_rec= '" + id_rec + "'");
                         } else {//Si no inserta la receta
-                            con.insertar("insert into receta values ('0', '" + request.getParameter("folio") + "', '" + id_pac + "', '" + request.getParameter("cedula") + "', '1', '" + sesion.getAttribute("id_usu") + "', '-', '" + carnet + "', '1', NOW(),1'1, '0', '0')");
+                            con.insertar("insert into receta values ('0', '" + request.getParameter("folio") + "', '" + id_pac + "', '" + request.getParameter("cedula") + "', '1', '" + sesion.getAttribute("id_usu") + "', '-', '" + carnet + "', '1', NOW(),'1', '0', '0')");
                         }
 
                     } catch (Exception e) {

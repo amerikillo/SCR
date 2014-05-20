@@ -9,7 +9,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    ServletContext context = session.getServletContext();
     ConectionDB con = new ConectionDB();
     HttpSession sesion = request.getSession();
     String id_usu = "";
@@ -77,11 +76,11 @@
             fec_nac = "";
             num_afi = "";
 
-            sesion.setAttribute("folio_rec","");
-            sesion.setAttribute("nom_com","");
-            sesion.setAttribute("sexo","");
-            sesion.setAttribute("fec_nac","");
-            sesion.setAttribute("num_afi","");
+            sesion.setAttribute("folio_rec", "");
+            sesion.setAttribute("nom_com", "");
+            sesion.setAttribute("sexo", "");
+            sesion.setAttribute("fec_nac", "");
+            sesion.setAttribute("num_afi", "");
         }
     } catch (Exception e) {
 
@@ -102,7 +101,7 @@
         <!--link href="../css/datepicker3.css" rel="stylesheet"-->
         <link href="../css/cupertino/jquery-ui-1.10.3.custom.css" rel="stylesheet">
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <title>Sistema de Captura de Receta</title>
+        <title>SIALSS</title>
     </head>
     <body onload="focoInicial();">
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -113,7 +112,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="../main_menu.jsp">SCR</a>
+                <a class="navbar-brand" href="../main_menu.jsp">SIALSS</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -141,16 +140,16 @@
 
                         }
                     %>
- 
-               </ul>
+
+                </ul>
             </div><!--/.nav-collapse -->
         </div>
 
         <div class="container-fluid">
             <div class="container">
                 <h3>Captura de Recetas</h3>
-                
-                
+
+
                 <div class="panel panel-default">
                     <form class="form-horizontal" role="form" name="formulario_receta" id="formulario_receta" method="get" action="../Receta">
                         <div class="panel-body">
@@ -263,6 +262,8 @@
                                     <button class="btn btn-block btn-primary"name="btn_descripcion" id="btn_descripcion">Descripción</button>
                                 </div>
                             </div>
+                            <div class="text-right">
+                                <a href="../farmacia/existencias.jsp" class="btn btn-success" target="_blank">Ver inventario</a></div>
                             <br>
                             <div class="row">
                                 <label for="existencias" class="col-sm-2 control-label">Existencias:</label>
@@ -288,20 +289,26 @@
                                 <div for="fol_sp" class="col-sm-2"><h4>Indicaciones:</h4></div>
                             </div>
                             <div class="row">
+                                <label class="col-lg-1  control-label">CIE-10</label>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control" id="causes" name="causes" placeholder="Causes" size="1"  onkeypress="return tabular(event, this);" value="">
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-12">
                                     <table align="center">
                                         <tr>
-                                            <td><input type="text" class="form-control" name="unidades" id="unidades" placeholder="" size="1" onkeyup="sumar();" onkeypress="return tabular(event, this);"  value=""/></td>
-                                            <td><b>unidades, cada</b></td>
-                                            <td><input type="text" class="form-control" name="horas" id="horas" placeholder=""  size="1" onkeyup="sumar();"  onkeypress="return tabular(event, this);"  value=""/></td>
-                                            <td><b>horas, por</b></td>
-                                            <td><input type="text" class="form-control" name="dias" id="dias" placeholder=""  size="1" onkeyup="sumar();"  onkeypress="return tabular(event, this);"  value=""/></td> 
-                                            <td><b>días</b></td>
+                                            <td><input type="text" class="form-control" name="unidades" id="unidades" placeholder="" size="1" onkeyup="sumar();" onkeypress="return isNumberKey(event, this);"  value=""/></td>
+                                            <td><b>Tab/Amp, Cada</b></td>
+                                            <td><input type="text" class="form-control" name="horas" id="horas" placeholder=""  size="1" onkeyup="sumar();"  onkeypress="return isNumberKey(event, this);"  value=""/></td>
+                                            <td><b>Horas, por</b></td>
+                                            <td><input type="text" class="form-control" name="dias" id="dias" placeholder=""  size="1" onkeyup="sumar();"  onkeypress="return isNumberKey(event, this);"  value=""/></td> 
+                                            <td><b>Días</b></td>
                                             <td width="30px"> </td>
-                                            <td><b>Causes</b></td>
-                                            <td><input type="text" class="form-control" id="causes" name="causes" placeholder="Causes" size="1"  onkeypress="return isNumberKey(event, this);" value=""></td>
-                                            <td><b>Piezas Solicitadas</b></td>
-                                            <td><input type="text" class="form-control" id="piezas_sol" name="piezas_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><!--b>Piezas Solicitadas</b--></td>
+                                            <td><input type="text" class="hidden" id="piezas_sol" name="piezas_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
                                             <td><b>Cajas Solicitadas</b></td>
                                             <td><input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
                                         </tr>
@@ -375,7 +382,7 @@
                 ResultSet rset = con.consulta("select dr.fol_det, dr.can_sol, dr.cant_sur, dp.cla_pro, p.des_pro from detreceta dr, detalle_productos dp, productos p where dr.det_pro = dp.det_pro and dp.cla_pro = p.cla_pro and id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-        %>
+%>
         <div class="modal fade" id="edita_clave_<%=rset.getString("fol_det")%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -448,6 +455,29 @@
                                                  * 
                                                  * @returns {undefined}
                                                  */
+                                                $(function() {
+                                                    var availableTags = [
+        <%
+            try {
+                con.conectar();
+                try {
+                    ResultSet rset = con.consulta("select des_cau from causes");
+                    while (rset.next()) {
+                        out.println("'" + rset.getString(1) + "',");
+                    }
+                } catch (Exception e) {
+
+                }
+                con.cierraConexion();
+            } catch (Exception e) {
+
+            }
+        %>
+                                                    ];
+                                                    $("#causes").autocomplete({
+                                                        source: availableTags
+                                                    });
+                                                });
 
                                                 $(function() {
                                                     var availableTags = [
@@ -504,8 +534,8 @@
                 con.conectar();
                 ResultSet rset = con.consulta("select fol_det from detreceta where id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
-                    //System.out.println(rset.getString("fol_det"));
-        %>
+                        //System.out.println(rset.getString("fol_det"));
+%>
                                                     $('#btn_modificar_<%=rset.getString("fol_det")%>').click(function() {
                                                         var dir = '../EditaMedicamento';
                                                         var form = $('#form_editaInsumo_<%=rset.getString("fol_det")%>');

@@ -33,6 +33,12 @@ function sumar() {
     var total = parseInt(unidades) * hrs * parseInt(dias);
     var amp = document.formulario_receta.amp.value;
     var cajas = total / amp;
+    if (isNaN(amp))
+        amp = 0;
+    if (isNaN(cajas))
+        cajas = 0;
+    if (isNaN(total))
+        total = 0;
     document.formulario_receta.piezas_sol.value = Math.ceil(total);
     document.formulario_receta.can_sol.value = Math.ceil(cajas);
 }
@@ -305,7 +311,7 @@ $(document).ready(function() {
                     $("#existencias").attr("value", total);
                     $("#cla_pro").val(cla_pro);
                     $("#amp").attr("value", ampuleo);
-                    $("#unidades").focus();
+                    $("#causes").focus();
                     if (cla_pro === null) {
                         alert('Clave fuera de Catálogo');
                         $("#cla_pro").val("");
@@ -366,14 +372,13 @@ $(document).ready(function() {
                     var total = json[i].total;
                     var descripcion = json[i].des_pro;
                     var ampuleo = json[i].amp_pro;
-
                     $("#carnet").val(json[i].carnet);
                     $("#ori1").attr("value", ori1);
                     $("#ori2").attr("value", ori2);
                     $("#existencias").attr("value", total);
                     $("#des_pro").val(descripcion);
                     $("#amp").attr("value", ampuleo);
-                    $("#unidades").focus();
+                    $("#causes").focus();
                     if (descripcion === null) {
                         alert('Clave fuera de Catálogo');
                         $("#cla_pro").val("");
