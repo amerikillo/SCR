@@ -134,6 +134,7 @@
                     var title = prompt('Agendar Cita:');
                     var url = "";// prompt('Type Event url, if exits:');
                     var id = null;
+                    
                     if (title) {
                         var start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss");
                         var end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
@@ -141,9 +142,10 @@
                             url: '../Events?ban=3',
                             data: 'title=' + title + '&start=' + start + '&end=' + end + '&url=' + url,
                             type: "POST",
-                            async: true,
+                            async: false,
                             success: function(json) {
                                 id = dameID(json);
+                                set_id(id);
                                 alert('Evento agregado correctamente');
                             }
                         });
@@ -153,6 +155,9 @@
                                 id = json[i].id;
                             }
                             return id;
+                        }
+                        function set_id(id_aj){
+                            id = id_aj;
                         }
                         calendar.fullCalendar('renderEvent',
                                 {
