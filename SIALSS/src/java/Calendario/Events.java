@@ -45,10 +45,17 @@ public class Events extends HttpServlet {
                     try {
                         ResultSet rset = con.consulta("SELECT * FROM eventos ORDER BY id;");
                         while (rset.next()) {
+                            String start="", end="";
+                            start = rset.getString("start");
+                            end = rset.getString("end");
+                            if (start==null)
+                                start="0000-00-00 00:00:00.0";
+                            if (end==null)
+                                end="0000-00-00 00:00:00.0";
                             json.put("id", rset.getString("id"));
                             json.put("title", rset.getString("title"));
-                            json.put("start", rset.getString("start"));
-                            json.put("end", rset.getString("end"));
+                            json.put("start", start);
+                            json.put("end", end);
                             json.put("url", rset.getString("url"));
                             json.put("allDay", rset.getString("allDay"));
                             jsona.add(json);
@@ -103,8 +110,7 @@ public class Events extends HttpServlet {
                             end = "0000-00-00 00:00:00";
                         }
 
-
-                        con.actualizar("INSERT INTO eventos (title, start, end, url) values ('" + request.getParameter("title") + "', '" + start + "', '" + end + "', '" + request.getParameter("url") + "' )");
+                        con.actualizar("INSERT INTO eventos (title, start, end, url) values ('" + request.getParameter("url") + " - " + request.getParameter("title") + "', '" + start + "', '" + end + "', '" + request.getParameter("url") + "' )");
                         ResultSet rset = con.consulta("select id from eventos where title = '" + request.getParameter("title") + "' and start = '" + request.getParameter("start") + "' and end = '" + request.getParameter("end") + "' and url = '" + request.getParameter("url") + "' ");
                         while (rset.next()) {
                             json.put("id", rset.getString(1));
@@ -133,6 +139,33 @@ public class Events extends HttpServlet {
                         System.out.println(e.getMessage());
                     }
 
+                    con.cierraConexion();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            if (ban.equals("5")) {
+                try {
+                    con.conectar();
+                    try {
+                        ResultSet rset = con.consulta("SELECT * FROM eventos where url like '%"+request.getParameter("medico")+"%' ORDER BY id;");
+                        while (rset.next()) {
+                            json.put("id", rset.getString("id"));
+                            json.put("title", rset.getString("title"));
+                            json.put("start", rset.getString("start"));
+                            json.put("end", rset.getString("end"));
+                            json.put("url", rset.getString("url"));
+                            json.put("allDay", rset.getString("allDay"));
+                            jsona.add(json);
+                            json = new JSONObject();
+                        }
+                        response.setContentType("text/html;charset=UTF-8");
+                        out.println(jsona);
+                        System.out.println(jsona);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                     con.cierraConexion();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());

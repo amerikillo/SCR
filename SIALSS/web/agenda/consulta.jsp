@@ -97,7 +97,7 @@
             var y = date.getFullYear();
 
             var calendar = $('#calendar').fullCalendar({
-                editable: true,
+                editable: false,
                 header: {
                     left: 'prev,next today',
                     center: 'title',
@@ -111,97 +111,7 @@
                     } else {
                         event.allDay = false;
                     }
-                },
-                eventClick: function(event) {
-                    var decision = confirm("¿Seguro que desea eliminarlo?");
-                    if (decision) {
-                        $.ajax({
-                            type: "POST",
-                            url: "../Events?ban=4",
-                            data: "&id=" + event.id,
-                            success: function(json) {
-                                alert('Evento eliminado correctamente');
-                            }
-                        });
-                        $('#calendar').fullCalendar('removeEvents', event.id);
-
-                    } else {
-                    }
-                },
-                selectable: true,
-                selectHelper: true,
-                select: function(start, end, allDay) {
-                    var title = prompt('Agendar Cita:');
-                    var url = "";// prompt('Type Event url, if exits:');
-                    var id = null;
-                    
-                    if (title) {
-                        var start = $.fullCalendar.formatDate(start, "yyyy-MM-dd HH:mm:ss");
-                        var end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
-                        $.ajax({
-                            url: '../Events?ban=3',
-                            data: 'title=' + title + '&start=' + start + '&end=' + end + '&url=' + url,
-                            type: "POST",
-                            async: false,
-                            success: function(json) {
-                                id = dameID(json);
-                                set_id(id);
-                                alert('Evento agregado correctamente');
-                            }
-                        });
-                        function dameID(json) {
-                            var json = JSON.parse(json);
-                            for (var i = 0; i < json.length; i++) {
-                                id = json[i].id;
-                            }
-                            return id;
-                        }
-                        function set_id(id_aj){
-                            id = id_aj;
-                        }
-                        calendar.fullCalendar('renderEvent',
-                                {
-                                    id: id,
-                                    title: title,
-                                    start: start,
-                                    end: end,
-                                    allDay: allDay
-                                },
-                        true // make the event "stick"
-                                );
-                    }
-                    calendar.fullCalendar('unselect');
                 }
-                ,
-                editable: true,
-                        eventDrop: function(event, delta) {
-                            var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
-                            var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
-                            $.ajax({
-                                url: '../Events?ban=2',
-                                data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
-                                type: "POST",
-                                success: function(json) {
-                                    alert("Evento actualizado correctamente");
-                                }
-                            });
-                        },
-                eventResize: function(event) {
-                    var start = $.fullCalendar.formatDate(event.start, "yyyy-MM-dd HH:mm:ss");
-                    var end = $.fullCalendar.formatDate(event.end, "yyyy-MM-dd HH:mm:ss");
-                    $.ajax({
-                        url: '../Events?ban=2',
-                        data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,
-                        type: "POST",
-                        success: function(json) {
-                            alert("Evento actualizado correctamente");
-                        }
-                    });
-
-                }
-
-
-
             });
 
 
