@@ -113,7 +113,7 @@ public class ConectionDB {
  
     public ResultSet consulta(String consulta) throws SQLException {
         this.estancia = (Statement) conn.createStatement();
-        System.out.println(consulta);
+        
         return this.estancia.executeQuery(consulta);
     }
     
@@ -121,7 +121,7 @@ public class ConectionDB {
    
     
     public void actualizar(String actualiza) throws SQLException {
-        System.out.println(actualiza);
+        
         this.estancia = (Statement) conn.createStatement();
         estancia.executeUpdate(actualiza);
         //this.conn.commit();
@@ -137,7 +137,7 @@ public class ConectionDB {
     }
  
     public int insertar(String inserta) throws SQLException {
-        System.out.println(inserta);
+        
         Statement st = (Statement) this.conn.createStatement();
         return st.executeUpdate(inserta);
     }   

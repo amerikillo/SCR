@@ -1,9 +1,11 @@
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="Clases.ConectionDB"%>
+<%@page import="Calendario.LugaresDisp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-
+    LugaresDisp lugar = new LugaresDisp();
     ConectionDB con = new ConectionDB();
     HttpSession sesion = request.getSession();
     String id_usu = "";
@@ -109,7 +111,33 @@
                 </form>
 
                 <br/>
-                <div id='calendar'></div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div id='calendar'></div>
+                    </div>
+                    <div class="col-lg-4">
+                        <h4>Posibles nuevos horarios</h4>
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>Consultorio</td>
+                                <td>Hora</td>
+                            </tr>
+                            <%
+                                ArrayList citas = lugar.devuelveLugares();
+                                for (int i = 0; i < citas.size(); i++) {
+                                    String datosCita[] = ((String) citas.get(i)).split(",");
+                            %>
+                            <tr>
+                                <td><%=datosCita[1]%></td>
+                                <td><%=datosCita[2]%></td>
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </table>
+
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -133,7 +161,7 @@
                                 <%
                                     try {
                                         con.conectar();
-                                        ResultSet rset = con.consulta("select nom_com from medicos order by nom_com");
+                                        ResultSet rset = con.consulta("select consultorio from consultorios group by consultorio order by id");
                                         while (rset.next()) {
                                             out.println("<option value='" + rset.getString(1) + "'>" + rset.getString(1) + "</option>");
                                         }
@@ -150,7 +178,7 @@
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Guardar" id="btn_guardar" />
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_cancelar">Cerrar</button>
                             <!--button type="button" class="btn btn-primary">Guardar Info</button-->
                         </div>
                     </form>
@@ -168,16 +196,14 @@
     <script src='js/jquery-ui.custom.min.js'></script>
     <script src='../js/fullcalendar.js'></script>
     <script src='../js/bootstrap.js'></script>
-
-    <script>
-
+    <script >
         $(document).ready(function() {
 
 
             var date = new Date();
 
             var calendar = $('#calendar').fullCalendar({
-                editable: false,
+                editable: true,
                 header: {
                     left: 'prev,next today',
                     center: 'title',
@@ -211,25 +237,25 @@
                 selectable: true,
                 selectHelper: true,
                 select: function(start, end, allDay) {
+                    $('#boton').click();
+                    var title;
                     function getStart() {
                         return start;
                     }
                     function getEnd() {
                         return end;
                     }
-                    $('#boton').click();
-
-                    $("#btn_guardar").click(function(start, end, allDay) {
+                    $("#btn_guardar").click(function() {
                         if ($("#medico").val() === "" || $("#nom_evento").val() === "") {
                             alert("Complete los datos");
                             return false;
                         } else {
-                            var title = $("#nom_evento").val();// prompt('Agendar Cita:');
+                            title = $("#nom_evento").val();// prompt('Agendar Cita:');
                             var url = $("#medico").val();// prompt('Type Event url, if exits:');
                             var id = null;
-                            if (title) {
-                                var start = $.fullCalendar.formatDate(getStart(), "yyyy-MM-dd HH:mm:ss");
-                                var end = $.fullCalendar.formatDate(getEnd(), "yyyy-MM-dd HH:mm:ss");
+                            var start = $.fullCalendar.formatDate(getStart(), "yyyy-MM-dd HH:mm:ss");
+                            var end = $.fullCalendar.formatDate(getEnd(), "yyyy-MM-dd HH:mm:ss");
+                            if (title && start!=="") {
                                 $.ajax({
                                     url: '../Events?ban=3',
                                     data: 'title=' + title + '&start=' + start + '&end=' + end + '&url=' + url,
@@ -266,7 +292,12 @@
                         }
                     });
 
-                    return false;
+                    $("#btn_cancelar").click(function() {
+                        start = "";
+                        end = "";
+                        allDay = "";
+                        title = null;
+                    });
                 }
                 ,
                 editable: true,
