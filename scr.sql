@@ -11,7 +11,7 @@
  Target Server Version : 50615
  File Encoding         : utf-8
 
- Date: 05/22/2014 12:30:45 PM
+ Date: 05/23/2014 10:47:31 AM
 */
 
 SET NAMES utf8;
@@ -142,6 +142,24 @@ INSERT INTO `clave_med` VALUES ('251', '2194', '2194', 'METOTREXATO sol iny 1g f
 COMMIT;
 
 -- ----------------------------
+--  Table structure for `consultorios`
+-- ----------------------------
+DROP TABLE IF EXISTS `consultorios`;
+CREATE TABLE `consultorios` (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+	`consultorio` varchar(50) DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `consultorio` (`consultorio`) comment ''
+) ENGINE=`InnoDB` AUTO_INCREMENT=11 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ROW_FORMAT=COMPACT COMMENT='' CHECKSUM=0 DELAY_KEY_WRITE=0;
+
+-- ----------------------------
+--  Records of `consultorios`
+-- ----------------------------
+BEGIN;
+INSERT INTO `consultorios` VALUES ('1', 'Consultorio 1'), ('10', 'Consultorio 10'), ('3', 'Consultorio 3'), ('4', 'Consultorio 4'), ('5', 'Consultorio 5'), ('6', 'Consultorio 6'), ('7', 'Consultorio 7'), ('8', 'Consultorio 8'), ('9', 'Consultorio 9'), ('2', 'Consutlorio 2');
+COMMIT;
+
+-- ----------------------------
 --  Table structure for `detalle_productos`
 -- ----------------------------
 DROP TABLE IF EXISTS `detalle_productos`;
@@ -211,10 +229,18 @@ CREATE TABLE `eventos` (
 	`title` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
 	`start` datetime NOT NULL,
 	`end` datetime DEFAULT NULL,
-	`url` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-	`allDay` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'false',
-	PRIMARY KEY (`id`)
-) ENGINE=`InnoDB` AUTO_INCREMENT=151 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ROW_FORMAT=COMPACT COMMENT='' CHECKSUM=0 DELAY_KEY_WRITE=0;
+	`url` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+	`allDay` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT 'false',
+	PRIMARY KEY (`id`),
+	INDEX `url` (`url`) comment ''
+) ENGINE=`InnoDB` AUTO_INCREMENT=245 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ROW_FORMAT=COMPACT COMMENT='' CHECKSUM=0 DELAY_KEY_WRITE=0;
+
+-- ----------------------------
+--  Records of `eventos`
+-- ----------------------------
+BEGIN;
+INSERT INTO `eventos` VALUES ('169', 'Consultorio 1 - 1', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 1', 'false'), ('170', 'Consutlorio 2 - 2', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consutlorio 2', 'false'), ('171', 'Consultorio 3 - 3', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 3', 'false'), ('172', 'Consultorio 4 - 4', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 4', 'false'), ('173', 'Consultorio 5 - 5', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 5', 'false'), ('174', 'Consultorio 6 - 6', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 6', 'false'), ('175', 'Consultorio 7 - 7', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 7', 'false'), ('176', 'Consultorio 8 - 8', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 8', 'false'), ('177', 'Consultorio 9 - 9', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 9', 'false'), ('178', 'Consultorio 10 - 10', '2014-01-01 00:00:00', '2014-01-01 00:00:00', 'Consultorio 10', 'false'), ('242', 'Consultorio 1 - Juanito', '2014-05-23 10:30:00', '2014-05-23 11:00:00', 'Consultorio 1', 'false'), ('243', 'Consultorio 10 - Consultorio', '2014-05-23 10:30:00', '2014-05-23 11:00:00', 'Consultorio 10', 'false'), ('244', 'Consultorio 3 - americo', '2014-05-24 00:00:00', '2014-05-24 00:00:00', 'Consultorio 3', 'false');
+COMMIT;
 
 -- ----------------------------
 --  Table structure for `financiamientos`
