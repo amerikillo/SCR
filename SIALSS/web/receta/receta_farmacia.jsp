@@ -310,7 +310,7 @@
                                             <td><!--b>Piezas Solicitadas</b--></td>
                                             <td><input type="text" class="hidden" id="piezas_sol" name="piezas_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
                                             <td><b>Cajas Solicitadas</b></td>
-                                            <td><input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0" size="1"  onkeypress="return isNumberKey(event, this);" value="" readonly="true"></td>
+                                            <td><input type="text" class="form-control" id="can_sol" name="can_sol" placeholder="0" size="1"  onkeypress="return tabular(event, this);" value="" readonly="" ></td>
                                         </tr>
                                     </table>
 
@@ -320,7 +320,8 @@
                             <br>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button class="btn btn-block btn-primary" id="btn_capturar">Capturar</button>
+
+                                    <button class="btn btn-block btn-primary" id="btn_capturar" name="btn_capturar" type="button">Capturar</button>
                                 </div>
                             </div>
                         </div>
@@ -382,7 +383,7 @@
                 ResultSet rset = con.consulta("select dr.fol_det, dr.can_sol, dr.cant_sur, dp.cla_pro, p.des_pro from detreceta dr, detalle_productos dp, productos p where dr.det_pro = dp.det_pro and dp.cla_pro = p.cla_pro and id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-%>
+        %>
         <div class="modal fade" id="edita_clave_<%=rset.getString("fol_det")%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -478,30 +479,6 @@
                                                         source: availableTags
                                                     });
                                                 });
-
-                                                $(function() {
-                                                    var availableTags = [
-        <%
-            try {
-                con.conectar();
-                try {
-                    ResultSet rset = con.consulta("select id_pac, nom_com from pacientes");
-                    while (rset.next()) {
-                        out.println("'" + rset.getString(2) + "',");
-                    }
-                } catch (Exception e) {
-
-                }
-                con.cierraConexion();
-            } catch (Exception e) {
-
-            }
-        %>
-                                                    ];
-                                                    $("#nombre_jq").autocomplete({
-                                                        source: availableTags
-                                                    });
-                                                });
                                                 $(function() {
                                                     var availableTags = [
         <%
@@ -534,8 +511,8 @@
                 con.conectar();
                 ResultSet rset = con.consulta("select fol_det from detreceta where id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
-                        //System.out.println(rset.getString("fol_det"));
-%>
+                    //System.out.println(rset.getString("fol_det"));
+        %>
                                                     $('#btn_modificar_<%=rset.getString("fol_det")%>').click(function() {
                                                         var dir = '../EditaMedicamento';
                                                         var form = $('#form_editaInsumo_<%=rset.getString("fol_det")%>');

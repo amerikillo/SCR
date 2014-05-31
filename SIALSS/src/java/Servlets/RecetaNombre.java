@@ -92,6 +92,7 @@ public class RecetaNombre extends HttpServlet {
                     Date fin_v = df.parse(rset.getString("fin_vig"));
                     Date f_actual = new Date();
                     if (f_actual.before(fin_v) && f_actual.after(ini_v)) {
+                        json.put("mensaje", "ok");
                     } else {
                         json.put("mensaje", "vig_no_val");
                         System.out.println("mal");

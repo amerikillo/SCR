@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <servlet>
-        <servlet-name>Login</servlet-name>
-        <servlet-class>Servlets.Login</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Receta</servlet-name>
         <servlet-class>Servlets.Receta</servlet-class>
     </servlet>
@@ -80,10 +76,22 @@
         <servlet-name>Events</servlet-name>
         <servlet-class>Calendario.Events</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet>
+        <servlet-name>LoginCalendario</servlet-name>
+        <servlet-class>Calendario.LoginCalendario</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Login</servlet-name>
-        <url-pattern>/Login</url-pattern>
-    </servlet-mapping>
+        <servlet-class>Servlets.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LugaresDisponibles</servlet-name>
+        <servlet-class>Calendario.LugaresDisponibles</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AutoPacientes</servlet-name>
+        <servlet-class>Autocomplete.AutoPacientes</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Receta</servlet-name>
         <url-pattern>/Receta</url-pattern>
@@ -159,6 +167,22 @@
     <servlet-mapping>
         <servlet-name>Events</servlet-name>
         <url-pattern>/Events</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginCalendario</servlet-name>
+        <url-pattern>/LoginCalendario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LugaresDisponibles</servlet-name>
+        <url-pattern>/LugaresDisponibles</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AutoPacientes</servlet-name>
+        <url-pattern>/AutoPacientes</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -58,6 +58,16 @@
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
+                    <!--a href="#rc">Receta Colectiva</a-->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agenda<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../agenda/administrar.jsp">Administración de Citas</a></li>
+                            <li><a href="../agenda/consulta.jsp">Consulta de Citas</a></li>
+                            <!--li class="divider"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
+                    </li>
                 </ul>
                 <div class="navbar-form navbar-right">
                     <a class="btn btn-default" href="../index_admin.jsp">Salir</a>

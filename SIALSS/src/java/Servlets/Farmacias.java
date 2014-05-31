@@ -131,7 +131,7 @@ public class Farmacias extends HttpServlet {
                         }
                     }
                     con.cierraConexion();
-                    response.sendRedirect("farmacia/modFarmacia.jsp");
+                    response.sendRedirect("farmacia/modSurteFarmacia.jsp");
                 } catch (Exception e) {
                 }
             }

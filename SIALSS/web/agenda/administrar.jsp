@@ -1,10 +1,14 @@
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="Clases.ConectionDB"%>
 <%@page import="Calendario.LugaresDisp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     LugaresDisp lugar = new LugaresDisp();
     ConectionDB con = new ConectionDB();
     HttpSession sesion = request.getSession();
@@ -27,6 +31,8 @@
         <link href="../css/pie-pagina.css" rel="stylesheet" media="screen">
         <link href="../css/topPadding.css" rel="stylesheet">
         <link href='../css/fullcalendar.print.css' rel='stylesheet' media='print' />
+        <link href="../css/datepicker3.css" rel="stylesheet">
+        <link href="../css/cupertino/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 
     </head>
     <body>
@@ -38,51 +44,42 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="main_menu.jsp">SCR</a>
+                <a class="navbar-brand" href="../admin/main_menu.jsp">SCR</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <%
-                        try {
-                            if (((String) sesion.getAttribute("tipo")).equals("FARMACIA")) {
-                    %>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Receta Electronica <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de Médicos<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="receta/receta_farmacia.jsp">Captura de Receta</a></li>
+                            <li><a href="../admin/medicos/adminMedicos.jsp">Alta de Médicos</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
-                    <%
-                    } else {
-                    %>
-
                     <!--a href="#rc">Receta Colectiva</a-->
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mod. Farmacias<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administración de Pacientes<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="farmacia/modSurteFarmacia.jsp">Ver Recetas</a></li>
+                            <li><a href="../admin/pacientes/alta_pacientes.jsp">Alta de Pacientes</a></li>
+                            <li><a href="../admin/pacientes/editar_paciente.jsp">Edición de Pacientes</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
+                    <!--a href="#rc">Receta Colectiva</a-->
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Existencia<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agenda<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="farmacia/modSurteFarmacia.jsp">Cargar Abasto</a></li>
+                            <li><a href="administrar.jsp">Administración de Citas</a></li>
+                            <li><a href="consulta.jsp">Consulta de Citas</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
-                    <%
-                            }
-                        } catch (Exception e) {
-
-                        }
-                    %>
-
                 </ul>
+                <div class="navbar-form navbar-right">
+                    <a class="btn btn-default" href="../index_admin.jsp">Salir</a>
+                </div>
             </div><!--/.nav-collapse -->
         </div>
         <div class="container-fluid">
@@ -116,24 +113,26 @@
                         <div id='calendar'></div>
                     </div>
                     <div class="col-lg-4">
-                        <h4>Posibles nuevos horarios</h4>
-                        <table class="table table-bordered table-striped">
+                        <form class="form-horizontal" id="formFecha" name="formFecha">
+                            <h4>Espacio para cita disponible</h4>
+                            <div class="row">
+                                <label for="fecha" class="col-lg-2 control-label">Fecha:</label>
+                                <div class="col-lg-6">
+                                    <input class="form-control" id="fecha" name="fecha" data-date-format="dd/mm/yyyy"  value="<%=df.format(new Date())%>" readonly />
+                                </div>
+                                <div class="col-lg-4">
+                                    <button class="btn btn-block btn-primary" id="btn_buscar" type="submit">Buscar</button>
+                                </div>
+                            </div>
+                        </form>
+                        <br/>
+                        <table class="table table-bordered table-striped" id="tablaFechas">
                             <tr>
                                 <td>Consultorio</td>
+                                <td>Fecha</td>
                                 <td>Hora</td>
                             </tr>
-                            <%
-                                ArrayList citas = lugar.devuelveLugares();
-                                for (int i = 0; i < citas.size(); i++) {
-                                    String datosCita[] = ((String) citas.get(i)).split(",");
-                            %>
-                            <tr>
-                                <td><%=datosCita[1]%></td>
-                                <td><%=datosCita[2]%></td>
-                            </tr>
-                            <%
-                                }
-                            %>
+
                         </table>
 
                     </div>
@@ -147,7 +146,7 @@
                                                                Mensaje de Acerca de...
         -->
         <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="z-index:2000;">
                 <div class="modal-content">
                     <form method="post">
                         <div class="modal-header">
@@ -155,9 +154,9 @@
                             <h4 class="modal-title">Detalles de la Cita</h4>
                         </div>
                         <div class="modal-body">
-                            Médico:
+                            Consultorio:
                             <select class="form-control" name="medico" id="medico">
-                                <option value="">--Seleccione un médico--</option>
+                                <option value="">--Seleccione un Consultorio--</option>
                                 <%
                                     try {
                                         con.conectar();
@@ -172,9 +171,29 @@
                                 %>
 
                             </select>
-                            Nombre del evento:
-                            <textarea class="form-control" name="nom_evento" id="nom_evento" ></textarea>
+                            Médico:
+                            <select class="form-control" name="titulo1" id="titulo1">
+                                <option value="">--Seleccione un médico--</option>
+                                <%
+                                    try {
+                                        con.conectar();
+                                        ResultSet rset = con.consulta("select nom_com from medicos group by nom_com order by nom_com");
+                                        while (rset.next()) {
+                                            out.println("<option value='" + rset.getString(1) + "'>" + rset.getString(1) + "</option>");
+                                        }
+                                        con.cierraConexion();
+                                    } catch (Exception e) {
 
+                                    }
+                                %>
+
+                            </select>
+                            Paciente:
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <input type="text" class="form-control" id="titulo2" name="titulo2" placeholder="Nombre" value="">
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-primary" value="Guardar" id="btn_guardar" />
@@ -190,13 +209,90 @@
         <!-- 
      fin Mensaje de Acerca de...
         --> 
-
     </body>
-    <script src='js/jquery.min.js'></script>
-    <script src='js/jquery-ui.custom.min.js'></script>
+    <script src='../js/jquery-1.9.1.js'></script>
+    <script src='../js/jquery-ui.js'></script>
     <script src='../js/fullcalendar.js'></script>
     <script src='../js/bootstrap.js'></script>
+    <script src="../js/bootstrap-datepicker.js"></script>
     <script >
+
+        $('#formFecha').submit(function() {
+            //alert("Ingresó");
+            return false;
+        });
+
+        $('#btn_buscar').click(function() {
+            var fecha = $('#fecha').val();
+            var dir = '../LugaresDisponibles';
+            var form = $('#formFecha');
+            $.ajax({
+                type: form.attr('method'),
+                url: dir,
+                data: form.serialize(),
+                success: function(data) {
+                    hacerTabla(data);
+                }
+
+            });
+            function hacerTabla(data) {
+                var json = JSON.parse(data);
+                $("#tablaFechas").empty();
+                $("#tablaFechas").append(
+                        $("<tr>")
+                        .append($("<td>").append("Consultorio"))
+                        .append($("<td>").append("Fecha"))
+                        .append($("<td>").append("Hora"))
+                        );
+                for (var i = 0; i < json.length; i++) {
+                    var consul = json[i].consul;
+                    var hora = json[i].hora;
+                    $("#tablaFechas").append(
+                            $("<tr>")
+                            .append($("<td>").append(consul))
+                            .append($("<td>").append(fecha))
+                            .append($("<td>").append(hora))
+                            );
+                }
+            }
+        });
+
+        $("#fecha").datepicker({minDate: 0});
+        $(function() {
+
+            var fecha = $('#fecha').val();
+            var dir = '../LugaresDisponibles';
+            var form = $('#formFecha');
+            $.ajax({
+                type: form.attr('method'),
+                url: dir,
+                data: form.serialize(),
+                success: function(data) {
+                    hacerTabla(data);
+                }
+
+            });
+            function hacerTabla(data) {
+                var json = JSON.parse(data);
+                $("#tablaFechas").empty();
+                $("#tablaFechas").append(
+                        $("<tr>")
+                        .append($("<td>").append("Consultorio"))
+                        .append($("<td>").append("Fecha"))
+                        .append($("<td>").append("Hora"))
+                        );
+                for (var i = 0; i < json.length; i++) {
+                    var consul = json[i].consul;
+                    var hora = json[i].hora;
+                    $("#tablaFechas").append(
+                            $("<tr>")
+                            .append($("<td>").append(consul))
+                            .append($("<td>").append(fecha))
+                            .append($("<td>").append(hora))
+                            );
+                }
+            }
+        });
         $(document).ready(function() {
 
 
@@ -232,13 +328,13 @@
                         $('#calendar').fullCalendar('unselect', event.id);
                     } else {
                     }
+                    location.reload();
                     return false;
                 },
                 selectable: true,
                 selectHelper: true,
                 select: function(start, end, allDay) {
                     $('#boton').click();
-                    var title;
                     function getStart() {
                         return start;
                     }
@@ -246,19 +342,20 @@
                         return end;
                     }
                     $("#btn_guardar").click(function() {
-                        if ($("#medico").val() === "" || $("#nom_evento").val() === "") {
+                        if ($("#medico").val() === "" || $("#titulo1").val() === "" || $("#titulo2").val() === "") {
                             alert("Complete los datos");
                             return false;
                         } else {
-                            title = $("#nom_evento").val();// prompt('Agendar Cita:');
+                            var titulo1 = $("#titulo1").val();// prompt('Agendar Cita:');
+                            var titulo2 = $("#titulo2").val();// prompt('Agendar Cita:');
                             var url = $("#medico").val();// prompt('Type Event url, if exits:');
                             var id = null;
                             var start = $.fullCalendar.formatDate(getStart(), "yyyy-MM-dd HH:mm:ss");
                             var end = $.fullCalendar.formatDate(getEnd(), "yyyy-MM-dd HH:mm:ss");
-                            if (title && start!=="") {
+                            if (titulo1 && start !== "") {
                                 $.ajax({
                                     url: '../Events?ban=3',
-                                    data: 'title=' + title + '&start=' + start + '&end=' + end + '&url=' + url,
+                                    data: 'titulo1=' + titulo1 + '&titulo2=' + titulo2 + '&start=' + start + '&end=' + end + '&url=' + url,
                                     type: "POST",
                                     async: false,
                                     success: function(json) {
@@ -380,6 +477,7 @@
                             $('#calendar').fullCalendar('removeEvents', event.id);
                         } else {
                         }
+                        location.reload();
                         return false;
                     },
                     selectable: true,
@@ -474,5 +572,30 @@
 
         });
 
+
+        $(function() {
+            var availableTags = [
+        <%
+            try {
+                con.conectar();
+                try {
+                    ResultSet rset = con.consulta("select id_pac, nom_com from pacientes");
+                    while (rset.next()) {
+                        out.println("'" + rset.getString(2) + "',");
+                    }
+                } catch (Exception e) {
+
+                }
+                con.cierraConexion();
+            } catch (Exception e) {
+
+            }
+        %>
+            ];
+            $("#titulo2").autocomplete({
+                source: availableTags
+            });
+            $("#titulo2").css("zIndex","20000");
+        });
     </script>
 </html>

@@ -45,13 +45,15 @@ public class Events extends HttpServlet {
                     try {
                         ResultSet rset = con.consulta("SELECT * FROM eventos ORDER BY id;");
                         while (rset.next()) {
-                            String start="", end="";
+                            String start = "", end = "";
                             start = rset.getString("start");
                             end = rset.getString("end");
-                            if (start==null)
-                                start="0000-00-00 00:00:00.0";
-                            if (end==null)
-                                end="0000-00-00 00:00:00.0";
+                            if (start == null) {
+                                start = "0000-00-00 00:00:00.0";
+                            }
+                            if (end == null) {
+                                end = "0000-00-00 00:00:00.0";
+                            }
                             json.put("id", rset.getString("id"));
                             json.put("title", rset.getString("title"));
                             json.put("start", start);
@@ -97,6 +99,7 @@ public class Events extends HttpServlet {
                 }
             }
             if (ban.equals("3")) {
+                System.out.println("entramos aqui");
                 try {
                     con.conectar();
                     try {
@@ -109,8 +112,8 @@ public class Events extends HttpServlet {
                         if (end.equals("")) {
                             end = "0000-00-00 00:00:00";
                         }
-
-                        con.actualizar("INSERT INTO eventos (title, start, end, url) values ('" + request.getParameter("url") + " - " + request.getParameter("title") + "', '" + start + "', '" + end + "', '" + request.getParameter("url") + "' )");
+                        System.out.println("INSERT INTO eventos (title, start, end, url) values ('" + request.getParameter("url") + " - " + request.getParameter("titulo1") + " - " + request.getParameter("titulo2") + "', '" + start + "', '" + end + "', '" + request.getParameter("url") + "' )");
+                        con.actualizar("INSERT INTO eventos (title, start, end, url) values ('" + request.getParameter("url") + " - " + request.getParameter("titulo1") + " - " + request.getParameter("titulo2") + "', '" + start + "', '" + end + "', '" + request.getParameter("url") + "' )");
                         ResultSet rset = con.consulta("select id from eventos where title = '" + request.getParameter("title") + "' and start = '" + request.getParameter("start") + "' and end = '" + request.getParameter("end") + "' and url = '" + request.getParameter("url") + "' ");
                         while (rset.next()) {
                             json.put("id", rset.getString(1));
@@ -149,7 +152,7 @@ public class Events extends HttpServlet {
                 try {
                     con.conectar();
                     try {
-                        ResultSet rset = con.consulta("SELECT * FROM eventos where url like '%"+request.getParameter("medico")+"%' ORDER BY id;");
+                        ResultSet rset = con.consulta("SELECT * FROM eventos where url like '%" + request.getParameter("medico") + "' ORDER BY id;");
                         while (rset.next()) {
                             json.put("id", rset.getString("id"));
                             json.put("title", rset.getString("title"));

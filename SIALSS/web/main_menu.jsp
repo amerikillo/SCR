@@ -60,7 +60,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mod. Farmacias<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="farmacia/modSurteFarmacia.jsp">Ver Recetas</a></li>
+                            <li><a href="farmacia/modSurteFarmacia.jsp">Surtido</a></li>
+                            <li><a href="farmacia/modRecetasSurtidas.jsp">Consultas</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>

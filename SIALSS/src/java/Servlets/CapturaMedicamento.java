@@ -46,19 +46,19 @@ public class CapturaMedicamento extends HttpServlet {
         JSONObject json = new JSONObject();
         JSONArray jsona = new JSONArray();
         HttpSession sesion = request.getSession(true);
+        System.out.println("hola");
         try {
             con.conectar();
             try {
-                System.out.println("hola");
                 int sol = Integer.parseInt(request.getParameter("can_sol"));
                 int sur = Integer.parseInt(request.getParameter("can_sol"));
                 int sol1 = 0;
-                String causes="";
-                ResultSet rset_cau=con.consulta("select id_cau from causes where des_cau = '"+request.getParameter("causes")+"' ");
-                while(rset_cau.next()){
-                    causes=rset_cau.getString(1);
+                String causes = "";
+                ResultSet rset_cau = con.consulta("select id_cau from causes where des_cau = '" + request.getParameter("causes") + "' ");
+                while (rset_cau.next()) {
+                    causes = rset_cau.getString(1);
                 }
-                if(causes.equals("")){
+                if (causes.equals("")) {
                 }
                 String det_pro = "";
                 String id_rec = "";
@@ -84,7 +84,7 @@ public class CapturaMedicamento extends HttpServlet {
                             if (sol <= 0) {
                                 if (sol == 0) {
                                     sur = Integer.parseInt(rset.getString("cant"));
-                                    
+
                                     con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + request.getParameter("can_sol") + "', '" + sur + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + causes + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
                                     con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + sur + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
                                     con.insertar("update inventario set cant = '0', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
@@ -97,7 +97,7 @@ public class CapturaMedicamento extends HttpServlet {
                                 }
                                 break;
                             }
-                            con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', '" + rset.getString("cant") + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + causes+ "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
+                            con.insertar("insert into detreceta values ('0', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', '" + rset.getString("cant") + "', '" + df.format(df2.parse(request.getParameter("fecha"))) + "', '1', '" + id_rec + "', CURTIME(), '" + causes + "','" + request.getParameter("unidades") + " UNIDADES CADA " + request.getParameter("horas") + " HORAS POR " + request.getParameter("dias") + " DIAS = " + request.getParameter("piezas_sol") + " UNIDADES', '0', '0' ) ");
                             con.insertar("insert into kardex values ('0', '" + id_rec + "', '" + rset.getString("det_pro") + "', '" + rset.getString("cant") + "', 'SALIDA RECETA', '-', NOW(), 'SALIDA POR RECETA FAR', '" + sesion.getAttribute("id_usu") + "', '0')");
                             con.insertar("update inventario set cant = '0', web = '0' where id_inv = '" + rset.getString("id_inv") + "' ");
                         } else {
@@ -171,10 +171,12 @@ public class CapturaMedicamento extends HttpServlet {
                 out.println(jsona);
                 System.out.println(jsona);
             } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
             con.cierraConexion();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 

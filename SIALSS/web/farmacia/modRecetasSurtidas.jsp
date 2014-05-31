@@ -101,14 +101,14 @@
                 </div>
             </div><!--/.nav-collapse -->
         </div>
-<br />
+        <br/>
         <div class="container-fluid">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Búsqueda de Folios
+                                Búsqueda de Folios Surtidos
                             </div>
                             <div class="panel-body">
                                 <form>
@@ -125,13 +125,13 @@
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                Folios
+                                Folios Surtidos
                             </div>
                             <div class="panel-body">
                                 <%
                                     try {
                                         con.conectar();
-                                        ResultSet rset = con.consulta("SELECT DISTINCT(fol_rec), nom_com, fecha_hora, id_rec from recetas where fol_rec like '%" + fol_rec + "%' and nom_com like '%" + nom_pac + "%' and transito!=0 and baja=0 order by id_rec asc ;");
+                                        ResultSet rset = con.consulta("SELECT DISTINCT(fol_rec), nom_com, fecha_hora, id_rec from recetas where fol_rec like '%" + fol_rec + "%' and nom_com like '%" + nom_pac + "%' and transito!=1 and baja=0 order by id_rec asc limit 0,50 ;");
                                         while (rset.next()) {
                                 %>
                                 <form action="../Farmacias" name="form_<%=rset.getString(4)%>">
@@ -159,10 +159,8 @@
                                                     <input class="hidden" name="fol_det" value="<%=fol_det%>" />
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <button class="btn btn-block btn-primary" type="submit" name="accion" value="surtir" onclick="return confirm('Seguro que desea surtir esta receta?')">Surtir</button>
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <button class="btn btn-block btn-danger" type="submit" name="accion" value="cancelar" onclick="return confirm('Seguro que desea cancelar esta receta?')">Cancelar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -191,14 +189,13 @@
                                                         <td><%=rset2.getString(1)%></td>
                                                         <td><%=rset2.getString(2)%></td>
                                                         <td><input type="text" class="form-control" value="<%=rset2.getString(3)%>" name="sol_<%=rset2.getString(5)%>" readonly="true" /></td>
-                                                        <td><input type="text" class="form-control" value="<%=rset2.getString(4)%>" name="sur_<%=rset2.getString(5)%>" /></td>
+                                                        <td><input type="text" class="form-control" value="<%=rset2.getString(4)%>" name="sur_<%=rset2.getString(5)%>" readonly="true" /></td>
                                                         <td><%=rset2.getString(6)%></td>
                                                     </tr>
                                                     <%
                                                         }
                                                     %>
                                                 </table>
-                                                <button class="btn-block btn btn-success" type="submit" name="accion" value="modificar" >Modificar</button>
                                             </div>
                                         </div>
                                     </div>

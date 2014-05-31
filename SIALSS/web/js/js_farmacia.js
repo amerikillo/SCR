@@ -99,6 +99,24 @@ function isNumberKey(evt, obj)
  }*/
 $(function() {
 
+    $(function() {
+        $("#nombre_jq").keyup(function() {
+            var nombre = $("#nombre_jq").val();
+            $("#nombre_jq").autocomplete({
+                source: "../AutoPacientes?nombre=" + nombre,
+                minLength: 2,
+                select: function(event, ui) {
+                    $("#nombre_jq").val(ui.item.nom_com);
+                    return false;
+                }
+            }).data("ui-autocomplete")._renderItem = function(ul, item) {
+                return $("<li>")
+                        .data("ui-autocomplete-item", item)
+                        .append("<a>" + item.nom_com + "</a>")
+                        .appendTo(ul);
+            };
+        });
+    });
 
     $('#bus_pac').tooltip();
     $('#bus_pacn').tooltip();
@@ -486,26 +504,30 @@ $(document).ready(function() {
                 var fec_nac = json[i].fec_nac;
                 var num_afi = json[i].num_afi;
                 var mensaje = json[i].mensaje;
-                $("#folio").attr("value", fol_rec);
-                $("#nom_pac").attr("value", nom_com);
-                $("#sexo").attr("value", sexo);
-                $("#fec_nac").attr("value", fec_nac);
-                $("#fol_sp").attr("value", num_afi);
-                $("#carnet").focus();
+                if (mensaje === "ok") {
+                    $("#folio").attr("value", fol_rec);
+                    $("#nom_pac").attr("value", nom_com);
+                    $("#sexo").attr("value", sexo);
+                    $("#fec_nac").attr("value", fec_nac);
+                    $("#fol_sp").attr("value", num_afi);
+                    $("#carnet").focus();
+                }
                 if (mensaje === "vig_no_val") {
+                    $("#nom_pac").val("");
+                    $("#sexo").val("");
+                    $("#fec_nac").val("");
+                    $("#fol_sp").val("");
+                    $("#nombre_jq").val("");
+                    $(".nombre_jq").focus();
                     alert("Vigencia no Valida");
-                    $("#nom_pac").attr("value", "");
-                    $("#sexo").attr("value", "");
-                    $("#fec_nac").attr("value", "");
-                    $("#fol_sp").attr("value", "");
-                    $("#nombre_jq").focus();
                 }
                 if (mensaje === "inexistente") {
                     alert("Paciente Inexistente");
-                    $("#nom_pac").attr("value", "");
-                    $("#sexo").attr("value", "");
-                    $("#fec_nac").attr("value", "");
-                    $("#fol_sp").attr("value", "");
+                    $("#nom_pac").val("");
+                    $("#sexo").val("");
+                    $("#fec_nac").val("");
+                    $("#fol_sp").val("");
+                    $("#nombre_jq").val("");
                     $("#nombre_jq").focus();
                 }
             }
@@ -536,19 +558,22 @@ $(document).ready(function() {
                 var fec_nac = json[i].fec_nac;
                 var num_afi = json[i].num_afi;
                 var mensaje = json[i].mensaje;
-                $("#folio").attr("value", fol_rec);
-                $("#nom_pac").attr("value", nom_com);
-                $("#sexo").attr("value", sexo);
-                $("#fec_nac").attr("value", fec_nac);
-                $("#fol_sp").attr("value", num_afi);
-                $("#carnet").focus();
+                if (mensaje === "ok") {
+                    $("#folio").attr("value", fol_rec);
+                    $("#nom_pac").attr("value", nom_com);
+                    $("#sexo").attr("value", sexo);
+                    $("#fec_nac").attr("value", fec_nac);
+                    $("#fol_sp").attr("value", num_afi);
+                    $("#carnet").focus();
+                }
                 if (mensaje === "vig_no_val") {
-                    alert("Vigencia no Valida");
                     $("#nom_pac").attr("value", "");
                     $("#sexo").attr("value", "");
                     $("#fec_nac").attr("value", "");
                     $("#fol_sp").attr("value", "");
-                    $("#nombre_jq").focus();
+                    $("#nombre_jq").attr("value", "");
+                    alert("Vigencia no Valida");
+                    $(".nombre_jq").focus();
                 }
                 if (mensaje === "inexistente") {
                     alert("Paciente Inexistente");
@@ -556,11 +581,16 @@ $(document).ready(function() {
                     $("#sexo").attr("value", "");
                     $("#fec_nac").attr("value", "");
                     $("#fol_sp").attr("value", "");
+                    $("#nombre_jq").attr("value", "");
                     $("#nombre_jq").focus();
                 }
             }
         }
 
     });
+
+
+
+
 
 });
