@@ -86,7 +86,7 @@ public class RecetaNombre extends HttpServlet {
             }
             int ban = 0;
             try {
-                ResultSet rset = con.consulta("select id_pac, nom_com, sexo, fec_nac, num_afi, ini_vig, fin_vig from pacientes where nom_com = '" + nombre + "' ");
+                ResultSet rset = con.consulta("select id_pac, nom_com, sexo, fec_nac, num_afi, ini_vig, fin_vig from pacientes where nom_com = '" + nombre + "' limit 1 ");
                 while (rset.next()) {
                     Date ini_v = df.parse(rset.getString("ini_vig"));
                     Date fin_v = df.parse(rset.getString("fin_vig"));

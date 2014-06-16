@@ -6125,6 +6125,12 @@ body.modal-open,
   content: '\203a';
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 .carousel-indicators {
   position: absolute;
   bottom: 10px;

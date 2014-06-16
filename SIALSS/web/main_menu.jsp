@@ -67,9 +67,19 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Existencia<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="farmacia/modSurteFarmacia.jsp">Cargar Abasto</a></li>
+                            <li><a href="farmacia/repDiarioFarmacia.jsp">Reporte Diario por Receta</a></li>
+                            <li><a href="farmacia/repMensFarmacia.jsp">Reporte Mensual por Receta</a></li>
+                            <li><a href="farmacia/repConsSemanal.jsp">Consumo Semanal</a></li>
+                            <li><a href="farmacia/repSolSur.jsp">Solicitado / Surtido</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Existencias<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="farmacia/existencias.jsp">Existencias</a></li>
+                            <li><a href="farmacia/cargaAbasto.jsp">Cargar Abasto</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
@@ -82,6 +92,9 @@
                     %>
 
                 </ul>
+                <div class="navbar-form navbar-right">
+                    <a class="btn btn-default" href="index.jsp">Salir</a>
+                </div>
             </div><!--/.nav-collapse -->
         </div>
 

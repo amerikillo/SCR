@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -51,10 +50,12 @@ public class CapturaMedicamento extends HttpServlet {
             con.conectar();
             try {
                 int sol = Integer.parseInt(request.getParameter("can_sol"));
-                int sur = Integer.parseInt(request.getParameter("can_sol"));
+                int sur = sol;
                 int sol1 = 0;
                 String causes = "";
-                ResultSet rset_cau = con.consulta("select id_cau from causes where des_cau = '" + request.getParameter("causes") + "' ");
+                byte[] a = request.getParameter("causes").getBytes("UTF-8");
+                String causes_L = new String(a, "UTF-8");
+                ResultSet rset_cau = con.consulta("select id_cau from causes where des_cau = '" + causes_L + "' ");
                 while (rset_cau.next()) {
                     causes = rset_cau.getString(1);
                 }
@@ -149,11 +150,7 @@ public class CapturaMedicamento extends HttpServlet {
                     }
                 }
 
-            } catch (NumberFormatException e) {
-                System.out.println(e.getMessage());
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
 

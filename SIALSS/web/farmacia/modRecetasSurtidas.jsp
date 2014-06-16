@@ -59,34 +59,8 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <%
-                        try {
-                            if (((String) sesion.getAttribute("tipo")).equals("FARMACIA")) {
-                    %>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Receta Electronica <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="receta/receta_farmacia.jsp">Captura de Receta</a></li>
-                            <!--li class="divider"></li>
-                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
-                        </ul>
-                    </li>
-                    <%
-                    } else {
-                    %>
-                    <li>
-                        <a href="#rc">Receta Colectiva</a>
-                    </li>
-                    <%
-                            }
-                        } catch (Exception e) {
-
-                        }
-                    %>
-
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Recetas Médicas<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mod. Farmacias<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="modSurteFarmacia.jsp">Surtido</a></li>
                             <li><a href="modRecetasSurtidas.jsp">Consultas</a></li>
@@ -94,7 +68,26 @@
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
-                    <li><a href="#ap">Alta de Pacientes</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="repDiarioFarmacia.jsp">Reporte Diario por Receta</a></li>
+                            <li><a href="repMensFarmacia.jsp">Reporte Mensual por Receta</a></li>
+                            <li><a href="repConsSemanal.jsp">Consumo Semanal</a></li>
+                            <li><a href="repSolSur.jsp">Solicitado / Surtido</a></li>
+                            <!--li class="divider"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Existencias<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="existencias.jsp">Existencias</a></li>
+                            <li><a href="cargaAbasto.jsp">Cargar Abasto</a></li>
+                            <!--li class="divider"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
+                    </li>
                 </ul>
                 <div class="navbar-form navbar-right">
                     <a class="btn btn-default" href="../index.jsp">Salir</a>

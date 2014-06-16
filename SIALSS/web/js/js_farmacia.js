@@ -202,7 +202,6 @@ $(document).ready(function() {
     $('#btn_capturar').click(function() {
         var cla_pro = $('#cla_pro').val();
         var des_pro = $('#des_pro').val();
-        var dir = '../CapturaMedicamento';
         var form = $('#formulario_receta');
         if (cla_pro !== "" && des_pro !== "") {
             if ($('#causes').val() === "") {
@@ -212,13 +211,10 @@ $(document).ready(function() {
                 alert('Capture la cantidad a entregar');
             } else {
                 $.ajax({
-                    type: form.attr('method'),
-                    url: dir,
+                    type: 'POST',
+                    url: '../CapturaMedicamento',
                     data: form.serialize(),
                     success: function(data) {
-                    },
-                    error: function() {
-                        //alert("Ha ocurrido un error - capturar");
                     }
                 });
                 $.ajax({
@@ -228,9 +224,6 @@ $(document).ready(function() {
                     success: function(data) {
                         limpiaCampos();
                         hacerTabla(data);
-                    },
-                    error: function() {
-                        //alert("Ha ocurrido un error - cap insumo");
                     }
                 });
                 function limpiaCampos() {
@@ -280,14 +273,13 @@ $(document).ready(function() {
                     }
                 }
                 location.reload();
-                $("#cla_pro").focus();
+                //$("#cla_pro").focus();
             }
         }
         else {
             alert("Capture primero el medicamento");
+            $("#des_pro").focus();
         }
-
-
     });
 
 
@@ -309,9 +301,6 @@ $(document).ready(function() {
                 data: form.serialize(),
                 success: function(data) {
                     dameProducto(data);
-                },
-                error: function() {
-                    alert("Ha ocurrido un error - descripcion");
                 }
             });
             function dameProducto(data) {
@@ -504,21 +493,14 @@ $(document).ready(function() {
                 var fec_nac = json[i].fec_nac;
                 var num_afi = json[i].num_afi;
                 var mensaje = json[i].mensaje;
-                if (mensaje === "ok") {
-                    $("#folio").attr("value", fol_rec);
-                    $("#nom_pac").attr("value", nom_com);
-                    $("#sexo").attr("value", sexo);
-                    $("#fec_nac").attr("value", fec_nac);
-                    $("#fol_sp").attr("value", num_afi);
-                    $("#carnet").focus();
-                }
+                alert(mensaje);
                 if (mensaje === "vig_no_val") {
                     $("#nom_pac").val("");
                     $("#sexo").val("");
                     $("#fec_nac").val("");
                     $("#fol_sp").val("");
                     $("#nombre_jq").val("");
-                    $(".nombre_jq").focus();
+                    $("#nombre_jq").focus();
                     alert("Vigencia no Valida");
                 }
                 if (mensaje === "inexistente") {
@@ -529,6 +511,14 @@ $(document).ready(function() {
                     $("#fol_sp").val("");
                     $("#nombre_jq").val("");
                     $("#nombre_jq").focus();
+                }
+                if (mensaje === "ok") {
+                    $("#folio").val(fol_rec);
+                    $("#nom_pac").val(nom_com);
+                    $("#sexo").val(sexo);
+                    $("#fec_nac").val(fec_nac);
+                    $("#fol_sp").val(num_afi);
+                    $("#carnet").focus();
                 }
             }
         }
@@ -552,41 +542,38 @@ $(document).ready(function() {
         function devuelveFolio(data) {
             var json = JSON.parse(data);
             for (var i = 0; i < json.length; i++) {
+                var mensaje = json[i].mensaje;
                 var fol_rec = json[i].fol_rec;
                 var nom_com = json[i].nom_com;
                 var sexo = json[i].sexo;
                 var fec_nac = json[i].fec_nac;
                 var num_afi = json[i].num_afi;
-                var mensaje = json[i].mensaje;
-                if (mensaje === "ok") {
-                    $("#folio").attr("value", fol_rec);
-                    $("#nom_pac").attr("value", nom_com);
-                    $("#sexo").attr("value", sexo);
-                    $("#fec_nac").attr("value", fec_nac);
-                    $("#fol_sp").attr("value", num_afi);
-                    $("#carnet").focus();
-                }
+                $("#folio").val(fol_rec);
+                $("#nom_pac").val(nom_com);
+                $("#sexo").val(sexo);
+                $("#fec_nac").val(fec_nac);
+                $("#fol_sp").val(num_afi);
+                $("#carnet").focus();
                 if (mensaje === "vig_no_val") {
-                    $("#nom_pac").attr("value", "");
-                    $("#sexo").attr("value", "");
-                    $("#fec_nac").attr("value", "");
-                    $("#fol_sp").attr("value", "");
-                    $("#nombre_jq").attr("value", "");
-                    alert("Vigencia no Valida");
-                    $(".nombre_jq").focus();
+                    $("#nom_pac").val("");
+                    $("#sexo").val("");
+                    $("#fec_nac").val("");
+                    $("#fol_sp").val("");
+                    $("#nombre_jq").val("");
+                    $("#nombre_jq").focus();
+                    alert("Vigencia no valida");
                 }
                 if (mensaje === "inexistente") {
                     alert("Paciente Inexistente");
-                    $("#nom_pac").attr("value", "");
-                    $("#sexo").attr("value", "");
-                    $("#fec_nac").attr("value", "");
-                    $("#fol_sp").attr("value", "");
-                    $("#nombre_jq").attr("value", "");
+                    $("#nom_pac").val("");
+                    $("#sexo").val("");
+                    $("#fec_nac").val("");
+                    $("#fol_sp").val("");
+                    $("#nombre_jq").val("");
                     $("#nombre_jq").focus();
                 }
             }
         }
-
     });
 
 

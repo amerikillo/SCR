@@ -59,39 +59,33 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <%
-                        try {
-                            if (((String) sesion.getAttribute("tipo")).equals("FARMACIA")) {
-                    %>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Receta Electronica <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="receta/receta_farmacia.jsp">Captura de Receta</a></li>
-                            <!--li class="divider"></li>
-                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
-                        </ul>
-                    </li>
-                    <%
-                    } else {
-                    %>
-                    <li>
-                        <!--a href="#rc">Receta Colectiva</a-->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mod. Farmacias<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="farmacia/modSurteFarmacia.jsp">Ver Recetas</a></li>
+                            <li><a href="modSurteFarmacia.jsp">Surtido</a></li>
+                            <li><a href="modRecetasSurtidas.jsp">Consultas</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="modSurteFarmacia.jsp">Surtido</a></li>
+                            <li><a href="modRecetasSurtidas.jsp">Consultas</a></li>
+                            <!--li class="divider"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
                     </li>
-                    <%
-                            }
-                        } catch (Exception e) {
-
-                        }
-                    %>
-
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Existencias<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="existencias.jsp">Existencias</a></li>
+                            <li><a href="cargaAbasto.jsp">Cargar Abasto</a></li>
+                            <!--li class="divider"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
+                    </li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -125,9 +119,9 @@
 ================================================== -->
     <!-- Se coloca al final del documento para que cargue mas rapido -->
     <!-- Se debe de seguir ese orden al momento de llamar los JS -->
-    <script src="js/jquery-1.9.1.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/jquery-ui-1.10.3.custom.js"></script>
+    <script src="../js/jquery-1.9.1.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/jquery-ui-1.10.3.custom.js"></script>
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha1.js"></script>
 
     <script>

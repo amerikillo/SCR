@@ -142,6 +142,9 @@
                     %>
 
                 </ul>
+                <div class="navbar-form navbar-right">
+                    <a class="btn btn-default" href="../index.jsp">Salir</a>
+                </div>
             </div><!--/.nav-collapse -->
         </div>
 
@@ -356,7 +359,7 @@
                                         }
                                         con.cierraConexion();
                                     } catch (Exception e) {
-
+                                        System.out.println(e.getMessage());
                                     }
                                     if (ban_imp == 1) {
                                 %>
@@ -383,7 +386,7 @@
                 ResultSet rset = con.consulta("select dr.fol_det, dr.can_sol, dr.cant_sur, dp.cla_pro, p.des_pro from detreceta dr, detalle_productos dp, productos p where dr.det_pro = dp.det_pro and dp.cla_pro = p.cla_pro and id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-        %>
+%>
         <div class="modal fade" id="edita_clave_<%=rset.getString("fol_det")%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -512,7 +515,7 @@
                 ResultSet rset = con.consulta("select fol_det from detreceta where id_rec = '" + id_rec + "' ");
                 while (rset.next()) {
                     //System.out.println(rset.getString("fol_det"));
-        %>
+%>
                                                     $('#btn_modificar_<%=rset.getString("fol_det")%>').click(function() {
                                                         var dir = '../EditaMedicamento';
                                                         var form = $('#form_editaInsumo_<%=rset.getString("fol_det")%>');
