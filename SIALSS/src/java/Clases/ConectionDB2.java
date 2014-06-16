@@ -42,9 +42,9 @@ public class ConectionDB2 {
     //(meter los datos correspondientes)
     public ConectionDB2() {
         //poner los datos apropiados
-        this.usuario = "root";
-        this.clave = "eve9397";
-        this.url = "jdbc:mysql://localhost:3306/externaknowit";
+        this.usuario = "gnkl_rep";
+        this.clave = "Avxkc4";
+        this.url = "jdbc:mysql://189.197.187.15:3306/abastos";
         this.driverClassName = "org.gjt.mm.mysql.Driver";
     
     }

@@ -59,7 +59,7 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
+                   <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mod. Farmacias<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="modSurteFarmacia.jsp">Surtido</a></li>
@@ -71,8 +71,13 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="modSurteFarmacia.jsp">Surtido</a></li>
-                            <li><a href="modRecetasSurtidas.jsp">Consultas</a></li>
+                            <li><a href="repDiarioFarmacia.jsp">Reporte Diario por Receta</a></li>
+                            <li><a href="repMensFarmacia.jsp">Reporte Mensual por Receta</a></li>
+                            <li><a href="repConsSemanal.jsp">Consumo Semanal</a></li>
+                            <li><a href="repSolSur.jsp">Solicitado / Surtido</a></li>
+                            <!--li><a href="#">Pendiente por Cobrar</a></li>
+                            <li><a href="#">Reporte de Antibióticos</a></li>
+                            <li><a href="#">Reporte Diario</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
@@ -87,6 +92,9 @@
                         </ul>
                     </li>
                 </ul>
+                <div class="navbar-form navbar-right">
+                    <a class="btn btn-default" href="../index.jsp">Salir</a>
+                </div>
             </div><!--/.nav-collapse -->
         </div>
 

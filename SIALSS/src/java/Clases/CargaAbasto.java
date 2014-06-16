@@ -31,11 +31,13 @@ public class CargaAbasto {
                             /*
                              * Para insumo nuevo
                              */
-                            if (!det_pro.equals("NA")) {
+                            if (det_pro.equals("NA")) {
+                                System.out.println("inexistente");
                                 insertaInexistente(det_pro, rset.getInt(4), cla_uni, fol_abasto, id_usu);
                             } /*
                              * Para insumo existente
                              */ else {
+                                System.out.println("xistente");
                                 insertaExistente(det_pro, rset.getInt(4), cla_uni, fol_abasto, id_usu);
                             }
                         }
@@ -49,7 +51,7 @@ public class CargaAbasto {
                 mensaje = e.getMessage();
             }
         } else {
-            mensaje= "Abasto ya existente";
+            mensaje = "Abasto ya existente";
         }
         return mensaje;
     }
@@ -62,6 +64,7 @@ public class CargaAbasto {
                 ResultSet rset = con.consulta("select det_pro from detalle_productos where cla_pro = '" + clave + "' and lot_pro = '" + lote + "' and cad_pro = '" + cadu + "' and id_ori = '" + origen + "'  ");
                 while (rset.next()) {
                     det_pro = rset.getString("det_pro");
+                    System.out.println(det_pro);
                 }
             } catch (Exception e) {
             }
