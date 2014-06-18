@@ -70,6 +70,7 @@ public class CapturaMedicamento extends HttpServlet {
                     id_tip = rset.getString(2);
                 }
                 System.out.println("----------------****" + id_rec);
+                con.insertar("update receta set baja = '0', transito = '1'  where id_rec = "+id_rec+" ");
                 if (id_tip.equals("1")) {
                     /*
                      *

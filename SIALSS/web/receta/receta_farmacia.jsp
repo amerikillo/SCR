@@ -123,7 +123,15 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Receta Electronica <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="../receta/receta_farmacia.jsp">Captura de Receta</a></li>
+                            <li><a href="receta_farmacia.jsp">Captura de Receta</a></li>
+                            <!--li class="dividr"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agenda<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="verAgenda.jsp">Ver Agenda</a></li>
                             <!--li class="divider"></li>
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>

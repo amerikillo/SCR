@@ -52,11 +52,19 @@
                             <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agenda<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="receta/verAgenda.jsp">Ver Agenda</a></li>
+                            <!--li class="divider"></li>
+                            <li><a href="#rf">Reimpresión de Comprobantes</a></li-->
+                        </ul>
+                    </li>
                     <%
                     } else {
                     %>
-                    
-                        <!--a href="#rc">Receta Colectiva</a-->
+
+                    <!--a href="#rc">Receta Colectiva</a-->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Mod. Farmacias<b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -100,7 +108,23 @@
 
         <div class="container-fluid">
             <div class="starter-template">
-                <h1>SCR</h1>
+                <h1>SIALSS</h1>
+
+                <%
+                    try {
+                        if (((String) sesion.getAttribute("tipo")).equals("FARMACIA")) {
+                %>
+                <h4>Médico</h4>
+                <%
+                } else {
+                %>
+                <h4>Farmacia</h4>
+                <%
+                        }
+                    } catch (Exception e) {
+
+                    }
+                %>
                 <p class="lead">Sistema de Captura de Receta</p>
             </div>
         </div>

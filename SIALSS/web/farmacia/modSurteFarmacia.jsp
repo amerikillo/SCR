@@ -107,13 +107,14 @@
                                 Búsqueda de Folios
                             </div>
                             <div class="panel-body">
-                                <form>
+                                <form method="post">
                                     Por Folio:
                                     <input type="text" class="form-control" name="fol_rec" />
                                     Por Nombre de Derechohabiente:
                                     <input type="text" class="form-control" name="nom_pac" />
                                     <button class="btn btn-success btn-block" type="submit">Buscar</button>
                                     <button class="btn btn-warning btn-block" type="submit">Todas</button>
+                                    <button class="btn btn-info btn-block" type="submit">Actualizar</button>
                                 </form>
                             </div>
                         </div>

@@ -86,7 +86,7 @@ public class Farmacias extends HttpServlet {
                     out.println("<script>alert('Error al cancelar la receta')</script>");
                 }
                 con.cierraConexion();
-                out.println("<script>window.location='farmacia/modFarmacia.jsp'</script>");
+                out.println("<script>window.location='farmacia/modSurteFarmacia.jsp'</script>");
             } else if (request.getParameter("accion").equals("modificar")) {
                 try {
                     con.conectar();
